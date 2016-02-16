@@ -1,0 +1,646 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:root xmlns:ns2="http://www.bnorm.com/barkeep/server/msg/xml/v2">
+
+    <!-- todo -->
+    <recipe name="Classic Martini">
+        <picture>http://www.ginfoundry.com/wp-content/uploads/2013/09/Untitled-1-min.jpg</picture>
+        <directions>Stir the gin and vermouth in a mixing glass with ice. Strain into a chilled cocktail glass. Run the
+            lemon peel around the rim, twist it over the drink, and drop it in, or simply drop in the olive.
+        </directions>
+        <component recommended="2.0" unit="Ounce">
+            <ingredient name="Gin" type="Volume" />
+        </component>
+        <component recommended="0.5" unit="Ounce">
+            <ingredient name="Dry Vermouth" type="Volume" />
+        </component>
+        <component recommended="1.0" unit="Count">
+            <ingredient name="Lemon Twist" type="Count" />
+        </component>
+        <component recommended="1.0" unit="Count">
+            <ingredient name="Green Cocktail Olive" type="Count" />
+        </component>
+    </recipe>
+    <recipe name="Dry Martini">
+        <picture>http://assets.absolutdrinks.com/drinks/solid-background-black/soft-shadow/floor-reflection/415x655/dry-martini(85).jpg</picture>
+        <directions>Stir the gin and vermouth in a mixing glass with ice. Strain into a chilled cocktail glass. Run the
+            lemon peel around the rim, twist it over the drink, and drop it in.
+        </directions>
+        <component recommended="2.0" unit="Ounce">
+            <ingredient name="Gin" type="Volume" />
+        </component>
+        <component recommended="0.25" unit="Ounce">
+            <ingredient name="Dry Vermouth" type="Volume" />
+        </component>
+        <component recommended="1.0" unit="Count">
+            <ingredient name="Lemon Twist" type="Count" />
+        </component>
+    </recipe>
+
+
+    <!-- ================== -->
+    <!-- ***** Brandy ***** -->
+    <!-- ================== -->
+
+    <!-- page 119 -->
+    <recipe name="A. J.">
+        <description>The A. J. stand for applejack.</description>
+        <directions>Shake the ingredients vigorously with ice. Strain into a chilled cocktail glass.</directions>
+        <component recommended="1.5" unit="Ounce">
+            <ingredient name="Applejack" type="Volume" />
+            <ingredient name="Calvados" type="Volume" />
+        </component>
+        <component recommended="1.5" unit="Ounce">
+            <ingredient name="Grapefruit Juice" type="Volume" />
+        </component>
+        <component recommended="4.0" unit="Dash">
+            <ingredient name="Grenadine" type="Volume" />
+        </component>
+    </recipe>
+
+    <!-- page 119 -->
+    <recipe name="Alabama">
+        <directions>Shake the liquid ingredient and sugar vigorously with ice. Strain into a chilled cocktail glass.
+            Twist the orange peel over the drink, and drop it in.
+        </directions>
+        <component recommended="1.0" unit="Ounce">
+            <ingredient name="Brandy" type="Volume" />
+        </component>
+        <component recommended="1.0" unit="Ounce">
+            <ingredient name="Cointreau" type="Volume" />
+        </component>
+        <component recommended="0.5" unit="Ounce">
+            <ingredient name="Lime Juice" type="Volume" />
+        </component>
+        <component recommended="0.5" unit="Teaspoon">
+            <ingredient name="Sugar" type="Mass" />
+        </component>
+        <component recommended="1.0" unit="Count">
+            <ingredient name="Orange Twist" type="Count" />
+        </component>
+    </recipe>
+
+
+    <!-- page 119-120 -->
+    <!-- todo variation -->
+    <recipe name="American Beauty">
+        <picture>http://www.scienceofdrink.com/wp-content/uploads/2010/12/ab-dd-4.jpg</picture>
+        <directions>Shake all the ingredient but the port vigorously with ice. Strain into a chilled cocktail glass.
+            Float the ruby port on top.
+        </directions>
+        <component recommended="0.5" unit="Ounce">
+            <ingredient name="Brandy" type="Volume" />
+        </component>
+        <component recommended="0.5" unit="Ounce">
+            <ingredient name="Dry Vermouth" type="Volume" />
+        </component>
+        <component recommended="0.5" unit="Ounce">
+            <ingredient name="Orange Juice" type="Volume" />
+        </component>
+        <component recommended="0.25" unit="Teaspoon">
+            <ingredient name="Grenadine" type="Volume" />
+        </component>
+        <component recommended="0.25" unit="Teaspoon">
+            <ingredient name="White Creme de Menthe" type="Volume" />
+        </component>
+        <component recommended="0.75" unit="Ounce">
+            <ingredient name="Ruby Port" type="Volume" />
+        </component>
+    </recipe>
+
+    <!-- page 120 -->
+    <recipe name="Angel Face">
+        <picture>http://liquor.s3.amazonaws.com/wp-content/uploads/2013/01/Angels-Face.jpg</picture>
+        <directions>Shake the ingredient vigorously with ice. Strain into a chilled cocktail glass.</directions>
+        <component recommended="0.75" unit="Ounce">
+            <ingredient name="Brandy" type="Volume" />
+        </component>
+        <component recommended="0.75" unit="Ounce">
+            <ingredient name="Gin" type="Volume" />
+        </component>
+        <component recommended="0.5" unit="Ounce">
+            <ingredient name="Apricot Brandy" type="Volume" />
+        </component>
+        <component recommended="0.5" unit="Ounce">
+            <ingredient name="Apple Brandy" type="Volume" />
+        </component>
+    </recipe>
+
+    <!-- page 120 -->
+    <recipe name="Apple Brandy Highball">
+        <picture>http://search.chow.com/thumbnail/1280/800/www.chowstatic.com/assets/recipe_photos/29082_apple_brandy_punch.jpg</picture>
+        <directions>Pour the Calvados into an ice-filled highball glass. Top with club soda, and garnish with the apple
+            peel.
+        </directions>
+        <component recommended="2.0" unit="Ounce">
+            <ingredient name="Calvados" type="Volume" />
+        </component>
+        <component max="5.0" min="3.0" unit="Ounce">
+            <ingredient name="Club Soda" type="Volume" />
+        </component>
+        <component recommended="1.0" unit="Count">
+            <ingredient name="Apple Peel Spiral" type="Volume" />
+        </component>
+    </recipe>
+
+    <!-- page 121 -->
+    <recipe name="Apple Swizzle">
+        <picture>http://media3.popsugar-assets.com/files/2015/09/11/847/n/1922195/a5384a33_edit_img_image_17053401_1441928105.xxlarge/i/Apple-Cider-Swizzle-Cocktail-Recipe.jpg</picture>
+        <directions>Pour the liquid ingredients and sugar into an ice-filled highball glass. Stir well. Garnish with the
+            lime slice.
+        </directions>
+        <component recommended="0.5" unit="Ounce">
+            <ingredient name="Apple Brandy" type="Volume" />
+        </component>
+        <component recommended="1.0" unit="Ounce">
+            <ingredient name="Light Rum" type="Volume" />
+        </component>
+        <component recommended="0.75" unit="Ounce">
+            <ingredient name="Lime Juice" type="Volume" />
+        </component>
+        <component max="4.0" min="2.0" unit="Dash">
+            <ingredient name="Angostura Bitters" type="Volume" />
+        </component>
+        <component recommended="1.0" unit="Teaspoon">
+            <ingredient name="Sugar" type="Mass" />
+        </component>
+        <component recommended="1.0" unit="Count">
+            <ingredient name="Lime Slice" type="Count" />
+        </component>
+    </recipe>
+
+    <!-- page 121 -->
+    <recipe name="Apricot Cocktail">
+        <picture>http://cdn.sheknows.com/articles/2012/05/apricot-burbon-cocktail.jpg</picture>
+        <component recommended="1.5" unit="Ounce">
+            <ingredient name="Apricot Brandy" type="Volume" />
+        </component>
+        <component recommended="0.25" unit="Ounce">
+            <ingredient name="Gin" type="Volume" />
+        </component>
+        <component recommended="0.75" unit="Ounce">
+            <ingredient name="Lemon Juice" type="Volume" />
+        </component>
+        <component recommended="0.75" unit="Ounce">
+            <ingredient name="Orange Juice" type="Volume" />
+        </component>
+    </recipe>
+
+    <!-- page 121 -->
+    <!-- todo variation -->
+    <!-- todo Au Currant Sidecar -->
+
+    <!-- page 121 -->
+    <recipe name="Barton Special Cocktail">
+        <picture>http://www.epicurus.com/beverages/wp-content/uploads/2011/03/barton-special.jpg</picture>
+        <component recommended="1.5" unit="Ounce">
+            <ingredient name="Calvados" type="Volume" />
+            <ingredient name="Apple Brandy" type="Volume" />
+        </component>
+        <component recommended="0.75" unit="Ounce">
+            <ingredient name="Gin" type="Volume" />
+        </component>
+        <component recommended="0.75" unit="Ounce">
+            <ingredient name="Scotch Whisky" type="Volume" />
+        </component>
+        <component recommended="1.0" unit="Count">
+            <ingredient name="Lemon Twist" type="Count" />
+        </component>
+    </recipe>
+
+    <!-- page 121 -->
+    <recipe name="The Barujo">
+        <component max="5.0" min="4.0" unit="Count">
+            <ingredient name="Mint Leaf" type="Count" />
+        </component>
+        <component recommended="1.0" unit="Ounce">
+            <ingredient name="Lemon Juice" type="Volume" />
+        </component>
+        <component recommended="1.0" unit="Teaspoon">
+            <ingredient name="Superfine Sugar" type="Mass" />
+        </component>
+        <component recommended="1.5" unit="Ounce">
+            <ingredient name="Agua Ardiente" type="Volume" />
+        </component>
+        <component max="3.0" min="2.0" unit="Ounce">
+            <ingredient name="Club Soda" type="Volume" />
+        </component>
+    </recipe>
+
+    <!-- page 121 -->
+    <recipe name="Bermuda Highball">
+        <picture>http://assets.absolutdrinks.com/drinks/solid-background-black/soft-shadow/floor-reflection/415x655/bermuda-highball(85).jpg</picture>
+        <component recommended="1.0" unit="Ounce">
+            <ingredient name="Brandy" type="Volume" />
+        </component>
+        <component recommended="1.0" unit="Ounce">
+            <ingredient name="Gin" type="Volume" />
+        </component>
+        <component recommended="1.0" unit="Ounce">
+            <ingredient name="Dry Vermouth" type="Volume" />
+        </component>
+        <component max="3.0" min="2.0" unit="Ounce">
+            <ingredient name="Ginger Ale" type="Volume" />
+        </component>
+        <component recommended="1.0" unit="Count">
+            <ingredient name="Lemon Twist" type="Count" />
+        </component>
+    </recipe>
+
+    <!-- page 121 -->
+    <recipe name="Betsy Ross">
+        <picture>https://pbs.twimg.com/media/CWD3xpEXAAAmuko.png</picture>
+        <component recommended="2.0" unit="Ounce">
+            <ingredient name="Brandy" type="Volume" />
+        </component>
+        <component recommended="1.5" unit="Ounce">
+            <ingredient name="Ruby Port" type="Volume" />
+        </component>
+        <component recommended="0.5" unit="Teaspoon">
+            <ingredient name="Cointreau" type="Volume" />
+            <ingredient name="Triple Sec" type="Volume" />
+        </component>
+    </recipe>
+
+    <!-- page 123 -->
+    <recipe name="Between the Sheets">
+        <picture>http://media2.onsugar.com/files/2012/02/06/3/835/8351897/2d1e2274e8c0e990_Between_the_Sheets_Laziz_Hamani_1_.preview.jpg</picture>
+        <component recommended="1.0" unit="Ounce">
+            <ingredient name="Brandy" type="Volume" />
+            <ingredient name="Cognac" type="Volume" />
+        </component>
+        <component recommended="1.0" unit="Ounce">
+            <ingredient name="Light Rum" type="Volume" />
+        </component>
+        <component recommended="1.0" unit="Ounce">
+            <ingredient name="Cointreau" type="Volume" />
+        </component>
+        <component recommended="1.0" unit="Ounce">
+            <ingredient name="Lemon Juice" type="Volume" />
+            <ingredient name="Lime Juice" type="Volume" />
+        </component>
+        <component recommended="1.0" unit="Ounce">
+            <ingredient name="Simple Syrup" type="Volume" />
+        </component>
+        <component recommended="1.0" unit="Count">
+            <ingredient name="Lemon Twist" type="Count" />
+        </component>
+    </recipe>
+
+    <!-- page 123 -->
+    <recipe name="Blackjack">
+        <component recommended="1.5" unit="Ounce">
+            <ingredient name="Brandy" type="Volume" />
+        </component>
+        <component recommended="1.5" unit="Ounce">
+            <ingredient name="Cold Strong Coffee" type="Volume" />
+        </component>
+        <component recommended="0.75" unit="Ounce">
+            <ingredient name="Kirsch" type="Volume" />
+        </component>
+        <component recommended="1.0" unit="Count">
+            <ingredient name="Lemon Twist" type="Volume" />
+        </component>
+    </recipe>
+
+    <!-- page 123 -->
+    <recipe name="Bombay Cocktail">
+        <component recommended="1.0" unit="Ounce">
+            <ingredient name="Brandy" type="Volume" />
+        </component>
+        <component recommended="0.5" unit="Ounce">
+            <ingredient name="Dry Vermouth" type="Volume" />
+        </component>
+        <component recommended="0.5" unit="Ounce">
+            <ingredient name="Sweet Vermouth" type="Volume" />
+        </component>
+        <component recommended="0.5" unit="Teaspoon">
+            <ingredient name="Cointreau" type="Volume" />
+        </component>
+        <component recommended="1.0" unit="Dash">
+            <ingredient name="Pernod" type="Volume" />
+        </component>
+    </recipe>
+
+    <!-- page 123 -->
+    <recipe name="Bosom Caresser">
+        <picture>http://recipes-drinks.ru/coctails/bosom-caresser.png</picture>
+        <directions>Shake the ingredients vigorously with ice. Strain into a chilled cocktail glass.</directions>
+        <component recommended="1.5" unit="Ounce">
+            <ingredient name="Bandy" type="Volume" />
+        </component>
+        <component recommended="0.75" unit="Ounce">
+            <ingredient name="Madeira" type="Volume" />
+        </component>
+        <component recommended="0.5" unit="Ounce">
+            <ingredient name="Triple Sec" type="Volume" />
+        </component>
+        <component recommended="1" unit="Teaspoon">
+            <ingredient name="Grenadine" type="Volume" />
+        </component>
+    </recipe>
+
+    <!-- page 124 -->
+    <recipe name="Brandied Port">
+        <picture>http://portcocktails.com/images/drinks/maria_mcclaire.jpg</picture>
+        <directions>Shake the liquid ingredients vigorously with ice. Strain into an ice-filled old-fashioned glass.
+            Garnish with the orange slice
+        </directions>
+        <component recommended="1" unit="Ounce">
+            <ingredient name="Brandy" type="Volume" />
+        </component>
+        <component recommended="1" unit="Ounce">
+            <ingredient name="Tawny Port" type="Volume" />
+        </component>
+        <component recommended="0.5" unit="Ounce">
+            <ingredient name="Lemon Juice" type="Volume" />
+        </component>
+        <component recommended="1.5" unit="Teaspoon">
+            <ingredient name="Maraschino Liqueur" type="Volume" />
+        </component>
+        <component recommended="1" unit="Count">
+            <ingredient name="Orange Slice" type="Count" />
+        </component>
+    </recipe>
+
+    <!-- page 124 -->
+    <!-- todo variation -->
+    <recipe name="Brandy Alexander">
+        <picture>http://farm9.staticflickr.com/8344/8246034760_844a6476db_o.jpg</picture>
+        <description>This classic was created during Prohbition, when many speakeasies served cheap brandy. They came up
+            with this cocktail with cream to mask the biting taste.
+        </description>
+        <directions>Shake the liquid ingredients vigorously with ice. Strain into a chilled cocktail glass Sprinkle a
+            dusting of nutmeg on top.
+        </directions>
+        <component recommended="1" unit="Ounce">
+            <ingredient name="Brandy" type="Volume" />
+        </component>
+        <component recommended="1" unit="Ounce">
+            <ingredient name="Brown Creme de Cacao" type="Volume" />
+        </component>
+        <component recommended="1" unit="Ounce">
+            <ingredient name="Heavy Creme" type="Volume" />
+        </component>
+        <component recommended="0" unit="Unitless">
+            <ingredient name="Grated Nutmeg" type="Unitless" />
+        </component>
+    </recipe>
+
+    <!-- page 124 -->
+    <recipe name="Brandy Cassis">
+        <picture>http://recipes-drinks.ru/coctails/ceo-cocktail.png</picture>
+        <directions>Shake the liquid ingredients vigorously with ice. Strain into a chilled cocktail glass. Twist the
+            lemon peel over the drink, and drop it in.
+        </directions>
+        <component recommended="1.5" unit="Ounce">
+            <ingredient name="Brandy" type="Volume" />
+        </component>
+        <component recommended="1" unit="Ounce">
+            <ingredient name="Lemon Juice" type="Volume" />
+        </component>
+        <component recommended="0.5" unit="Ounce">
+            <ingredient name="Creme de Cassis" type="Volume" />
+        </component>
+        <component recommended="1" unit="Count">
+            <ingredient name="Lemon Twist" type="Count" />
+        </component>
+    </recipe>
+
+    <!-- =============== -->
+    <!-- ***** GIN ***** -->
+    <!-- =============== -->
+
+
+    <!-- page 174 -->
+    <recipe name="Abbey Cocktail">
+        <picture>http://www.gazregan.com/wp-content/uploads/2012/03/abbey_cocktail.jpg</picture>
+        <directions>Shake the liquid ingredients vigorously with ice. Strain into a chilled cocktail glass. Garnish with
+            the cherry.
+        </directions>
+        <component recommended="1.5" unit="Ounce">
+            <ingredient name="Gin" type="Volume" />
+        </component>
+        <component recommended="0.75" unit="Ounce">
+            <ingredient name="Lillet Blanc" type="Volume" />
+        </component>
+        <component recommended="0.75" unit="Ounce">
+            <ingredient name="Orange Juice" type="Volume" />
+        </component>
+        <component recommended="2.0" unit="Dash">
+            <ingredient name="Angostura Bitters" type="Volume" />
+        </component>
+        <component recommended="1.0" unit="Count">
+            <ingredient name="Maraschino Cherry" type="Count" />
+        </component>
+    </recipe>
+
+    <!-- page 174 -->
+    <!-- todo variation -->
+    <recipe name="Alexander">
+        <picture>http://farm9.staticflickr.com/8344/8246034760_844a6476db_o.jpg</picture>
+        <description>Dating from the 1920s, the original Alexander was made with gin, but the brandy version has become
+            more popular.
+        </description>
+        <directions>Shake the liquid ingredients vigorously with ice. Strain into a chilled cocktail glass, and sprinkle
+            with nutmeg.
+        </directions>
+        <component recommended="1.0" unit="Ounce">
+            <ingredient name="Gin" type="Volume" />
+        </component>
+        <component recommended="0.75" unit="Ounce">
+            <ingredient name="White Creme de Cacao" type="Volume" />
+        </component>
+        <component recommended="0.75" unit="Ounce">
+            <ingredient name="Heavy Cream" type="Volume" />
+        </component>
+        <component recommended="1.0" unit="Pinch">
+            <ingredient name="Grated Nutmeg" type="Mass" />
+        </component>
+    </recipe>
+
+    <!-- page 174 -->
+    <!-- todo variation -->
+    <recipe name="Antibes">
+        <picture>http://tablematters.com/wp-content/uploads/2012/11/TM_BZ_GFRUIT_AP_002.jpg</picture>
+        <directions>Shake the liquid ingredients igorously with ice. Strain into an ice-filled old-fashioned glass, and
+            garnish with the orange slice.
+        </directions>
+        <component recommended="1.5" unit="Ounce">
+            <ingredient name="Gin" type="Volume" />
+        </component>
+        <component recommended="0.5" unit="Ounce">
+            <ingredient name="Benedictine" type="Volume" />
+        </component>
+        <component recommended="2.0" unit="Ounce">
+            <ingredient name="Grapefruit Juice" type="Volume" />
+        </component>
+        <component recommended="1.0" unit="Count">
+            <ingredient name="Orange Slice" type="Count" />
+        </component>
+    </recipe>
+
+    <!-- page 175 -->
+    <recipe name="Arcadia">
+        <picture>http://www.cocktail-db.com/stat/img/300/Arcadia.jpg</picture>
+        <directions>Shake the ingredients vigorously with ice. Strain into a chilled cocktail glass.</directions>
+        <component recommended="1.5" unit="Ounce">
+            <ingredient name="Gin" type="Volume" />
+        </component>
+        <component recommended="0.5" unit="Ounce">
+            <ingredient name="Galliano" type="Volume" />
+        </component>
+        <component recommended="0.5" unit="Ounce">
+            <ingredient name="Creme de Banane" type="Volume" />
+        </component>
+        <component recommended="0.5" unit="Ounce">
+            <ingredient name="Grapefruit Juice" type="Volume" />
+        </component>
+    </recipe>
+
+    <!-- page 175 -->
+    <recipe name="Bali Highball">
+        <picture>https://s-media-cache-ak0.pinimg.com/736x/bc/cb/1d/bccb1d2a57dd23a4a07da168c188c47d.jpg</picture>
+        <directions>Shake the gin, guava, nectar, lime juice, and pomegranate syrup vigorously with ice. Strain into an
+            ice-filled highball glass. Top with club soda. Garnish with the lime wheel and orange blossom.
+        </directions>
+        <component recommended="1.5" unit="Ounce">
+            <ingredient name="Gin" type="Volume" />
+        </component>
+        <component recommended="2" unit="Ounce">
+            <ingredient name="Guava Nectar" type="Volume" />
+        </component>
+        <component recommended="0.5" unit="Ounce">
+            <ingredient name="Lime Juice" type="Volume" />
+        </component>
+        <component recommended="1" unit="Ounce">
+            <ingredient name="Pomegranate Syrup" type="Volume" />
+        </component>
+        <component max="4" min="3" unit="Ounce">
+            <ingredient name="Club Soda" type="Volume" />
+        </component>
+        <component recommended="0" unit="Count">
+            <ingredient name="Lime Wheel" type="Count" />
+        </component>
+        <component recommended="0" unit="Count">
+            <ingredient name="Orange Blossom" type="Count" />
+            <ingredient name="Edible Flower" type="Count" />
+        </component>
+    </recipe>
+
+    <!-- page 175 -->
+    <recipe name="Beauty Spot">
+        <directions>Shake gin, creme de cacao, and egg white vigorously with ice. Strain into a chilled cocktail glass.
+            Drop the grenadine in the center of the drink; do not stir.
+        </directions>
+        <component recommended="2" unit="Ounce">
+            <ingredient name="Gin" type="Volume" />
+        </component>
+        <component recommended="0.5" unit="Ounce">
+            <ingredient name="White Creme de Cacao" type="Volume" />
+        </component>
+        <component recommended="1" unit="Count">
+            <ingredient name="Egg White" type="Count" />
+        </component>
+        <component recommended="0.5" unit="Teaspoon">
+            <ingredient name="Grenadine" type="Volume" />
+        </component>
+    </recipe>
+
+    <!-- page 176 -->
+    <recipe name="Bella, Bella">
+        <picture>http://www.cocktailtimes.com/vodka/top_campari_ciaobella.jpg</picture>
+        <directions>Shake the liquid ingredients vigorously with ice. Strain into chilled cocktail glass. Garnish with
+            the lime peel spiral
+        </directions>
+        <component recommended="1" unit="Ounce">
+            <ingredient name="Gin" type="Volume" />
+        </component>
+        <component recommended="0.66" unit="Ounce">
+            <ingredient name="Campari" type="Volume" />
+        </component>
+        <component recommended="0.5" unit="Ounce">
+            <ingredient name="Limoncello" type="Volume" />
+        </component>
+        <component recommended="0.5" unit="Teaspoon">
+            <ingredient name="Mandarine Napoleon" type="Volume" />
+            <ingredient name="Orange Liquer" type="Volume" />
+        </component>
+        <component recommended="0.66" unit="Ounce">
+            <ingredient name="Orange Juice" type="Volume" />
+        </component>
+        <component recommended="0" unit="Count">
+            <ingredient name="Lime Peel Spiral" type="Count" />
+        </component>
+    </recipe>
+
+    <!-- page 176 -->
+    <recipe name="Blue Monday">
+        <picture>http://www.dexiosigamou.gr/wp-content/uploads/2008/10/blue-lagoon.jpg</picture>
+        <directions>Pour the gin and Cointreau into an ice-filled highball glass. Add the curacao. Top with club soda
+            and stir.
+        </directions>
+        <component recommended="1" unit="Ounce">
+            <ingredient name="Gin" type="Volume" />
+        </component>
+        <component recommended="1" unit="Ounce">
+            <ingredient name="Cointreau" type="Volume" />
+            <ingredient name="Triple Sec" type="Volume" />
+        </component>
+        <component recommended="1" unit="Dash">
+            <ingredient name="Blue Curacao" type="Volume" />
+        </component>
+        <component max="4" min="3" unit="Ounce">
+            <ingredient name="Club Soda" type="Volume" />
+        </component>
+    </recipe>
+
+    <!-- page 176 -->
+    <recipe name="Boston Cocktail">
+        <directions>Shake the ingredients vigorously with ice Strain into a chilled cocktail glass.</directions>
+        <component recommended="1.5" unit="Ounce">
+            <ingredient name="Gin" type="Volume" />
+        </component>
+        <component recommended="1.5" unit="Ounce">
+            <ingredient name="Apricot Brandy" type="Volume" />
+        </component>
+        <component recommended="0.5" unit="Ounce">
+            <ingredient name="Lemon Juice" type="Volume" />
+        </component>
+        <component recommended="1" unit="Dash">
+            <ingredient name="Grenadine" type="Volume" />
+        </component>
+    </recipe>
+
+    <!-- page 176-7 -->
+    <recipe name="Bramble">
+        <picture>https://mmac-geckowebdevelopm1.netdna-ssl.com/images/cocktails/7370/bramble.jpg</picture>
+        <directions>In the bottom of a chilled highball glass, muddle together the blackberries, sugar, and lime juice.
+            Fill the glass with ice and add gin and creme de mure. Top with club soda ad stir biefly. Garnish with the
+            lime wedge.
+        </directions>
+        <component max="5" min="4" unit="Count">
+            <ingredient name="Blackberries" type="Count" />
+        </component>
+        <component recommended="1" unit="Teaspoon">
+            <ingredient name="Sugar" type="Mass" />
+        </component>
+        <component recommended="1" unit="Ounce">
+            <ingredient name="Lime Juice" type="Volume" />
+        </component>
+        <component recommended="1.5" unit="Ounce">
+            <ingredient name="Gin" type="Volume" />
+        </component>
+        <component recommended="0.5" unit="Ounce">
+            <ingredient name="Creme de Mure" type="Volume" />
+            <ingredient name="Blackberry Liqueur" type="Volume" />
+        </component>
+        <component max="4" min="3" unit="Ounce">
+            <ingredient name="Club Soda" type="Volume" />
+        </component>
+        <component recommended="1" unit="Count">
+            <ingredient name="Lime Wedge" type="Count" />
+        </component>
+    </recipe>
+
+
+</ns2:root>

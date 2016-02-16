@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:orientation="horizontal"
+    android:padding="@dimen/text_margin">
+
+    <TextView
+        android:id="@+id/component_edit_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="2 to 5 Ounces " />
+
+    <TextView
+        android:id="@+id/component_edit_ingredients"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:singleLine="false"
+        android:text="of something\nor something else" />
+
+</LinearLayout>
