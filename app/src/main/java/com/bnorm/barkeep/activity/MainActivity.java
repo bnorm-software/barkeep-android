@@ -17,6 +17,7 @@ import com.bnorm.barkeep.activity.book.BookListFragment;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     public static final String FRAG_TAG = MainActivity.class.getName();
+
     @Bind(R.id.drawer_layout) DrawerLayout mDrawer;
     private FragmentManager mFragmentManager;
     private Fragment mFragment;

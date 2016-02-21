@@ -1,7 +1,6 @@
 package com.bnorm.barkeep.activity.bar;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import android.app.Activity;
@@ -14,7 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.bnorm.barkeep.R;
-import com.bnorm.barkeep.activity.book.RecipeGridAdapter;
+import com.bnorm.barkeep.lib.Retained;
 import com.bnorm.barkeep.lib.WrappingLinearLayoutManager;
 import com.bnorm.barkeep.server.data.store.Bar;
 import com.bnorm.barkeep.server.data.store.Ingredient;
@@ -30,6 +29,8 @@ public class IngredientShelvesFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mBar = Retained.<Bar>init(this, "bar").get(mBar);
 
         Activity activity = this.getActivity();
         CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);

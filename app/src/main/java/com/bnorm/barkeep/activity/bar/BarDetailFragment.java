@@ -9,10 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.bnorm.barkeep.R;
+import com.bnorm.barkeep.lib.Retained;
 import com.bnorm.barkeep.server.data.store.Bar;
-import com.bnorm.barkeep.server.data.store.Book;
 import com.bnorm.barkeep.server.data.store.Ingredient;
-import com.bnorm.barkeep.server.data.store.Recipe;
 
 public class BarDetailFragment extends Fragment {
 
@@ -25,6 +24,8 @@ public class BarDetailFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mBar = Retained.<Bar>init(this, "bar").get(mBar);
 
         Activity activity = this.getActivity();
         CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);

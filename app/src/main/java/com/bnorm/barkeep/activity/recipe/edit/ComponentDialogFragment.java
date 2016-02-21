@@ -18,8 +18,10 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.ViewSwitcher;
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import com.bnorm.barkeep.R;
-import com.bnorm.barkeep.lib.RetainedFragment;
+import com.bnorm.barkeep.lib.Retained;
 import com.bnorm.barkeep.lib.WrappingLinearLayoutManager;
 import com.bnorm.barkeep.server.data.store.Amount;
 import com.bnorm.barkeep.server.data.store.Component;
@@ -37,18 +39,17 @@ public class ComponentDialogFragment extends AppCompatDialogFragment {
 
     public static final String NEGATIVE_TEXT_ARG = "NegativeText";
 
-    private RetainedFragment<Component> mComponentFragment;
     private Component mComponent;
     private Integer mLocation;
 
-    private ViewSwitcher mRangeViewSwitcher;
-    private Switch mRangeSwitch;
-    private EditText mAmountRecommended;
-    private EditText mAmountMin;
-    private EditText mAmountMax;
-    private Spinner mUnitSelect;
+    @Bind(R.id.component_edit_range_view_switcher) ViewSwitcher mRangeViewSwitcher;
+    @Bind(R.id.component_edit_range_switch) Switch mRangeSwitch;
+    @Bind(R.id.component_edit_amount_recommended) EditText mAmountRecommended;
+    @Bind(R.id.component_edit_amount_min) EditText mAmountMin;
+    @Bind(R.id.component_edit_amount_max) EditText mAmountMax;
+    @Bind(R.id.component_edit_unit_spinner) Spinner mUnitSelect;
+    @Bind(R.id.component_edit_ingredients) RecyclerView mIngredients;
     private ArrayAdapter<CharSequence> mUnitAdapter;
-    private RecyclerView mIngredients;
     private IngredientAdapter mIngredientAdapter;
     private ComponentDialogListener mListener;
 
@@ -78,21 +79,14 @@ public class ComponentDialogFragment extends AppCompatDialogFragment {
         String negativeText = getArguments().getString(NEGATIVE_TEXT_ARG, "Cancel");
 
         // find the retained fragment on activity restarts
-        mComponentFragment = RetainedFragment.init(getFragmentManager(),
-                                                   ComponentDialogFragment.class.getName(),
-                                                   mComponent != null ? mComponent : new Component());
-        mComponent = mComponentFragment.getData();
+        mComponent = Retained.<Component>init(this, "component").get(mComponent != null ? mComponent : new Component());
+
+        mLocation = Retained.<Integer>init(this, "location").get(mLocation);
 
 
         // ===== Populate local fields ===== //
         View view = inflater.inflate(R.layout.dialog_edit_component, null);
-        mRangeSwitch = (Switch) view.findViewById(R.id.component_edit_range_switch);
-        mRangeViewSwitcher = (ViewSwitcher) view.findViewById(R.id.component_edit_range_view_switcher);
-        mAmountRecommended = (EditText) view.findViewById(R.id.component_edit_amount_recommended);
-        mAmountMin = (EditText) view.findViewById(R.id.component_edit_amount_min);
-        mAmountMax = (EditText) view.findViewById(R.id.component_edit_amount_max);
-        mUnitSelect = (Spinner) view.findViewById(R.id.component_edit_unit_spinner);
-        mIngredients = (RecyclerView) view.findViewById(R.id.component_edit_ingredients);
+        ButterKnife.bind(this, view);
 
         mUnitAdapter = ArrayAdapter.createFromResource(getActivity(),
                                                        R.array.units,
