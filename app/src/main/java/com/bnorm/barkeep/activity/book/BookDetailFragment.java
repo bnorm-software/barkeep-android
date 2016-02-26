@@ -25,7 +25,7 @@ public class BookDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mBook = Retained.<Book>init(this, "book").get(mBook);
+        mBook = Retained.retain(this, "book", mBook);
 
         Activity activity = this.getActivity();
         CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);

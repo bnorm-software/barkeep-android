@@ -25,7 +25,7 @@ public class BarDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mBar = Retained.<Bar>init(this, "bar").get(mBar);
+        mBar = Retained.retain(this, "bar", mBar);
 
         Activity activity = this.getActivity();
         CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);

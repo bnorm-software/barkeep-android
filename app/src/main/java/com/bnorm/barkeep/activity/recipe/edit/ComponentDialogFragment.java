@@ -5,7 +5,6 @@ import java.util.List;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
@@ -26,6 +25,9 @@ import com.bnorm.barkeep.lib.WrappingLinearLayoutManager;
 import com.bnorm.barkeep.server.data.store.Amount;
 import com.bnorm.barkeep.server.data.store.Component;
 import com.bnorm.barkeep.server.data.store.Ingredient;
+import com.jakewharton.rxbinding.view.RxView;
+import com.jakewharton.rxbinding.widget.RxTextView;
+import rx.Observable;
 
 // todo make this more dependent on the datamodel
 public class ComponentDialogFragment extends AppCompatDialogFragment {
@@ -79,14 +81,37 @@ public class ComponentDialogFragment extends AppCompatDialogFragment {
         String negativeText = getArguments().getString(NEGATIVE_TEXT_ARG, "Cancel");
 
         // find the retained fragment on activity restarts
-        mComponent = Retained.<Component>init(this, "component").get(mComponent != null ? mComponent : new Component());
-
-        mLocation = Retained.<Integer>init(this, "location").get(mLocation);
+        mComponent = Retained.retain(this, "component", mComponent != null ? mComponent : new Component());
+        mLocation = Retained.retain(this, "location", mLocation);
 
 
         // ===== Populate local fields ===== //
         View view = inflater.inflate(R.layout.dialog_edit_component, null);
         ButterKnife.bind(this, view);
+
+        RxTextView.textChanges(mAmountRecommended).subscribe(recommendedText -> {
+            Amount amount = mComponent.getAmount();
+            if (!mRangeSwitch.isChecked()) {
+                String recommended = recommendedText.toString();
+                amount.setRecommended(recommended.isEmpty() ? null : Double.valueOf(recommended));
+                amount.setMin(null);
+                amount.setMax(null);
+            }
+        });
+        Observable.combineLatest(RxTextView.textChanges(mAmountMin),
+                                 RxTextView.textChanges(mAmountMax),
+                                 (minText, maxText) -> {
+                                     Amount amount = mComponent.getAmount();
+                                     if (mRangeSwitch.isChecked()) {
+                                         String min = minText.toString();
+                                         String max = maxText.toString();
+                                         amount.setRecommended(null);
+                                         amount.setMin(min.isEmpty() ? null : Double.valueOf(min));
+                                         amount.setMax(max.isEmpty() ? null : Double.valueOf(max));
+                                     }
+                                     return amount;
+                                 }).subscribe();
+
 
         mUnitAdapter = ArrayAdapter.createFromResource(getActivity(),
                                                        R.array.units,
@@ -140,11 +165,8 @@ public class ComponentDialogFragment extends AppCompatDialogFragment {
 
         // ===== Configure ? ===== //
 
-        mRangeSwitch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mRangeViewSwitcher.showNext();
-            }
+        RxView.clicks(mRangeViewSwitcher).subscribe(aVoid -> {
+            mRangeViewSwitcher.showNext();
         });
 
 
@@ -153,16 +175,12 @@ public class ComponentDialogFragment extends AppCompatDialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Edit Component");
         builder.setView(view);
-        builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                updateComponent();
-                mListener.onDialogPositiveClick(mLocation, mComponent);
-            }
+        builder.setPositiveButton("Save", (dialog, id) -> {
+            updateComponent();
+            mListener.onDialogPositiveClick(mLocation, mComponent);
         });
-        builder.setNegativeButton(negativeText, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                mListener.onDialogNegativeClick(mLocation, mComponent);
-            }
+        builder.setNegativeButton(negativeText, (dialog, id) -> {
+            mListener.onDialogNegativeClick(mLocation, mComponent);
         });
         return builder.create();
     }
@@ -196,7 +214,7 @@ public class ComponentDialogFragment extends AppCompatDialogFragment {
 
         List<Ingredient> ingredients = new ArrayList<>();
         for (int i = 0; i < mIngredientAdapter.getItemCount(); i++) {
-            String item = mIngredientAdapter.get(i);
+            String item = mIngredientAdapter.get(i).toString();
             if (!item.isEmpty()) {
                 Ingredient ingredient = new Ingredient();
                 ingredient.setName(item);

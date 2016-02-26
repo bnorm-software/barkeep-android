@@ -37,6 +37,20 @@ public final class Retained<E> extends Fragment {
         this.data = data;
     }
 
+
+    public static <E> E retain(Fragment parent, String name, Supplier<? extends E> fallback) {
+        return Retained.<E>init(parent, name).get(fallback);
+    }
+
+    public static <E> E retain(Fragment parent, String name, E fallback) {
+        return Retained.<E>init(parent, name).get(fallback);
+    }
+
+    public static <E> E retain(Fragment parent, String name) {
+        return Retained.<E>init(parent, name).get();
+    }
+
+
     public static <E> Retained<E> init(FragmentManager fm, String tag) {
         Retained<E> frag = find(fm, tag);
         if (frag == null) {
@@ -52,6 +66,7 @@ public final class Retained<E> extends Fragment {
     public static <E> Retained<E> init(Fragment parent, String name) {
         return init(parent.getFragmentManager(), parent.getClass(), name);
     }
+
 
     public static <E> Retained<E> find(FragmentManager fm, String tag) {
         @SuppressWarnings("unchecked")

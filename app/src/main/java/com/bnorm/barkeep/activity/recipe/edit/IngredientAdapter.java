@@ -4,20 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import com.bnorm.barkeep.R;
+import com.jakewharton.rxbinding.widget.RxTextView;
 
 public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.IngredientViewHolder> {
 
     private final RecyclerView mRecyclerView;
-    private final List<String> mItems;
+    private final List<CharSequence> mItems;
 
     public IngredientAdapter(RecyclerView recyclerView) {
         this.mRecyclerView = recyclerView;
@@ -26,11 +26,8 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.In
 
     @Override
     public IngredientViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View v = inflater.inflate(R.layout.item_edit_ingredient, parent, false);
-        TextView leadingText = (TextView) v.findViewById(R.id.ingredient_edit_leading_text);
-        EditText name = (EditText) v.findViewById(R.id.ingredient_edit);
-        return new IngredientViewHolder(v, leadingText, name);
+        return new IngredientViewHolder(LayoutInflater.from(parent.getContext())
+                                                      .inflate(R.layout.item_edit_ingredient, parent, false));
     }
 
     @Override
@@ -44,81 +41,53 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.In
         return mItems.size();
     }
 
-    public String get(int i) {
+    public CharSequence get(int i) {
         return mItems.get(i);
     }
 
-    public void add(String str) {
+    public void add(CharSequence str) {
         mItems.add(str);
     }
 
     public class IngredientViewHolder extends RecyclerView.ViewHolder {
-        private final TextView mLeadingText;
-        private final EditText mName;
+        @Bind(R.id.ingredient_edit_leading_text) TextView mLeadingText;
+        @Bind(R.id.ingredient_edit) EditText mName;
 
-        private IngredientViewHolder(View v, TextView leadingText, EditText name) {
+        private IngredientViewHolder(View v) {
             super(v);
-            this.mLeadingText = leadingText;
-            this.mName = name;
+            ButterKnife.bind(this, v);
 
-            this.mName.setOnFocusChangeListener(new FocusChangeListener());
-            this.mName.addTextChangedListener(new TextListener());
-            this.mName.setOnEditorActionListener(new EditorActionListener());
-        }
-
-        private class EditorActionListener implements TextView.OnEditorActionListener {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                int position = getLayoutPosition();
-                RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForLayoutPosition(position + 1);
-                if (holder == null) {
-                    mRecyclerView.smoothScrollToPosition(position + 1);
-                    return true;
+            // Navigate to next ingredient on enter
+            RxTextView.editorActions(this.mName).subscribe(id -> {
+                int position = getLayoutPosition() + 1;
+                // todo why is this == null?
+                if (mRecyclerView.findViewHolderForLayoutPosition(position) == null) {
+                    mRecyclerView.smoothScrollToPosition(position);
                 }
-                return false;
-            }
-        }
+            });
 
-        private class TextListener implements TextWatcher {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
+            RxTextView.textChanges(this.mName).subscribe(text -> {
+                // Update the adapter list when text changes
+                mItems.set(getLayoutPosition(), text);
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                int position = getLayoutPosition();
-                if (position < mItems.size()) {
-                    mItems.set(position, s.toString());
-                }
-            }
-        }
-
-        private class FocusChangeListener implements View.OnFocusChangeListener {
-
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    if (getLayoutPosition() == mItems.size() - 1) {
-                        // The last edit box just gained focus
-                        mItems.add("");
-                        notifyItemInserted(mItems.size() - 1);
-                    }
-                } else {
-                    // The view just lost focus
+                // If text is added to or removed from the last edit box
+                if (text.length() == 0) {
                     int end = mItems.size() - 1;
                     int start = end;
-                    while (start > 0 && mItems.get(start).isEmpty() && mItems.get(start - 1).isEmpty()) {
+                    while (start > 0 && mItems.get(start).length() == 0 && mItems.get(start - 1).length() == 0) {
                         mItems.remove(start);
                         start--;
                     }
                     if (start != end) {
                         notifyItemRangeRemoved(start + 1, end - start);
                     }
+                } else {
+                    if (getLayoutPosition() == mItems.size() - 1) {
+                        mItems.add("");
+                        notifyItemInserted(mItems.size() - 1);
+                    }
                 }
-            }
+            });
         }
     }
 }

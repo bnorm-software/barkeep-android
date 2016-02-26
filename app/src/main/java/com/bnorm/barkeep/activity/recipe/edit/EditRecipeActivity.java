@@ -70,7 +70,6 @@ public class EditRecipeActivity extends AppCompatActivity implements ComponentDi
             @Override
             public void onClick(View v) {
                 // todo make sure all required fields are filled
-                // todo save the recipe to the database
                 onBackPressed();
                 //                NavUtils.navigateUpTo(EditRecipeActivity.this, getIntent());
                 Recipe recipe = new Recipe();
@@ -78,7 +77,8 @@ public class EditRecipeActivity extends AppCompatActivity implements ComponentDi
                 recipe.setName(mDescription.getText().toString());
                 recipe.setName(mDirections.getText().toString());
                 recipe.setComponents(mComponentAdapter.getItems());
-                // todo add ingredients
+                // todo add ingredients to the database
+                // todo save the recipe to the database
                 SaveRecipeAsyncTask task = new SaveRecipeAsyncTask() {
                     @Override
                     protected void onPostExecute(Boolean result) {
