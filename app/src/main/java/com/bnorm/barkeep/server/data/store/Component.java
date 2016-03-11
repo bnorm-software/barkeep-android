@@ -32,6 +32,9 @@ public class Component implements Parcelable {
     }
 
     public Amount getAmount() {
+        if (amount == null) {
+            amount = new Amount();
+        }
         return amount;
     }
 
