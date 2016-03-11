@@ -28,8 +28,8 @@ public class SearchRecipeActivity extends AppCompatActivity {
 
     // ===== View ===== //
 
-    @Bind(R.id.recipe_search_results) SearchView mSearchView;
-    @Bind(R.id.search) RecyclerView mSearchResults;
+    @Bind(R.id.recipe_search_results) RecyclerView mSearchResults;
+    @Bind(R.id.search) SearchView mSearchView;
 
 
     @Override
