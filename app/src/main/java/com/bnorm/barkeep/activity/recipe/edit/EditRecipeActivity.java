@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatImageButton;
@@ -22,11 +21,12 @@ import com.bnorm.barkeep.lib.WrappingLinearLayoutManager;
 import com.bnorm.barkeep.server.data.store.Component;
 import com.bnorm.barkeep.server.data.store.Recipe;
 import com.bnorm.barkeep.server.data.store.v1.endpoint.Endpoint;
+import com.bnorm.barkeep.ui.base.activity.BaseActivity;
 import com.google.common.base.Preconditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class EditRecipeActivity extends AppCompatActivity implements ComponentDialogFragment.ComponentDialogListener {
+public class EditRecipeActivity extends BaseActivity implements ComponentDialogFragment.ComponentDialogListener {
     public static final String RECIPE_TAG = EditRecipeActivity.class.getName() + ".recipe";
     private static final Logger log = LoggerFactory.getLogger(EditRecipeActivity.class);
 
