@@ -1,7 +1,6 @@
 package com.bnorm.barkeep.activity.recipe.edit;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatImageButton;
@@ -17,8 +16,9 @@ import com.bnorm.barkeep.lib.WrappingLinearLayoutManager;
 import com.bnorm.barkeep.server.data.store.Component;
 import com.bnorm.barkeep.server.data.store.Recipe;
 import com.bnorm.barkeep.server.data.store.task.SaveRecipeAsyncTask;
+import com.bnorm.barkeep.ui.base.activity.BaseActivity;
 
-public class EditRecipeActivity extends AppCompatActivity implements ComponentDialogFragment.ComponentDialogListener {
+public class EditRecipeActivity extends BaseActivity implements ComponentDialogFragment.ComponentDialogListener {
     public static final String RECIPE_TAG = EditRecipeActivity.class.getName() + ".recipe";
 
     // ===== Model ===== //

@@ -6,7 +6,6 @@ import java.util.List;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,8 +16,9 @@ import com.bnorm.barkeep.lib.Retained;
 import com.bnorm.barkeep.lib.WrappingLinearLayoutManager;
 import com.bnorm.barkeep.server.data.store.Bar;
 import com.bnorm.barkeep.server.data.store.Ingredient;
+import com.bnorm.barkeep.ui.base.fragment.BaseFragment;
 
-public class IngredientShelvesFragment extends Fragment {
+public class IngredientShelvesFragment extends BaseFragment {
 
     private Bar mBar;
 
