@@ -1,6 +1,9 @@
 package com.bnorm.barkeep.activity.recipe;
 
+import java.io.IOException;
+
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
@@ -13,16 +16,18 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import com.bnorm.barkeep.BarkeepApp;
 import com.bnorm.barkeep.R;
 import com.bnorm.barkeep.activity.recipe.edit.EditRecipeActivity;
+import com.bnorm.barkeep.inject.app.AppComponent;
 import com.bnorm.barkeep.server.data.store.Amount;
 import com.bnorm.barkeep.server.data.store.Component;
 import com.bnorm.barkeep.server.data.store.Ingredient;
 import com.bnorm.barkeep.server.data.store.Recipe;
-import com.bnorm.barkeep.server.data.store.task.RecipeAsyncTask;
 import com.bumptech.glide.DrawableTypeRequest;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
+import com.google.common.base.Preconditions;
 
 public class ViewRecipeActivity extends AppCompatActivity {
 
@@ -46,6 +51,8 @@ public class ViewRecipeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppComponent appComponent = ((BarkeepApp) getApplication()).getAppComponent();
+
         setContentView(R.layout.activity_view_recipe);
         ButterKnife.bind(this);
         Bundle bundle = getIntent().getExtras();
@@ -83,7 +90,17 @@ public class ViewRecipeActivity extends AppCompatActivity {
 
         // ===== Load recipe information ===== //
         if (mRecipe == null) {
-            RecipeAsyncTask task = new RecipeAsyncTask() {
+            AsyncTask<String, Void, Recipe> task = new AsyncTask<String, Void, Recipe>() {
+                @Override
+                protected Recipe doInBackground(String... params) {
+                    String name = Preconditions.checkNotNull(params[0]);
+                    try {
+                        return new Recipe(appComponent.endpoint().getRecipe(name).execute());
+                    } catch (IOException e) {
+                        return null;
+                    }
+                }
+
                 @Override
                 protected void onPostExecute(Recipe recipe) {
                     mRecipe = recipe;

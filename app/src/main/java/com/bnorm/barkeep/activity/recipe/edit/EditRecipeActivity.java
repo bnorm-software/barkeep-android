@@ -1,5 +1,8 @@
 package com.bnorm.barkeep.activity.recipe.edit;
 
+import java.io.IOException;
+
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
@@ -12,14 +15,20 @@ import android.view.View;
 import android.widget.Toast;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import com.bnorm.barkeep.BarkeepApp;
 import com.bnorm.barkeep.R;
+import com.bnorm.barkeep.inject.app.AppComponent;
 import com.bnorm.barkeep.lib.WrappingLinearLayoutManager;
 import com.bnorm.barkeep.server.data.store.Component;
 import com.bnorm.barkeep.server.data.store.Recipe;
-import com.bnorm.barkeep.server.data.store.task.SaveRecipeAsyncTask;
+import com.bnorm.barkeep.server.data.store.v1.endpoint.Endpoint;
+import com.google.common.base.Preconditions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class EditRecipeActivity extends AppCompatActivity implements ComponentDialogFragment.ComponentDialogListener {
     public static final String RECIPE_TAG = EditRecipeActivity.class.getName() + ".recipe";
+    private static final Logger log = LoggerFactory.getLogger(EditRecipeActivity.class);
 
     // ===== Model ===== //
 
@@ -42,6 +51,8 @@ public class EditRecipeActivity extends AppCompatActivity implements ComponentDi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppComponent appComponent = ((BarkeepApp) getApplication()).getAppComponent();
+
         setContentView(R.layout.activity_create_recipe);
         ButterKnife.bind(this);
         Bundle bundle = getIntent().getExtras();
@@ -79,7 +90,39 @@ public class EditRecipeActivity extends AppCompatActivity implements ComponentDi
                 recipe.setComponents(mComponentAdapter.getItems());
                 // todo add ingredients to the database
                 // todo save the recipe to the database
-                SaveRecipeAsyncTask task = new SaveRecipeAsyncTask() {
+                AsyncTask<Recipe, Void, Boolean> task = new AsyncTask<Recipe, Void, Boolean>() {
+                    @Override
+                    protected Boolean doInBackground(Recipe... params) {
+                        Recipe recipe = Preconditions.checkNotNull(params[0]);
+                        boolean exists = false;
+                        try {
+                            Endpoint.GetRecipe request = appComponent.endpoint().getRecipe(recipe.getName());
+                            request.execute();
+                        } catch (IOException e) {
+                            log.warn("Unable to retrieve recipe", e);
+                            exists = true;
+                        }
+                        if (exists) {
+                            try {
+                                Endpoint.UpdateRecipe request = appComponent.endpoint()
+                                                                            .updateRecipe(recipe.getName(),
+                                                                                          recipe.toStore());
+                                request.execute();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+
+                            try {
+                                Endpoint.InsertRecipe request = appComponent.endpoint().insertRecipe(recipe.toStore());
+                                request.execute();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        return false;
+                    }
+
                     @Override
                     protected void onPostExecute(Boolean result) {
                     }
