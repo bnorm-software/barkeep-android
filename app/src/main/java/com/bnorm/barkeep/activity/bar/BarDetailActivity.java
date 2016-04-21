@@ -2,13 +2,13 @@ package com.bnorm.barkeep.activity.bar;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import com.bnorm.barkeep.R;
 import com.bnorm.barkeep.server.data.store.Bar;
+import com.bnorm.barkeep.ui.base.activity.BaseActivity;
 
-public class BarDetailActivity extends AppCompatActivity {
+public class BarDetailActivity extends BaseActivity {
 
     public static final String BAR_TAG = BarDetailActivity.class.getName() + ".bar";
 

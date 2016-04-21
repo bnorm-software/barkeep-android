@@ -3,7 +3,6 @@ package com.bnorm.barkeep.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -19,8 +18,9 @@ import butterknife.ButterKnife;
 import com.bnorm.barkeep.R;
 import com.bnorm.barkeep.activity.recipe.edit.EditRecipeActivity;
 import com.bnorm.barkeep.activity.recipe.search.SearchRecipeActivity;
+import com.bnorm.barkeep.ui.base.fragment.BaseFragment;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends BaseFragment {
 
     @Bind(R.id.fab) FloatingActionButton mFab;
     private MenuItem mSearch;

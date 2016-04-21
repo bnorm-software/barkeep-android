@@ -4,14 +4,14 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import com.bnorm.barkeep.R;
 import com.bnorm.barkeep.server.data.store.Book;
+import com.bnorm.barkeep.ui.base.activity.BaseActivity;
 
-public class BookDetailActivity extends AppCompatActivity {
+public class BookDetailActivity extends BaseActivity {
 
     public static final String BOOK_TAG = BookDetailActivity.class.getName() + ".book";
 

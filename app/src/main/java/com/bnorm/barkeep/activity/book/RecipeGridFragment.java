@@ -3,17 +3,16 @@ package com.bnorm.barkeep.activity.book;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.bnorm.barkeep.R;
-import com.bnorm.barkeep.activity.book.RecipeGridAdapter;
 import com.bnorm.barkeep.server.data.store.Book;
+import com.bnorm.barkeep.ui.base.fragment.BaseFragment;
 
-public class RecipeGridFragment extends Fragment {
+public class RecipeGridFragment extends BaseFragment {
 
     private Book mBook;
 

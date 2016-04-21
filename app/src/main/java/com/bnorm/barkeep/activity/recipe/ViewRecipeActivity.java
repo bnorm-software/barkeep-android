@@ -7,7 +7,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,12 +23,13 @@ import com.bnorm.barkeep.server.data.store.Amount;
 import com.bnorm.barkeep.server.data.store.Component;
 import com.bnorm.barkeep.server.data.store.Ingredient;
 import com.bnorm.barkeep.server.data.store.Recipe;
+import com.bnorm.barkeep.ui.base.activity.BaseActivity;
 import com.bumptech.glide.DrawableTypeRequest;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.google.common.base.Preconditions;
 
-public class ViewRecipeActivity extends AppCompatActivity {
+public class ViewRecipeActivity extends BaseActivity {
 
     public static final String RECIPE_TAG = ViewRecipeActivity.class.getName() + ".recipe";
 
