@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView
-    android:id="@+id/recipe_search_name"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="?attr/selectableItemBackground"
-    android:clickable="true"
-    android:gravity="center_vertical"
-    android:minHeight="?android:attr/listPreferredItemHeightSmall"
-    android:padding="@dimen/text_margin"
-    android:textAppearance="?android:attr/textAppearanceListItemSmall" />
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="recipe"
+            type="com.bnorm.barkeep.server.data.store.Recipe" />
+    </data>
+
+    <TextView android:id="@+id/recipe_search_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:gravity="center_vertical"
+        android:minHeight="?android:attr/listPreferredItemHeightSmall"
+        android:padding="@dimen/text_margin"
+        android:text="@{recipe.name}"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall" />
+</layout>

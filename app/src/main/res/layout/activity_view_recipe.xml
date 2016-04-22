@@ -1,61 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:context="com.bnorm.barkeep.activity.recipe.ViewRecipeActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/app_bar"
+    <data>
+
+        <variable
+            name="recipe"
+            type="com.bnorm.barkeep.server.data.store.Recipe" />
+    </data>
+
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/app_bar_height"
+        android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        android:theme="@style/AppTheme.NoActionBar.AppBarOverlay">
+        tools:context="com.bnorm.barkeep.activity.recipe.ViewRecipeActivity">
 
-        <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/toolbar_layout"
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/app_bar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="@dimen/app_bar_height"
             android:fitsSystemWindows="true"
-            app:contentScrim="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:statusBarScrim="?attr/colorPrimaryDark">
+            android:theme="@style/AppTheme.NoActionBar.AppBarOverlay">
 
-            <ImageView
-                android:id="@+id/toolbar_image"
+            <android.support.design.widget.CollapsingToolbarLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:contentDescription="Cocktail Image"
                 android:fitsSystemWindows="true"
-                android:scaleType="centerCrop"
-                android:src="@drawable/cocktail_image"
-                app:layout_collapseMode="parallax"
-                app:layout_collapseParallaxMultiplier="0.75" />
+                app:contentScrim="?attr/colorPrimary"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:statusBarScrim="?attr/colorPrimaryDark">
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:layout_marginTop="24dp"
-                android:fitsSystemWindows="true"
-                app:layout_collapseMode="pin"
-                app:popupTheme="@style/AppTheme.NoActionBar.PopupOverlay" />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:contentDescription="Cocktail Image"
+                    android:fitsSystemWindows="true"
+                    android:scaleType="centerCrop"
+                    app:imageUrl="@{recipe.picture}"
+                    app:layout_collapseMode="parallax"
+                    app:layout_collapseParallaxMultiplier="0.75" />
 
-        </android.support.design.widget.CollapsingToolbarLayout>
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:layout_marginTop="24dp"
+                    android:fitsSystemWindows="true"
+                    android:title="@{recipe.name}"
+                    app:layout_collapseMode="pin"
+                    app:popupTheme="@style/AppTheme.NoActionBar.PopupOverlay" />
 
-    </android.support.design.widget.AppBarLayout>
+            </android.support.design.widget.CollapsingToolbarLayout>
 
-    <include layout="@layout/content_view_recipe" />
+        </android.support.design.widget.AppBarLayout>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/ic_edit_white_24dp"
-        app:layout_anchor="@id/app_bar"
-        app:layout_anchorGravity="bottom|end" />
+        <include
+            android:id="@+id/content"
+            layout="@layout/content_view_recipe"
+            app:recipe="@{recipe}" />
 
-</android.support.design.widget.CoordinatorLayout>
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/fab_margin"
+            android:src="@drawable/ic_edit_white_24dp"
+            app:layout_anchor="@id/app_bar"
+            app:layout_anchorGravity="bottom|end" />
+
+    </android.support.design.widget.CoordinatorLayout>
+</layout>

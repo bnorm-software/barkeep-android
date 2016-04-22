@@ -49,7 +49,7 @@ public class IngredientShelvesFragment extends BaseFragment {
                                                                       false);
         shelves.setLayoutManager(manager);
 
-        IngredientShelfAdapter adapter = new IngredientShelfAdapter(getActivity());
+        IngredientShelfAdapter adapter = new IngredientShelfAdapter();
         shelves.setAdapter(adapter);
         if (mBar != null) {
             int num = 6;

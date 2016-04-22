@@ -1,5 +1,14 @@
 <resources>
 
+    <declare-styleable name="AspectRatioImageView">
+        <attr name="aspectRatio" format="float" />
+        <attr name="aspectRatioEnabled" format="boolean" />
+        <attr name="dominantMeasurement">
+            <enum name="width" value="0" />
+            <enum name="height" value="1" />
+        </attr>
+    </declare-styleable>
+
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->

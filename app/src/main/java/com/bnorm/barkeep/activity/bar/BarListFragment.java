@@ -21,14 +21,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import com.bnorm.barkeep.BarkeepApp;
 import com.bnorm.barkeep.R;
 import com.bnorm.barkeep.activity.MainActivity;
 import com.bnorm.barkeep.activity.recipe.edit.EditRecipeActivity;
 import com.bnorm.barkeep.activity.recipe.search.SearchRecipeActivity;
+import com.bnorm.barkeep.databinding.ItemBarBinding;
 import com.bnorm.barkeep.inject.app.AppComponent;
 import com.bnorm.barkeep.server.data.store.Bar;
 import com.bnorm.barkeep.ui.base.fragment.BaseFragment;
@@ -71,7 +70,7 @@ public class BarListFragment extends BaseFragment {
         mToggle.syncState();
         setHasOptionsMenu(true);
 
-        // todo should this only be available within a book?
+        // todo should this only be available within a bar?
         mFab = (FloatingActionButton) view.findViewById(R.id.fab);
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,7 +113,7 @@ public class BarListFragment extends BaseFragment {
         };
         task.execute();
 
-        if (view.findViewById(R.id.book_detail_container) != null) {
+        if (view.findViewById(R.id.bar_detail_container) != null) {
             mTwoPane = true;
         }
 
@@ -150,51 +149,48 @@ public class BarListFragment extends BaseFragment {
 
     public class BarAdapter extends RecyclerView.Adapter<BarAdapter.ViewHolder> {
 
-        private final List<Bar> mItems;
+        private final List<Bar> items;
 
         public BarAdapter() {
-            mItems = new ArrayList<>();
+            items = new ArrayList<>();
         }
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-            View view = inflater.inflate(R.layout.item_book, parent, false);
+            View view = inflater.inflate(R.layout.item_bar, parent, false);
             return new ViewHolder(view);
         }
 
         @Override
-        public void onBindViewHolder(final ViewHolder holder, int position) {
-            Bar item = mItems.get(position);
-            holder.mItem = item;
-            holder.mTitle.setText(item.getName());
+        public void onBindViewHolder(ViewHolder holder, int position) {
+            holder.binding.setBar(items.get(position));
         }
 
         @Override
         public int getItemCount() {
-            return mItems.size();
+            return items.size();
         }
 
-        public void set(List<Bar> books) {
-            mItems.clear();
-            mItems.addAll(books);
+        public void set(List<Bar> bars) {
+            items.clear();
+            items.addAll(bars);
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
-            @Bind(R.id.book_title) TextView mTitle;
-            public Bar mItem;
+            private final ItemBarBinding binding;
 
             public ViewHolder(View view) {
                 super(view);
-                ButterKnife.bind(this, view);
+                binding = ItemBarBinding.bind(view);
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (mTwoPane) {
                             IngredientShelvesFragment fragment = new IngredientShelvesFragment();
-                            fragment.setBar(mItem);
+                            fragment.setBar(binding.getBar());
                             getFragmentManager().beginTransaction()
-                                                .replace(R.id.book_detail_container, fragment)
+                                                .replace(R.id.bar_detail_container, fragment)
                                                 .commit();
                         } else {
                             Context context = v.getContext();
@@ -202,16 +198,11 @@ public class BarListFragment extends BaseFragment {
                             //                                                               R.anim.slide_in_from_right,
                             //                                                               R.anim.slide_out_to_right);
                             Intent intent = new Intent(context, BarDetailActivity.class);
-                            intent.putExtra(BarDetailActivity.BAR_TAG, mItem);
+                            intent.putExtra(BarDetailActivity.BAR_TAG, binding.getBar());
                             context.startActivity(intent);
                         }
                     }
                 });
-            }
-
-            @Override
-            public String toString() {
-                return super.toString() + " '" + mTitle.getText() + "'";
             }
         }
     }
