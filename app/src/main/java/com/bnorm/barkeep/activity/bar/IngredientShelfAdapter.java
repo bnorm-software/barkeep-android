@@ -13,7 +13,6 @@ import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.bnorm.barkeep.R;
-import com.bnorm.barkeep.lib.WrappingLinearLayoutManager;
 
 public class IngredientShelfAdapter extends RecyclerView.Adapter<IngredientShelfAdapter.RecipeViewHolder> {
 
@@ -61,9 +60,9 @@ public class IngredientShelfAdapter extends RecyclerView.Adapter<IngredientShelf
 
             adapter = new IngredientAdapter(activity);
             mIngredients.setAdapter(adapter);
-            mIngredients.setLayoutManager(new WrappingLinearLayoutManager(v.getContext(),
-                                                                          LinearLayoutManager.HORIZONTAL,
-                                                                          false));
+            mIngredients.setLayoutManager(new LinearLayoutManager(v.getContext(),
+                                                                  LinearLayoutManager.HORIZONTAL,
+                                                                  false));
         }
     }
 }
