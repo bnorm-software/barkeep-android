@@ -24,13 +24,14 @@ public class IngredientShelfAdapter extends RecyclerView.Adapter<IngredientShelf
     public RecipeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View v = inflater.inflate(R.layout.item_ingredient_shelf, parent, false);
-        return new RecipeViewHolder(v);
+        ItemIngredientShelfBinding binding = ItemIngredientShelfBinding.bind(v);
+        return new RecipeViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(RecipeViewHolder holder, int position) {
         BarShelf shelf = shelves.get(position);
-        holder.adapter.set(shelf.getIngredients());
+        holder.adapter.setAll(shelf.getIngredients());
     }
 
     @Override
@@ -47,15 +48,16 @@ public class IngredientShelfAdapter extends RecyclerView.Adapter<IngredientShelf
         private final ItemIngredientShelfBinding binding;
         private final IngredientAdapter adapter;
 
-        private RecipeViewHolder(View v) {
-            super(v);
-            binding = ItemIngredientShelfBinding.bind(v);
-            adapter = new IngredientAdapter();
+        private RecipeViewHolder(ItemIngredientShelfBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
+            this.adapter = new IngredientAdapter();
 
-            binding.ingredientShelfList.setAdapter(adapter);
-            binding.ingredientShelfList.setLayoutManager(new WrappingLinearLayoutManager(v.getContext(),
-                                                                                         LinearLayoutManager.HORIZONTAL,
-                                                                                         false));
+            RecyclerView ingredientShelfList = this.binding.ingredientShelfList;
+            ingredientShelfList.setAdapter(adapter);
+            ingredientShelfList.setLayoutManager(new WrappingLinearLayoutManager(binding.getRoot().getContext(),
+                                                                                 LinearLayoutManager.HORIZONTAL,
+                                                                                 false));
         }
     }
 }

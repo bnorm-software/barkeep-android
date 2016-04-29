@@ -39,10 +39,10 @@ public class RecipeGridFragment extends BaseFragment {
         GridLayoutManager manager = new GridLayoutManager(getContext(), 2);
         gridview.setLayoutManager(manager);
 
-        RecipeGridAdapter adapter = new RecipeGridAdapter(getActivity());
+        RecipeGridAdapter adapter = new RecipeGridAdapter();
         gridview.setAdapter(adapter);
         if (mBook != null) {
-            adapter.set(mBook.getRecipes());
+            adapter.setAll(mBook.getRecipes());
         }
 
         return root;
