@@ -13,7 +13,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.bnorm.barkeep.BarkeepApp;
 import com.bnorm.barkeep.R;
@@ -40,12 +40,12 @@ public class ViewRecipeActivity extends BaseActivity {
 
     // ===== View ===== //
 
-    @Bind(R.id.toolbar) Toolbar mToolbar;
-    @Bind(R.id.toolbar_image) ImageView mImageView;
-    @Bind(R.id.fab) FloatingActionButton mFab;
-    @Bind(R.id.recipe_view_description) TextView mDescription;
-    @Bind(R.id.recipe_view_directions) TextView mDirections;
-    @Bind(R.id.recipe_view_components) LinearLayout mComponents;
+    @BindView(R.id.toolbar) Toolbar mToolbar;
+    @BindView(R.id.toolbar_image) ImageView mImageView;
+    @BindView(R.id.fab) FloatingActionButton mFab;
+    @BindView(R.id.recipe_view_description) TextView mDescription;
+    @BindView(R.id.recipe_view_directions) TextView mDirections;
+    @BindView(R.id.recipe_view_components) LinearLayout mComponents;
 
 
     @Override

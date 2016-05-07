@@ -22,7 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.bnorm.barkeep.BarkeepApp;
 import com.bnorm.barkeep.R;
@@ -35,7 +35,7 @@ import com.bnorm.barkeep.ui.base.fragment.BaseFragment;
 
 public class BookListFragment extends BaseFragment {
 
-    @Bind(R.id.fab) FloatingActionButton mFab;
+    @BindView(R.id.fab) FloatingActionButton mFab;
 
     private MenuItem mSearch;
 
@@ -181,7 +181,7 @@ public class BookListFragment extends BaseFragment {
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
-            @Bind(R.id.book_title) TextView mTitle;
+            @BindView(R.id.book_title) TextView mTitle;
             public Book mItem;
 
             public ViewHolder(View view) {

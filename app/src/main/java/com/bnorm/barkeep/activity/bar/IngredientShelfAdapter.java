@@ -10,7 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.bnorm.barkeep.R;
 import com.bnorm.barkeep.lib.WrappingLinearLayoutManager;
@@ -50,8 +50,8 @@ public class IngredientShelfAdapter extends RecyclerView.Adapter<IngredientShelf
     }
 
     public class RecipeViewHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.ingredient_title) TextView mTitle;
-        @Bind(R.id.ingredient_shelf_list) RecyclerView mIngredients;
+        @BindView(R.id.ingredient_title) TextView mTitle;
+        @BindView(R.id.ingredient_shelf_list) RecyclerView mIngredients;
         private final IngredientAdapter adapter;
 
         private RecipeViewHolder(View v) {
