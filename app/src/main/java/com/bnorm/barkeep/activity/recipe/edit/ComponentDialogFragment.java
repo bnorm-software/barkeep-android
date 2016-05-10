@@ -21,7 +21,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.bnorm.barkeep.R;
 import com.bnorm.barkeep.lib.Retained;
-import com.bnorm.barkeep.lib.WrappingLinearLayoutManager;
 import com.bnorm.barkeep.server.data.store.Amount;
 import com.bnorm.barkeep.server.data.store.Component;
 import com.bnorm.barkeep.server.data.store.Ingredient;
@@ -120,9 +119,7 @@ public class ComponentDialogFragment extends AppCompatDialogFragment {
         mUnitSelect.setAdapter(mUnitAdapter);
 
         mIngredientAdapter = new IngredientAdapter(mIngredients);
-        mIngredients.setLayoutManager(new WrappingLinearLayoutManager(view.getContext(),
-                                                                      LinearLayoutManager.VERTICAL,
-                                                                      false));
+        mIngredients.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false));
         mIngredients.setNestedScrollingEnabled(false);
         mIngredients.setItemAnimator(null);
         mIngredients.setAdapter(mIngredientAdapter);

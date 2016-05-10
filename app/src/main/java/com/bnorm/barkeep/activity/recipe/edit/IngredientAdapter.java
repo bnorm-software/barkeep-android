@@ -67,7 +67,7 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.In
             });
 
             RxTextView.textChanges(this.mName).subscribe(text -> {
-                if (text.length() == 0) {
+                if (getLayoutPosition() < 0) {
                     return;
                 }
 

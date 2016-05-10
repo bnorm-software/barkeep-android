@@ -17,7 +17,6 @@ import butterknife.ButterKnife;
 import com.bnorm.barkeep.BarkeepApp;
 import com.bnorm.barkeep.R;
 import com.bnorm.barkeep.inject.app.AppComponent;
-import com.bnorm.barkeep.lib.WrappingLinearLayoutManager;
 import com.bnorm.barkeep.server.data.store.Component;
 import com.bnorm.barkeep.server.data.store.Recipe;
 import com.bnorm.barkeep.server.data.store.v1.endpoint.Endpoint;
@@ -138,7 +137,7 @@ public class EditRecipeActivity extends BaseActivity implements ComponentDialogF
         mComponents.setAdapter(mComponentAdapter);
         mComponents.setNestedScrollingEnabled(false);
         mComponents.setItemAnimator(null);
-        mComponents.setLayoutManager(new WrappingLinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        mComponents.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
         mAddComponent.setOnClickListener(new View.OnClickListener() {
             @Override
