@@ -12,7 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Toast;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.bnorm.barkeep.BarkeepApp;
 import com.bnorm.barkeep.R;
@@ -38,13 +38,13 @@ public class EditRecipeActivity extends BaseActivity implements ComponentDialogF
 
     // ===== View ===== //
 
-    @Bind(R.id.create_recipe_cancel) AppCompatImageButton mCancel;
-    @Bind(R.id.create_recipe_save) AppCompatButton mSave;
-    @Bind(R.id.create_recipe_name) AppCompatEditText mName;
-    @Bind(R.id.create_recipe_description) AppCompatEditText mDescription;
-    @Bind(R.id.create_recipe_directions) AppCompatEditText mDirections;
-    @Bind(R.id.create_recipe_components) RecyclerView mComponents;
-    @Bind(R.id.create_recipe_add_component) AppCompatButton mAddComponent;
+    @BindView(R.id.create_recipe_cancel) AppCompatImageButton mCancel;
+    @BindView(R.id.create_recipe_save) AppCompatButton mSave;
+    @BindView(R.id.create_recipe_name) AppCompatEditText mName;
+    @BindView(R.id.create_recipe_description) AppCompatEditText mDescription;
+    @BindView(R.id.create_recipe_directions) AppCompatEditText mDirections;
+    @BindView(R.id.create_recipe_components) RecyclerView mComponents;
+    @BindView(R.id.create_recipe_add_component) AppCompatButton mAddComponent;
 
 
     @Override

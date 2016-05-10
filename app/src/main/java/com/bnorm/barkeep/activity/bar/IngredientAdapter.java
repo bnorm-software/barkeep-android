@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.bnorm.barkeep.R;
 import com.bnorm.barkeep.server.data.store.Ingredient;
@@ -55,8 +55,8 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Re
     }
 
     public class RecipeViewHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.ingredient_image) ImageView mImage;
-        @Bind(R.id.ingredient_name) TextView mText;
+        @BindView(R.id.ingredient_image) ImageView mImage;
+        @BindView(R.id.ingredient_name) TextView mText;
 
         private RecipeViewHolder(View v) {
             super(v);

@@ -15,7 +15,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.bnorm.barkeep.BarkeepApp;
 import com.bnorm.barkeep.R;
@@ -33,8 +33,8 @@ public class SearchRecipeActivity extends BaseActivity {
 
     // ===== View ===== //
 
-    @Bind(R.id.recipe_search_results) RecyclerView mSearchResults;
-    @Bind(R.id.search) SearchView mSearchView;
+    @BindView(R.id.recipe_search_results) RecyclerView mSearchResults;
+    @BindView(R.id.search) SearchView mSearchView;
 
 
     @Override

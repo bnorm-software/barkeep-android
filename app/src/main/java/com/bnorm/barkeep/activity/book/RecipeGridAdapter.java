@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.bnorm.barkeep.R;
 import com.bnorm.barkeep.activity.recipe.ViewRecipeActivity;
@@ -69,8 +69,8 @@ public class RecipeGridAdapter extends RecyclerView.Adapter<RecipeGridAdapter.Re
     }
 
     public class RecipeViewHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.recipe_image) ImageView mImage;
-        @Bind(R.id.recipe_name) TextView mText;
+        @BindView(R.id.recipe_image) ImageView mImage;
+        @BindView(R.id.recipe_name) TextView mText;
         private final int size;
 
         private RecipeViewHolder(View v, int size) {
