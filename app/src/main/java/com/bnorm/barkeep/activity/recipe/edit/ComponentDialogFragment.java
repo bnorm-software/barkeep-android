@@ -17,11 +17,10 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.ViewSwitcher;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.bnorm.barkeep.R;
 import com.bnorm.barkeep.lib.Retained;
-import com.bnorm.barkeep.lib.WrappingLinearLayoutManager;
 import com.bnorm.barkeep.server.data.store.Amount;
 import com.bnorm.barkeep.server.data.store.Component;
 import com.bnorm.barkeep.server.data.store.Ingredient;
@@ -44,13 +43,13 @@ public class ComponentDialogFragment extends AppCompatDialogFragment {
     private Component mComponent;
     private Integer mLocation;
 
-    @Bind(R.id.component_edit_range_view_switcher) ViewSwitcher mRangeViewSwitcher;
-    @Bind(R.id.component_edit_range_switch) Switch mRangeSwitch;
-    @Bind(R.id.component_edit_amount_recommended) EditText mAmountRecommended;
-    @Bind(R.id.component_edit_amount_min) EditText mAmountMin;
-    @Bind(R.id.component_edit_amount_max) EditText mAmountMax;
-    @Bind(R.id.component_edit_unit_spinner) Spinner mUnitSelect;
-    @Bind(R.id.component_edit_ingredients) RecyclerView mIngredients;
+    @BindView(R.id.component_edit_range_view_switcher) ViewSwitcher mRangeViewSwitcher;
+    @BindView(R.id.component_edit_range_switch) Switch mRangeSwitch;
+    @BindView(R.id.component_edit_amount_recommended) EditText mAmountRecommended;
+    @BindView(R.id.component_edit_amount_min) EditText mAmountMin;
+    @BindView(R.id.component_edit_amount_max) EditText mAmountMax;
+    @BindView(R.id.component_edit_unit_spinner) Spinner mUnitSelect;
+    @BindView(R.id.component_edit_ingredients) RecyclerView mIngredients;
     private ArrayAdapter<CharSequence> mUnitAdapter;
     private IngredientAdapter mIngredientAdapter;
     private ComponentDialogListener mListener;
@@ -120,9 +119,7 @@ public class ComponentDialogFragment extends AppCompatDialogFragment {
         mUnitSelect.setAdapter(mUnitAdapter);
 
         mIngredientAdapter = new IngredientAdapter(mIngredients);
-        mIngredients.setLayoutManager(new WrappingLinearLayoutManager(view.getContext(),
-                                                                      LinearLayoutManager.VERTICAL,
-                                                                      false));
+        mIngredients.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false));
         mIngredients.setNestedScrollingEnabled(false);
         mIngredients.setItemAnimator(null);
         mIngredients.setAdapter(mIngredientAdapter);

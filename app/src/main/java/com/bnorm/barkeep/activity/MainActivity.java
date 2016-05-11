@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.bnorm.barkeep.R;
 import com.bnorm.barkeep.activity.bar.BarListFragment;
@@ -18,7 +18,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     public static final String FRAG_TAG = MainActivity.class.getName();
 
-    @Bind(R.id.drawer_layout) DrawerLayout mDrawer;
+    @BindView(R.id.drawer_layout) DrawerLayout mDrawer;
     private FragmentManager mFragmentManager;
     private Fragment mFragment;
 

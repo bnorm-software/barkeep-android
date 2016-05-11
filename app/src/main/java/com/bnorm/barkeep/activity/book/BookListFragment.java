@@ -21,21 +21,21 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.bnorm.barkeep.BarkeepApp;
 import com.bnorm.barkeep.R;
 import com.bnorm.barkeep.activity.MainActivity;
 import com.bnorm.barkeep.activity.recipe.edit.EditRecipeActivity;
 import com.bnorm.barkeep.activity.recipe.search.SearchRecipeActivity;
+import com.bnorm.barkeep.databinding.ItemBookBinding;
 import com.bnorm.barkeep.inject.app.AppComponent;
 import com.bnorm.barkeep.server.data.store.Book;
 import com.bnorm.barkeep.ui.base.fragment.BaseFragment;
 
 public class BookListFragment extends BaseFragment {
 
-    @Bind(R.id.fab) FloatingActionButton mFab;
+    @BindView(R.id.fab) FloatingActionButton mFab;
 
     private MenuItem mSearch;
 
@@ -150,10 +150,10 @@ public class BookListFragment extends BaseFragment {
 
     public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
 
-        private final List<Book> mItems;
+        private final List<Book> items;
 
         public BookAdapter() {
-            mItems = new ArrayList<>();
+            items = new ArrayList<>();
         }
 
         @Override
@@ -165,34 +165,31 @@ public class BookListFragment extends BaseFragment {
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
-            Book item = mItems.get(position);
-            holder.mItem = item;
-            holder.mTitle.setText(item.getName());
+            holder.binding.setBook(items.get(position));
         }
 
         @Override
         public int getItemCount() {
-            return mItems.size();
+            return items.size();
         }
 
         public void set(List<Book> books) {
-            mItems.clear();
-            mItems.addAll(books);
+            items.clear();
+            items.addAll(books);
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
-            @Bind(R.id.book_title) TextView mTitle;
-            public Book mItem;
+            private final ItemBookBinding binding;
 
             public ViewHolder(View view) {
                 super(view);
-                ButterKnife.bind(this, view);
+                binding = ItemBookBinding.bind(view);
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (mTwoPane) {
                             RecipeGridFragment fragment = new RecipeGridFragment();
-                            fragment.setBook(mItem);
+                            fragment.setBook(binding.getBook());
                             getFragmentManager().beginTransaction()
                                                 .replace(R.id.book_detail_container, fragment)
                                                 .commit();
@@ -202,16 +199,11 @@ public class BookListFragment extends BaseFragment {
                             //                                                               R.anim.slide_in_from_right,
                             //                                                               R.anim.slide_out_to_right);
                             Intent intent = new Intent(context, BookDetailActivity.class);
-                            intent.putExtra(BookDetailActivity.BOOK_TAG, mItem);
+                            intent.putExtra(BookDetailActivity.BOOK_TAG, binding.getBook());
                             context.startActivity(intent);
                         }
                     }
                 });
-            }
-
-            @Override
-            public String toString() {
-                return super.toString() + " '" + mTitle.getText() + "'";
             }
         }
     }

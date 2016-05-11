@@ -1,33 +1,19 @@
 package com.bnorm.barkeep.activity.recipe;
 
-import java.io.IOException;
-
 import android.content.Intent;
-import android.os.AsyncTask;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import com.bnorm.barkeep.BarkeepApp;
 import com.bnorm.barkeep.R;
 import com.bnorm.barkeep.activity.recipe.edit.EditRecipeActivity;
-import com.bnorm.barkeep.inject.app.AppComponent;
+import com.bnorm.barkeep.databinding.ActivityViewRecipeBinding;
 import com.bnorm.barkeep.server.data.store.Amount;
 import com.bnorm.barkeep.server.data.store.Component;
 import com.bnorm.barkeep.server.data.store.Ingredient;
-import com.bnorm.barkeep.server.data.store.Recipe;
 import com.bnorm.barkeep.ui.base.activity.BaseActivity;
-import com.bumptech.glide.DrawableTypeRequest;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestManager;
-import com.google.common.base.Preconditions;
 
 public class ViewRecipeActivity extends BaseActivity {
 
@@ -35,40 +21,24 @@ public class ViewRecipeActivity extends BaseActivity {
 
     // ===== Model ===== //
 
-    private Recipe mRecipe;
-
-
-    // ===== View ===== //
-
-    @Bind(R.id.toolbar) Toolbar mToolbar;
-    @Bind(R.id.toolbar_image) ImageView mImageView;
-    @Bind(R.id.fab) FloatingActionButton mFab;
-    @Bind(R.id.recipe_view_description) TextView mDescription;
-    @Bind(R.id.recipe_view_directions) TextView mDirections;
-    @Bind(R.id.recipe_view_components) LinearLayout mComponents;
+    private ActivityViewRecipeBinding binding;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        AppComponent appComponent = ((BarkeepApp) getApplication()).getAppComponent();
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_view_recipe);
 
-        setContentView(R.layout.activity_view_recipe);
-        ButterKnife.bind(this);
-        Bundle bundle = getIntent().getExtras();
 
         // ===== Pull intent extras ===== //
+        Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            mRecipe = bundle.getParcelable(RECIPE_TAG);
-        }
-        if (mRecipe == null) {
-            mRecipe = new Recipe();
+            binding.setRecipe(bundle.getParcelable(RECIPE_TAG));
         }
 
 
         // ===== Configure toolbar ===== //
-        mToolbar.setTitle(mRecipe.getName());
-        setSupportActionBar(mToolbar);
+        setSupportActionBar(binding.toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             // Show the Up button in the action bar.
@@ -78,54 +48,18 @@ public class ViewRecipeActivity extends BaseActivity {
 
         // ===== Configure floating button ===== //
         // todo what should be done with this floating action button?
-        mFab.setOnClickListener(new View.OnClickListener() {
+        binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(ViewRecipeActivity.this, EditRecipeActivity.class);
-                intent.putExtra(EditRecipeActivity.RECIPE_TAG, mRecipe);
+                intent.putExtra(EditRecipeActivity.RECIPE_TAG, binding.getRecipe());
                 startActivity(intent);
             }
         });
 
 
         // ===== Load recipe information ===== //
-        if (mRecipe == null) {
-            AsyncTask<String, Void, Recipe> task = new AsyncTask<String, Void, Recipe>() {
-                @Override
-                protected Recipe doInBackground(String... params) {
-                    String name = Preconditions.checkNotNull(params[0]);
-                    try {
-                        return new Recipe(appComponent.endpoint().getRecipe(name).execute());
-                    } catch (IOException e) {
-                        return null;
-                    }
-                }
-
-                @Override
-                protected void onPostExecute(Recipe recipe) {
-                    mRecipe = recipe;
-                    loadRecipe(recipe);
-                }
-            };
-            task.execute(mRecipe.getName());
-        } else {
-            loadRecipe(mRecipe);
-        }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            // Respond to the action bar's Up/Home button
-            case android.R.id.home:
-                onBackPressed();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void loadRecipe(Recipe recipe) {
-        for (Component component : recipe.getComponents()) {
+        for (Component component : binding.getRecipe().getComponents()) {
             StringBuilder builder = new StringBuilder();
             Amount amount = component.getAmount();
             if (amount.getRecommended() != null) {
@@ -148,22 +82,21 @@ public class ViewRecipeActivity extends BaseActivity {
                 first = false;
             }
 
-            // todo RecycleView?
+            // todo RecycleView
             TextView inflate = (TextView) getLayoutInflater().inflate(android.R.layout.simple_list_item_1, null);
             inflate.setText(builder.toString());
-            mComponents.addView(inflate);
+            binding.content.recipeViewComponents.addView(inflate);
         }
+    }
 
-        mDescription.setText(recipe.getDescription());
-        mDirections.setText(recipe.getDirections());
-
-        RequestManager with = Glide.with(this);
-        DrawableTypeRequest<?> load;
-        if (recipe.getPicture() != null) {
-            load = with.load(recipe.getPicture());
-        } else {
-            load = with.load(R.drawable.cocktail_image);
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                onBackPressed();
+                return true;
         }
-        load.centerCrop().into(mImageView);
+        return super.onOptionsItemSelected(item);
     }
 }
