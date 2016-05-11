@@ -14,9 +14,7 @@ import android.view.View;
 import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import com.bnorm.barkeep.BarkeepApp;
 import com.bnorm.barkeep.R;
-import com.bnorm.barkeep.inject.app.AppComponent;
 import com.bnorm.barkeep.server.data.store.Component;
 import com.bnorm.barkeep.server.data.store.Recipe;
 import com.bnorm.barkeep.server.data.store.v1.endpoint.Endpoint;
@@ -50,7 +48,6 @@ public class EditRecipeActivity extends BaseActivity implements ComponentDialogF
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        AppComponent appComponent = ((BarkeepApp) getApplication()).getAppComponent();
 
         setContentView(R.layout.activity_create_recipe);
         ButterKnife.bind(this);
@@ -95,7 +92,7 @@ public class EditRecipeActivity extends BaseActivity implements ComponentDialogF
                         Recipe recipe = Preconditions.checkNotNull(params[0]);
                         boolean exists = false;
                         try {
-                            Endpoint.GetRecipe request = appComponent.endpoint().getRecipe(recipe.getName());
+                            Endpoint.GetRecipe request = component().endpoint().getRecipe(recipe.getName());
                             request.execute();
                         } catch (IOException e) {
                             log.warn("Unable to retrieve recipe", e);
@@ -103,9 +100,9 @@ public class EditRecipeActivity extends BaseActivity implements ComponentDialogF
                         }
                         if (exists) {
                             try {
-                                Endpoint.UpdateRecipe request = appComponent.endpoint()
-                                                                            .updateRecipe(recipe.getName(),
-                                                                                          recipe.toStore());
+                                Endpoint.UpdateRecipe request = component().endpoint()
+                                                                           .updateRecipe(recipe.getName(),
+                                                                                               recipe.toStore());
                                 request.execute();
                             } catch (IOException e) {
                                 e.printStackTrace();
@@ -113,7 +110,8 @@ public class EditRecipeActivity extends BaseActivity implements ComponentDialogF
                         } else {
 
                             try {
-                                Endpoint.InsertRecipe request = appComponent.endpoint().insertRecipe(recipe.toStore());
+                                Endpoint.InsertRecipe request = component().endpoint()
+                                                                           .insertRecipe(recipe.toStore());
                                 request.execute();
                             } catch (IOException e) {
                                 e.printStackTrace();

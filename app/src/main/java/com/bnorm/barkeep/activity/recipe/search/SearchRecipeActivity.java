@@ -17,9 +17,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import com.bnorm.barkeep.BarkeepApp;
 import com.bnorm.barkeep.R;
-import com.bnorm.barkeep.inject.app.AppComponent;
 import com.bnorm.barkeep.server.data.store.Recipe;
 import com.bnorm.barkeep.ui.base.activity.BaseActivity;
 import com.google.common.base.Preconditions;
@@ -40,7 +38,6 @@ public class SearchRecipeActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        AppComponent appComponent = ((BarkeepApp) getApplication()).getAppComponent();
 
         setContentView(R.layout.activity_search_recipe);
         ButterKnife.bind(this);
@@ -69,7 +66,7 @@ public class SearchRecipeActivity extends BaseActivity {
                         String name = Preconditions.checkNotNull(params[0]);
                         try {
                             List<com.bnorm.barkeep.server.data.store.v1.endpoint.model.Recipe> recipes;
-                            recipes = appComponent.endpoint().listRecipes().setName(name).execute().getItems();
+                            recipes = component().endpoint().listRecipes().setName(name).execute().getItems();
                             if (recipes != null) {
                                 List<Recipe> items = new ArrayList<>();
                                 for (com.bnorm.barkeep.server.data.store.v1.endpoint.model.Recipe recipe : recipes) {

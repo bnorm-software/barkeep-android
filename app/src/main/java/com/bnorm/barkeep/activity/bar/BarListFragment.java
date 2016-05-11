@@ -22,13 +22,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import butterknife.BindView;
-import com.bnorm.barkeep.BarkeepApp;
 import com.bnorm.barkeep.R;
 import com.bnorm.barkeep.activity.MainActivity;
 import com.bnorm.barkeep.activity.recipe.edit.EditRecipeActivity;
 import com.bnorm.barkeep.activity.recipe.search.SearchRecipeActivity;
 import com.bnorm.barkeep.databinding.ItemBarBinding;
-import com.bnorm.barkeep.inject.app.AppComponent;
 import com.bnorm.barkeep.server.data.store.Bar;
 import com.bnorm.barkeep.ui.base.fragment.BaseFragment;
 
@@ -45,8 +43,6 @@ public class BarListFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        AppComponent appComponent = ((BarkeepApp) getActivity().getApplication()).getAppComponent();
-
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_bar_list, container, false);
 
@@ -90,7 +86,7 @@ public class BarListFragment extends BaseFragment {
             protected List<Bar> doInBackground(Void... params) {
                 try {
                     List<com.bnorm.barkeep.server.data.store.v1.endpoint.model.Bar> bars;
-                    bars = appComponent.endpoint().listBars().execute().getItems();
+                    bars = component().endpoint().listBars().execute().getItems();
                     if (bars != null) {
                         List<Bar> items = new ArrayList<>();
                         for (com.bnorm.barkeep.server.data.store.v1.endpoint.model.Bar bar : bars) {
