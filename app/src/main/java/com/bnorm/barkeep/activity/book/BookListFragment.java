@@ -23,13 +23,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import com.bnorm.barkeep.BarkeepApp;
 import com.bnorm.barkeep.R;
 import com.bnorm.barkeep.activity.MainActivity;
 import com.bnorm.barkeep.activity.recipe.edit.EditRecipeActivity;
 import com.bnorm.barkeep.activity.recipe.search.SearchRecipeActivity;
 import com.bnorm.barkeep.databinding.ItemBookBinding;
-import com.bnorm.barkeep.inject.app.AppComponent;
 import com.bnorm.barkeep.server.data.store.Book;
 import com.bnorm.barkeep.ui.base.fragment.BaseFragment;
 
@@ -46,8 +44,6 @@ public class BookListFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        AppComponent appComponent = ((BarkeepApp) getActivity().getApplication()).getAppComponent();
-
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_book_list, container, false);
         ButterKnife.bind(this, view);
@@ -91,7 +87,7 @@ public class BookListFragment extends BaseFragment {
             protected List<Book> doInBackground(Void... params) {
                 try {
                     List<com.bnorm.barkeep.server.data.store.v1.endpoint.model.Book> books;
-                    books = appComponent.endpoint().listBooks().execute().getItems();
+                    books = component().endpoint().listBooks().execute().getItems();
                     if (books != null) {
                         List<Book> items = new ArrayList<>();
                         for (com.bnorm.barkeep.server.data.store.v1.endpoint.model.Book book : books) {
