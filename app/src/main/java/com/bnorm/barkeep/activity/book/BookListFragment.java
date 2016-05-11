@@ -21,7 +21,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.bnorm.barkeep.BarkeepApp;
 import com.bnorm.barkeep.R;
@@ -35,7 +35,7 @@ import com.bnorm.barkeep.ui.base.fragment.BaseFragment;
 
 public class BookListFragment extends BaseFragment {
 
-    @Bind(R.id.fab) FloatingActionButton mFab;
+    @BindView(R.id.fab) FloatingActionButton mFab;
 
     private MenuItem mSearch;
 

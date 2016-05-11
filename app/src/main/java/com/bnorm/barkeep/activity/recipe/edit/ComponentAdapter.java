@@ -10,7 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.bnorm.barkeep.R;
 import com.bnorm.barkeep.server.data.store.Amount;
@@ -93,8 +93,8 @@ public class ComponentAdapter extends RecyclerView.Adapter<ComponentAdapter.Comp
     }
 
     public class ComponentViewHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.component_edit_amount) TextView mAmount;
-        @Bind(R.id.component_edit_ingredients) TextView mIngredients;
+        @BindView(R.id.component_edit_amount) TextView mAmount;
+        @BindView(R.id.component_edit_ingredients) TextView mIngredients;
 
         private ComponentViewHolder(View view) {
             super(view);

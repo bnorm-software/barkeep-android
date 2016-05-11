@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.bnorm.barkeep.R;
 import com.bnorm.barkeep.lib.Retained;
-import com.bnorm.barkeep.lib.WrappingLinearLayoutManager;
 import com.bnorm.barkeep.server.data.store.Bar;
 import com.bnorm.barkeep.server.data.store.Ingredient;
 import com.bnorm.barkeep.ui.base.fragment.BaseFragment;
@@ -44,9 +43,7 @@ public class IngredientShelvesFragment extends BaseFragment {
         View root = inflater.inflate(R.layout.fragment_ingredient_shelves, container, false);
 
         RecyclerView shelves = (RecyclerView) root.findViewById(R.id.ingredient_shelves);
-        LinearLayoutManager manager = new WrappingLinearLayoutManager(root.getContext(),
-                                                                      LinearLayoutManager.VERTICAL,
-                                                                      false);
+        LinearLayoutManager manager = new LinearLayoutManager(root.getContext(), LinearLayoutManager.VERTICAL, false);
         shelves.setLayoutManager(manager);
 
         IngredientShelfAdapter adapter = new IngredientShelfAdapter();

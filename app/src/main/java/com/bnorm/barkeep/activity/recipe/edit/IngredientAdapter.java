@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.bnorm.barkeep.R;
 import com.jakewharton.rxbinding.widget.RxTextView;
@@ -50,8 +50,8 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.In
     }
 
     public class IngredientViewHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.ingredient_edit_leading_text) TextView mLeadingText;
-        @Bind(R.id.ingredient_edit) EditText mName;
+        @BindView(R.id.ingredient_edit_leading_text) TextView mLeadingText;
+        @BindView(R.id.ingredient_edit) EditText mName;
 
         private IngredientViewHolder(View v) {
             super(v);
@@ -67,7 +67,7 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.In
             });
 
             RxTextView.textChanges(this.mName).subscribe(text -> {
-                if (text.length() == 0) {
+                if (getLayoutPosition() < 0) {
                     return;
                 }
 

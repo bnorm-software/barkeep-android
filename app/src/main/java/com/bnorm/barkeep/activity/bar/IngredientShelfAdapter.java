@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.bnorm.barkeep.R;
 import com.bnorm.barkeep.databinding.ItemIngredientShelfBinding;
-import com.bnorm.barkeep.lib.WrappingLinearLayoutManager;
 
 public class IngredientShelfAdapter extends RecyclerView.Adapter<IngredientShelfAdapter.RecipeViewHolder> {
 
@@ -55,9 +54,9 @@ public class IngredientShelfAdapter extends RecyclerView.Adapter<IngredientShelf
 
             RecyclerView ingredientShelfList = this.binding.ingredientShelfList;
             ingredientShelfList.setAdapter(adapter);
-            ingredientShelfList.setLayoutManager(new WrappingLinearLayoutManager(binding.getRoot().getContext(),
-                                                                                 LinearLayoutManager.HORIZONTAL,
-                                                                                 false));
+            ingredientShelfList.setLayoutManager(new LinearLayoutManager(binding.getRoot().getContext(),
+                                                                         LinearLayoutManager.HORIZONTAL,
+                                                                         false));
         }
     }
 }

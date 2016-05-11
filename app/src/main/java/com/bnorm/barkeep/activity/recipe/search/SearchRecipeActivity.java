@@ -15,12 +15,11 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.bnorm.barkeep.BarkeepApp;
 import com.bnorm.barkeep.R;
 import com.bnorm.barkeep.inject.app.AppComponent;
-import com.bnorm.barkeep.lib.WrappingLinearLayoutManager;
 import com.bnorm.barkeep.server.data.store.Recipe;
 import com.bnorm.barkeep.ui.base.activity.BaseActivity;
 import com.google.common.base.Preconditions;
@@ -34,8 +33,8 @@ public class SearchRecipeActivity extends BaseActivity {
 
     // ===== View ===== //
 
-    @Bind(R.id.recipe_search_results) RecyclerView mSearchResults;
-    @Bind(R.id.search) SearchView mSearchView;
+    @BindView(R.id.recipe_search_results) RecyclerView mSearchResults;
+    @BindView(R.id.search) SearchView mSearchView;
 
 
     @Override
@@ -58,7 +57,7 @@ public class SearchRecipeActivity extends BaseActivity {
         mSearchResultsAdapter = new RecipeAdapter(this);
 
         mSearchResults.setAdapter(mSearchResultsAdapter);
-        mSearchResults.setLayoutManager(new WrappingLinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        mSearchResults.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
         mSearchView.onActionViewExpanded();
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
