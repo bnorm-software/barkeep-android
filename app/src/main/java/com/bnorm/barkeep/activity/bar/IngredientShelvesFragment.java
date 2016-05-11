@@ -46,7 +46,7 @@ public class IngredientShelvesFragment extends BaseFragment {
         LinearLayoutManager manager = new LinearLayoutManager(root.getContext(), LinearLayoutManager.VERTICAL, false);
         shelves.setLayoutManager(manager);
 
-        IngredientShelfAdapter adapter = new IngredientShelfAdapter(getActivity());
+        IngredientShelfAdapter adapter = new IngredientShelfAdapter();
         shelves.setAdapter(adapter);
         if (mBar != null) {
             int num = 6;

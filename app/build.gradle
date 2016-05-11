@@ -42,12 +42,15 @@ android {
     lintOptions {
         abortOnError false
     }
+    dataBinding {
+        enabled = true
+        version = "2.0.0"
+    }
 }
 
 dependencies {
     retrolambdaConfig 'net.orfjackal.retrolambda:retrolambda:2.3.0'
 
-    compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(path: ':backend', configuration: 'android-endpoints')
     compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'com.android.support:support-v4:23.3.0'
