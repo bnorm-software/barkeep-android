@@ -1,13 +1,11 @@
 package com.bnorm.barkeep.activity.book;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.DrawerLayout;
@@ -15,6 +13,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -30,6 +29,9 @@ import com.bnorm.barkeep.activity.recipe.search.SearchRecipeActivity;
 import com.bnorm.barkeep.databinding.ItemBookBinding;
 import com.bnorm.barkeep.server.data.store.Book;
 import com.bnorm.barkeep.ui.base.fragment.BaseFragment;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class BookListFragment extends BaseFragment {
 
@@ -82,33 +84,22 @@ public class BookListFragment extends BaseFragment {
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.book_list);
         recyclerView.setAdapter(adapter);
 
-        AsyncTask<Void, Void, List<Book>> task = new AsyncTask<Void, Void, List<Book>>() {
-            @Override
-            protected List<Book> doInBackground(Void... params) {
-                try {
-                    List<com.bnorm.barkeep.server.data.store.v1.endpoint.model.Book> books;
-                    books = component().endpoint().listBooks().execute().getItems();
-                    if (books != null) {
-                        List<Book> items = new ArrayList<>();
-                        for (com.bnorm.barkeep.server.data.store.v1.endpoint.model.Book book : books) {
-                            items.add(new Book(book));
-                        }
-                        return items;
-                    } else {
-                        return Collections.emptyList();
-                    }
-                } catch (IOException e) {
-                    return Collections.emptyList();
+        Observable.<List<Book>>fromCallable(() -> {
+            List<com.bnorm.barkeep.server.data.store.v1.endpoint.model.Book> books;
+            books = component().endpoint().listBooks().execute().getItems();
+            if (books != null) {
+                List<Book> items = new ArrayList<>();
+                for (com.bnorm.barkeep.server.data.store.v1.endpoint.model.Book book : books) {
+                    items.add(new Book(book));
                 }
+                return items;
+            } else {
+                return Collections.emptyList();
             }
-
-            @Override
-            protected void onPostExecute(List<Book> result) {
-                adapter.set(result);
-                adapter.notifyDataSetChanged();
-            }
-        };
-        task.execute();
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(result -> {
+            adapter.set(result);
+            adapter.notifyDataSetChanged();
+        });
 
         if (view.findViewById(R.id.book_detail_container) != null) {
             mTwoPane = true;
