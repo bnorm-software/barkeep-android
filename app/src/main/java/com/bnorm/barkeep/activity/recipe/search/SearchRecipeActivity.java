@@ -7,7 +7,6 @@ import java.util.List;
 
 import android.app.SearchManager;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,6 +20,11 @@ import com.bnorm.barkeep.R;
 import com.bnorm.barkeep.server.data.store.Recipe;
 import com.bnorm.barkeep.ui.base.activity.BaseActivity;
 import com.google.common.base.Preconditions;
+import com.jakewharton.rxbinding.support.v7.widget.RxSearchView;
+import com.jakewharton.rxbinding.support.v7.widget.SearchViewQueryTextEvent;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class SearchRecipeActivity extends BaseActivity {
 
@@ -57,13 +61,10 @@ public class SearchRecipeActivity extends BaseActivity {
         mSearchResults.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
         mSearchView.onActionViewExpanded();
-        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                AsyncTask<String, Void, List<Recipe>> task = new AsyncTask<String, Void, List<Recipe>>() {
-                    @Override
-                    protected List<Recipe> doInBackground(String... params) {
-                        String name = Preconditions.checkNotNull(params[0]);
+        RxSearchView.queryTextChangeEvents(mSearchView)
+                    .filter(SearchViewQueryTextEvent::isSubmitted)
+                    .flatMap(event -> Observable.<List<Recipe>>fromCallable(() -> {
+                        String name = Preconditions.checkNotNull(event.queryText().toString());
                         try {
                             List<com.bnorm.barkeep.server.data.store.v1.endpoint.model.Recipe> recipes;
                             recipes = component().endpoint().listRecipes().setName(name).execute().getItems();
@@ -79,23 +80,12 @@ public class SearchRecipeActivity extends BaseActivity {
                         } catch (IOException e) {
                             return Collections.emptyList();
                         }
-                    }
-
-                    @Override
-                    protected void onPostExecute(List<Recipe> result) {
+                    }).subscribeOn(Schedulers.io()))
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(result -> {
                         mSearchResultsAdapter.set(result);
                         mSearchResultsAdapter.notifyDataSetChanged();
-                    }
-                };
-                task.execute(query);
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String query) {
-                return true;
-            }
-        });
+                    });
 
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
