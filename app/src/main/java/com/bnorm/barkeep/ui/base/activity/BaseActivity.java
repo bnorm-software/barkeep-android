@@ -1,12 +1,12 @@
 package com.bnorm.barkeep.ui.base.activity;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import com.bnorm.barkeep.BarkeepApp;
 import com.bnorm.barkeep.inject.activity.ActivityComponent;
 import com.bnorm.barkeep.inject.activity.DaggerActivityComponent;
+import com.trello.navi.component.support.NaviAppCompatActivity;
 
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends NaviAppCompatActivity {
 
     private ActivityComponent component;
 
