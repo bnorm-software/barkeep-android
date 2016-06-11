@@ -1,15 +1,22 @@
 package com.bnorm.barkeep.activity.book;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.bnorm.barkeep.R;
+import com.bnorm.barkeep.activity.recipe.ViewRecipeActivity;
+import com.bnorm.barkeep.databinding.ItemRecipeGridBinding;
+import com.bnorm.barkeep.lib.ListBindingAdapter;
 import com.bnorm.barkeep.server.data.store.Book;
+import com.bnorm.barkeep.server.data.store.Recipe;
 import com.bnorm.barkeep.ui.base.fragment.BaseFragment;
 
 public class RecipeGridFragment extends BaseFragment {
@@ -46,5 +53,29 @@ public class RecipeGridFragment extends BaseFragment {
         }
 
         return root;
+    }
+
+    private class RecipeGridAdapter extends ListBindingAdapter<Recipe, ItemRecipeGridBinding> {
+
+        @Override
+        public BindingViewHolder<ItemRecipeGridBinding> onCreateViewHolder(ViewGroup parent, int viewType) {
+            LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+            ItemRecipeGridBinding binding = ItemRecipeGridBinding.inflate(inflater, parent, false);
+            binding.getRoot().setOnClickListener(view -> {
+                Context context = view.getContext();
+                Intent intent = new Intent(context, ViewRecipeActivity.class);
+                intent.putExtra(ViewRecipeActivity.RECIPE_TAG, binding.getRecipe());
+                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(),
+                                                                                                   binding.recipeImage,
+                                                                                                   "recipeImage");
+                context.startActivity(intent, options.toBundle());
+            });
+            return new BindingViewHolder<>(binding);
+        }
+
+        @Override
+        public void onBindViewHolder(BindingViewHolder<ItemRecipeGridBinding> holder, int position) {
+            holder.getBinding().setRecipe(items.get(position));
+        }
     }
 }

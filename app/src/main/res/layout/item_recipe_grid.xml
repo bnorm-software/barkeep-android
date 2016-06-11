@@ -15,10 +15,13 @@
         android:clickable="true">
 
         <com.squareup.widgets.AspectRatioImageView
+            android:id="@+id/recipe_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
             android:contentDescription="@{recipe.picture}"
+            android:scaleType="centerCrop"
+            android:transitionName="recipeImage"
             app:aspectRatio="1"
             app:aspectRatioEnabled="true"
             app:dominantMeasurement="width"
