@@ -14,7 +14,7 @@ android:
 
 
 script:
-  - ./gradlew assemble lint
+  - ./gradlew build
 
 after_script:
   # Emulator Management: Create, Start and Wait
