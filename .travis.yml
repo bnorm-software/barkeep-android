@@ -27,6 +27,7 @@ before_cache:
 env:
   global:
     - ADB_INSTALL_TIMEOUT=8
+    - DX_HEAP_SIZE=2048
 
 cache:
   directories:
