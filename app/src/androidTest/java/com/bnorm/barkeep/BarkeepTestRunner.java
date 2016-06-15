@@ -1,6 +1,5 @@
 package com.bnorm.barkeep;
 
-import android.annotation.SuppressLint;
 import android.app.KeyguardManager;
 import android.content.Context;
 import android.os.PowerManager;
@@ -16,15 +15,15 @@ import static android.os.PowerManager.ON_AFTER_RELEASE;
 public final class BarkeepTestRunner extends AndroidJUnitRunner {
     private PowerManager.WakeLock wakeLock;
 
-    @SuppressLint("MissingPermission")
     @Override
     public void onStart() {
         Context app = getTargetContext().getApplicationContext();
-
         String name = BarkeepTestRunner.class.getSimpleName();
+
         // Unlock the device so that the tests can input keystrokes.
         KeyguardManager keyguard = (KeyguardManager) app.getSystemService(KEYGUARD_SERVICE);
         keyguard.newKeyguardLock(name).disableKeyguard();
+
         // Wake up the screen.
         PowerManager power = (PowerManager) app.getSystemService(POWER_SERVICE);
         wakeLock = power.newWakeLock(FULL_WAKE_LOCK | ACQUIRE_CAUSES_WAKEUP | ON_AFTER_RELEASE, name);
