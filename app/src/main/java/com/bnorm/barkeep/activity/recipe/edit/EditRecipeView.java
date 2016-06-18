@@ -6,7 +6,6 @@ import com.bnorm.barkeep.server.data.store.Component;
 import com.bnorm.barkeep.server.data.store.Recipe;
 
 public interface EditRecipeView {
-    String RECIPE_TAG = EditRecipeView.class.getName() + ".recipe";
 
     void onClose();
 

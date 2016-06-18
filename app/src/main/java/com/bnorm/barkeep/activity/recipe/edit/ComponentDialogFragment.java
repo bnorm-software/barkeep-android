@@ -6,6 +6,7 @@ import java.util.List;
 import android.app.Activity;
 import android.app.Dialog;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,7 +21,6 @@ import android.widget.ViewSwitcher;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.bnorm.barkeep.R;
-import com.bnorm.barkeep.lib.Retained;
 import com.bnorm.barkeep.server.data.store.Amount;
 import com.bnorm.barkeep.server.data.store.Component;
 import com.bnorm.barkeep.server.data.store.Ingredient;
@@ -38,12 +38,15 @@ public class ComponentDialogFragment extends AppCompatDialogFragment {
         void onDialogNegativeClick(Integer i, Component component);
     }
 
-    public static final String NEGATIVE_TEXT_ARG = "NegativeText";
+    private static final String POSITION_TEXT_ARG = "Position";
+    private static final String COMPONENT_TEXT_ARG = "Component";
+    private static final String NEGATIVE_TEXT_ARG = "NegativeText";
 
     private Component mComponent;
-    private Integer mLocation;
 
+    private Integer mLocation;
     @BindView(R.id.component_edit_range_view_switcher) ViewSwitcher mRangeViewSwitcher;
+
     @BindView(R.id.component_edit_range_switch) Switch mRangeSwitch;
     @BindView(R.id.component_edit_amount_recommended) EditText mAmountRecommended;
     @BindView(R.id.component_edit_amount_min) EditText mAmountMin;
@@ -54,15 +57,17 @@ public class ComponentDialogFragment extends AppCompatDialogFragment {
     private IngredientAdapter mIngredientAdapter;
     private ComponentDialogListener mListener;
 
+    public static void launch(FragmentManager supportFragmentManager, Integer position, Component component,
+                              String negativeText) {
+        Bundle args = new Bundle();
+        args.putInt(POSITION_TEXT_ARG, position != null ? position : -1);
+        args.putParcelable(COMPONENT_TEXT_ARG, component);
+        args.putString(NEGATIVE_TEXT_ARG, negativeText);
 
-    public void setComponent(Component component) {
-        this.mComponent = component;
+        ComponentDialogFragment dialog = new ComponentDialogFragment();
+        dialog.setArguments(args);
+        dialog.show(supportFragmentManager, "ComponentDialogFragment");
     }
-
-    public void setLocation(Integer location) {
-        this.mLocation = location;
-    }
-
 
     @Override
     public void onAttach(Activity activity) {
@@ -76,15 +81,16 @@ public class ComponentDialogFragment extends AppCompatDialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-        String negativeText = getArguments().getString(NEGATIVE_TEXT_ARG, "Cancel");
-
-        // find the retained fragment on activity restarts
-        mComponent = Retained.retain(this, "component", mComponent != null ? mComponent : new Component());
-        mLocation = Retained.retain(this, "location", mLocation);
+        Bundle args = getArguments();
+        String negativeText = args.getString(NEGATIVE_TEXT_ARG, "Cancel");
+        mComponent = args.getParcelable(COMPONENT_TEXT_ARG);
+        mComponent = mComponent != null ? mComponent : new Component();
+        mLocation = args.getInt(POSITION_TEXT_ARG);
+        mLocation = mLocation != -1 ? mLocation : null;
 
 
         // ===== Populate local fields ===== //
+        LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog_edit_component, null);
         ButterKnife.bind(this, view);
 

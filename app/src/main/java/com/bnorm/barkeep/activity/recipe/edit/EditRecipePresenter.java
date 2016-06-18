@@ -9,13 +9,13 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class EditRecipeActivityPresenter {
+public class EditRecipePresenter {
 
     private final EditRecipeView view;
     private final Endpoint endpoint;
     private final Recipe recipe;
 
-    public EditRecipeActivityPresenter(EditRecipeView view, Endpoint endpoint, Recipe recipe) {
+    public EditRecipePresenter(EditRecipeView view, Endpoint endpoint, Recipe recipe) {
         this.view = view;
         this.endpoint = endpoint;
         this.recipe = recipe != null ? recipe : new Recipe();

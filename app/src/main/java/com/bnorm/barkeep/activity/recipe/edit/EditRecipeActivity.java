@@ -21,6 +21,7 @@ import com.bnorm.barkeep.ui.base.activity.BaseActivity;
 
 public class EditRecipeActivity extends BaseActivity
         implements EditRecipeView, ComponentDialogFragment.ComponentDialogListener {
+    private static final String RECIPE_TAG = EditRecipeView.class.getName() + ".recipe";
 
     // ===== View ===== //
 
@@ -32,7 +33,7 @@ public class EditRecipeActivity extends BaseActivity
 
     // ===== Presenter ===== //
 
-    @Inject EditRecipeActivityPresenter presenter;
+    @Inject EditRecipePresenter presenter;
     @Inject ComponentAdapter adapter;
 
     public static void launch(Context source, Recipe recipe) {
@@ -46,8 +47,11 @@ public class EditRecipeActivity extends BaseActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_recipe);
 
+        Bundle bundle = getIntent().getExtras();
+        Recipe recipe = bundle != null ? bundle.getParcelable(RECIPE_TAG) : null;
+
         ButterKnife.bind(this);
-        barkeep().component().inject(this);
+        barkeep().component().plus(new EditRecipeActivityModule(this, recipe)).inject(this);
 
         setSupportActionBar(toolbar);
         components.setAdapter(adapter);
@@ -55,7 +59,7 @@ public class EditRecipeActivity extends BaseActivity
         components.setItemAnimator(null);
         components.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
-        Recipe recipe = presenter.recipe();
+        recipe = presenter.recipe();
         name.setText(recipe.getName());
         description.setText(recipe.getDescription());
         directions.setText(recipe.getDirections());
@@ -116,14 +120,7 @@ public class EditRecipeActivity extends BaseActivity
 
     @Override
     public void onComponentDialog(Integer position, Component component, String negativeText) {
-        Bundle args = new Bundle();
-        args.putString(ComponentDialogFragment.NEGATIVE_TEXT_ARG, negativeText);
-
-        ComponentDialogFragment dialog = new ComponentDialogFragment();
-        dialog.setArguments(args);
-        dialog.setLocation(position);
-        dialog.setComponent(component);
-        dialog.show(getSupportFragmentManager(), "ComponentDialogFragment");
+        ComponentDialogFragment.launch(getSupportFragmentManager(), position, component, negativeText);
     }
 
     @Override

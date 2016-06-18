@@ -1,6 +1,5 @@
 package com.bnorm.barkeep.inject.app;
 
-import com.bnorm.barkeep.activity.recipe.edit.EditRecipeActivity;
 import com.bnorm.barkeep.activity.recipe.edit.EditRecipeActivityComponent;
 import com.bnorm.barkeep.activity.recipe.edit.EditRecipeActivityModule;
 import com.bnorm.barkeep.inject.endpoint.EndpointComponent;
@@ -11,8 +10,4 @@ import dagger.Component;
 public interface AppComponent extends EndpointComponent {
 
     EditRecipeActivityComponent plus(EditRecipeActivityModule module);
-
-    default void inject(EditRecipeActivity activity) {
-        plus(new EditRecipeActivityModule(activity)).inject(activity);
-    }
 }

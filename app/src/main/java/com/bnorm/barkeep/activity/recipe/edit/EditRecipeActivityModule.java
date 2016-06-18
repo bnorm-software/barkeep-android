@@ -1,6 +1,5 @@
 package com.bnorm.barkeep.activity.recipe.edit;
 
-import android.os.Bundle;
 import com.bnorm.barkeep.inject.activity.ActivityScope;
 import com.bnorm.barkeep.server.data.store.Recipe;
 import com.bnorm.barkeep.server.data.store.v1.endpoint.Endpoint;
@@ -10,19 +9,17 @@ import dagger.Provides;
 @Module
 public class EditRecipeActivityModule {
 
-    private final EditRecipeView activity;
+    private final EditRecipeView view;
     private final Recipe recipe;
 
-    public EditRecipeActivityModule(EditRecipeActivity activity) {
-        this.activity = activity;
-
-        Bundle bundle = activity.getIntent().getExtras();
-        this.recipe = bundle != null ? bundle.getParcelable(EditRecipeView.RECIPE_TAG) : null;
+    public EditRecipeActivityModule(EditRecipeView view, Recipe recipe) {
+        this.view = view;
+        this.recipe = recipe;
     }
 
     @ActivityScope
     @Provides
-    EditRecipeActivityPresenter provideEditRecipeActivityPresenter(Endpoint endpoint) {
-        return new EditRecipeActivityPresenter(activity, endpoint, recipe);
+    EditRecipePresenter provideEditRecipeActivityPresenter(Endpoint endpoint) {
+        return new EditRecipePresenter(view, endpoint, recipe);
     }
 }
