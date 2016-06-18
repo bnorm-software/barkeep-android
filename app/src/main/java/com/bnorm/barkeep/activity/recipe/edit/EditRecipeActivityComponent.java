@@ -7,5 +7,5 @@ import dagger.Subcomponent;
 @Subcomponent(modules = {EditRecipeActivityModule.class})
 public interface EditRecipeActivityComponent {
 
-    void inject(EditRecipeActivity activity);
+    void inject(EditRecipeView activity);
 }

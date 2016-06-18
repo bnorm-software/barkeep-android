@@ -2,12 +2,10 @@ package com.bnorm.barkeep.activity.recipe.edit;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.inject.Inject;
 
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import butterknife.BindView;
@@ -19,104 +17,93 @@ import com.bnorm.barkeep.server.data.store.Ingredient;
 
 public class ComponentAdapter extends RecyclerView.Adapter<ComponentAdapter.ComponentViewHolder> {
 
-    private final AppCompatActivity activity;
-    private final List<Component> mItems;
+    private final EditRecipeView activity;
+    private final List<Component> items;
 
-    public ComponentAdapter(AppCompatActivity activity) {
+    @Inject
+    public ComponentAdapter(EditRecipeView activity) {
         this.activity = activity;
-        this.mItems = new ArrayList<>();
+        this.items = new ArrayList<>();
     }
 
     @Override
     public ComponentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.item_component, parent, false);
-        return new ComponentViewHolder(view);
+        ComponentViewHolder holder = new ComponentViewHolder(parent);
+        holder.itemView.setOnClickListener(v -> onComponentClick(holder.getAdapterPosition()));
+        return holder;
     }
 
     @Override
     public void onBindViewHolder(ComponentViewHolder holder, int position) {
-        Component component = mItems.get(position);
+        holder.bind(items.get(position));
+    }
 
-        StringBuilder amountBuilder = new StringBuilder();
-        Amount amount = component.getAmount();
-        if (amount.getRecommended() != null) {
-            amountBuilder.append(amount.getRecommended());
-        } else {
-            amountBuilder.append(amount.getMin());
-            amountBuilder.append(" to ");
-            amountBuilder.append(amount.getMax());
-        }
-        amountBuilder.append(" ");
-        amountBuilder.append(component.getUnit());
-        amountBuilder.append(" ");
-
-        StringBuilder ingredientBuilder = new StringBuilder();
-        amountBuilder.append("of ");
-        boolean first = true;
-        for (Ingredient ingredient : component.getIngredients()) {
-            if (!first) {
-                ingredientBuilder.append("\nor ");
-            }
-            ingredientBuilder.append(ingredient.getName());
-            first = false;
-        }
-
-        holder.mAmount.setText(amountBuilder);
-        holder.mIngredients.setText(ingredientBuilder);
+    private void onComponentClick(int position) {
+        activity.onComponentDialog(position, items.get(position), "Delete");
     }
 
     @Override
     public int getItemCount() {
-        return mItems.size();
+        return items.size();
     }
 
     public List<Component> getItems() {
-        return mItems;
+        return items;
     }
 
     public void add(Component component) {
-        mItems.add(component);
+        items.add(component);
     }
 
     public void remove(int location) {
-        mItems.remove(location);
+        items.remove(location);
     }
 
     public void set(int location, Component component) {
-        mItems.set(location, component);
+        items.set(location, component);
     }
 
     public void set(List<Component> components) {
-        mItems.clear();
-        mItems.addAll(components);
+        items.clear();
+        items.addAll(components);
     }
 
     public class ComponentViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.component_edit_amount) TextView mAmount;
-        @BindView(R.id.component_edit_ingredients) TextView mIngredients;
+        @BindView(R.id.component_edit_amount) TextView amount;
+        @BindView(R.id.component_edit_ingredients) TextView ingredients;
 
-        private ComponentViewHolder(View view) {
-            super(view);
-            ButterKnife.bind(this, view);
+        private ComponentViewHolder(ViewGroup parent) {
+            super(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_component, parent, false));
+            ButterKnife.bind(this, itemView);
+        }
 
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position = getLayoutPosition();
-                    Component component = mItems.get(position);
+        public void bind(Component component) {
+            StringBuilder amountBuilder = new StringBuilder();
+            Amount amount = component.getAmount();
+            if (amount.getRecommended() != null) {
+                amountBuilder.append(amount.getRecommended());
+            } else {
+                amountBuilder.append(amount.getMin());
+                amountBuilder.append(" to ");
+                amountBuilder.append(amount.getMax());
+            }
+            amountBuilder.append(" ");
+            amountBuilder.append(component.getUnit());
+            amountBuilder.append(" ");
 
-                    Bundle args = new Bundle();
-                    args.putString(ComponentDialogFragment.NEGATIVE_TEXT_ARG, "Delete");
-
-                    ComponentDialogFragment dialog = new ComponentDialogFragment();
-                    dialog.setArguments(args);
-                    dialog.setComponent(component);
-                    dialog.setLocation(position);
-
-                    dialog.show(activity.getSupportFragmentManager(), "ComponentDialogFragment");
+            StringBuilder ingredientBuilder = new StringBuilder();
+            amountBuilder.append("of ");
+            boolean first = true;
+            for (Ingredient ingredient : component.getIngredients()) {
+                if (!first) {
+                    ingredientBuilder.append("\nor ");
                 }
-            });
+                ingredientBuilder.append(ingredient.getName());
+                first = false;
+            }
+
+            this.amount.setText(amountBuilder);
+            this.ingredients.setText(ingredientBuilder);
         }
     }
 }

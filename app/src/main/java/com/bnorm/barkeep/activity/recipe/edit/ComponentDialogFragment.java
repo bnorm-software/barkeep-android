@@ -67,8 +67,11 @@ public class ComponentDialogFragment extends AppCompatDialogFragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        // todo is there a better way to get this?  dagger?
-        mListener = ((EditRecipeActivity) activity).presenter;
+        try {
+            mListener = (ComponentDialogListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString() + " must implement NoticeDialogListener");
+        }
     }
 
     @Override
