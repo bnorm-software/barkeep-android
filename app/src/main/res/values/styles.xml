@@ -9,23 +9,54 @@
         </attr>
     </declare-styleable>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="android:colorBackground">@color/background_material_light</item>
-    </style>
-
-    <style name="AppTheme.NoActionBar">
+    <style name="Barkeep" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/accent</item>
+        <item name="android:colorBackground">@color/background_light</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Barkeep.Home" />
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="Barkeep.Book" />
 
-    <style name="AppTheme.NoActionBar.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Barkeep.Book.Details" />
 
-    <style name="AppTheme.NoActionBar.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="Barkeep.Bar" />
+
+    <style name="Barkeep.Bar.Details" />
+
+    <style name="Barkeep.Recipe" />
+
+    <style name="Barkeep.Recipe.Details">
+        <item name="android:windowSharedElementEnterTransition">@transition/recipe_detail_shared_enter</item>
+        <item name="android:windowEnterTransition">@transition/recipe_detail_enter</item>
+    </style>
+
+    <style name="Barkeep.Recipe.Search" />
+
+    <style name="Barkeep.Recipe.Edit" />
+
+
+    <style name="Widget.Barkeep" parent="android:Widget" />
+
+    <style name="Widget.Barkeep.AppBarOverlay">
+        <item name="android:theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
+    </style>
+
+    <style name="Widget.Barkeep.Toolbar">
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+    </style>
+
+    <style name="Widget.Barkeep.NavHeader">
+        <item name="android:theme">@style/ThemeOverlay.AppCompat.Dark</item>
+    </style>
+
+
+    <style name="TextAppearance.NavHeader.Header" parent="TextAppearance.AppCompat.Body1" />
 
 </resources>
