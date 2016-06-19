@@ -83,6 +83,11 @@ dependencies {
 
     apt 'com.google.dagger:dagger-compiler:2.4'
     compile 'com.google.dagger:dagger:2.4'
+
+    testCompile 'junit:junit:4.12'
+    testCompile 'com.google.truth:truth:0.27'
+    testCompile 'org.mockito:mockito-all:2.0.2-beta'
+
 }
 
 jacoco {
