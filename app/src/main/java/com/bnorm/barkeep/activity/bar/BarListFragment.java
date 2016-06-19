@@ -1,13 +1,11 @@
 package com.bnorm.barkeep.activity.bar;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.DrawerLayout;
@@ -22,15 +20,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import butterknife.BindView;
-import com.bnorm.barkeep.BarkeepApp;
 import com.bnorm.barkeep.R;
 import com.bnorm.barkeep.activity.MainActivity;
 import com.bnorm.barkeep.activity.recipe.edit.EditRecipeActivity;
 import com.bnorm.barkeep.activity.recipe.search.SearchRecipeActivity;
 import com.bnorm.barkeep.databinding.ItemBarBinding;
-import com.bnorm.barkeep.inject.app.AppComponent;
 import com.bnorm.barkeep.server.data.store.Bar;
 import com.bnorm.barkeep.ui.base.fragment.BaseFragment;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class BarListFragment extends BaseFragment {
 
@@ -45,8 +44,6 @@ public class BarListFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        AppComponent appComponent = ((BarkeepApp) getActivity().getApplication()).getAppComponent();
-
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_bar_list, container, false);
 
@@ -85,33 +82,22 @@ public class BarListFragment extends BaseFragment {
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.bar_list);
         recyclerView.setAdapter(adapter);
 
-        AsyncTask<Void, Void, List<Bar>> task = new AsyncTask<Void, Void, List<Bar>>() {
-            @Override
-            protected List<Bar> doInBackground(Void... params) {
-                try {
-                    List<com.bnorm.barkeep.server.data.store.v1.endpoint.model.Bar> bars;
-                    bars = appComponent.endpoint().listBars().execute().getItems();
-                    if (bars != null) {
-                        List<Bar> items = new ArrayList<>();
-                        for (com.bnorm.barkeep.server.data.store.v1.endpoint.model.Bar bar : bars) {
-                            items.add(new Bar(bar));
-                        }
-                        return items;
-                    } else {
-                        return Collections.emptyList();
-                    }
-                } catch (IOException e) {
-                    return Collections.emptyList();
+        Observable.<List<Bar>>fromCallable(() -> {
+            List<com.bnorm.barkeep.server.data.store.v1.endpoint.model.Bar> bars;
+            bars = component().endpoint().listBars().execute().getItems();
+            if (bars != null) {
+                List<Bar> items = new ArrayList<>();
+                for (com.bnorm.barkeep.server.data.store.v1.endpoint.model.Bar bar : bars) {
+                    items.add(new Bar(bar));
                 }
+                return items;
+            } else {
+                return Collections.emptyList();
             }
-
-            @Override
-            protected void onPostExecute(List<Bar> result) {
-                adapter.set(result);
-                adapter.notifyDataSetChanged();
-            }
-        };
-        task.execute();
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(result -> {
+            adapter.set(result);
+            adapter.notifyDataSetChanged();
+        });
 
         if (view.findViewById(R.id.bar_detail_container) != null) {
             mTwoPane = true;
