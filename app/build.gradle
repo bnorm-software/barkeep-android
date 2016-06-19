@@ -15,8 +15,8 @@ buildscript {
 
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
-apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'jacoco-android'
+apply plugin: 'me.tatarka.retrolambda'
 
 def isCi = "true".equals(System.getenv("CI"))
 def preDexEnabled = "true".equals(System.getProperty("pre-dex", "true"))
@@ -100,8 +100,10 @@ jacocoAndroidUnitTestReport {
             '**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*',
             // data binding
             '**/*Binding.class',
+            // retro lambda
+            '**/Lambda$*.class', '**/Lambda.class', '**/*Lambda.class', '**/*Lambda*.class',
             // butter knife
-            '**/*$ViewBinder*.*',
+            '**/*$ViewBinder*.*', '**/*$ViewInjector*.*',
             // auto-value
             '**/AutoValue_*.*',
             // dagger
