@@ -1,6 +1,5 @@
 package com.bnorm.barkeep.activity.recipe;
 
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -51,9 +50,7 @@ public class ViewRecipeActivity extends BaseActivity {
         binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ViewRecipeActivity.this, EditRecipeActivity.class);
-                intent.putExtra(EditRecipeActivity.RECIPE_TAG, binding.getRecipe());
-                startActivity(intent);
+                EditRecipeActivity.launch(ViewRecipeActivity.this, binding.getRecipe());
             }
         });
 

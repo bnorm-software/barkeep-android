@@ -14,9 +14,11 @@ public abstract class BaseActivity extends NaviAppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        component = DaggerActivityComponent.builder()
-                                           .appComponent(((BarkeepApp) getApplication()).component())
-                                           .build();
+        component = DaggerActivityComponent.builder().appComponent(barkeep().component()).build();
+    }
+
+    protected BarkeepApp barkeep() {
+        return (BarkeepApp) getApplication();
     }
 
     public ActivityComponent component() {

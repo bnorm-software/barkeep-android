@@ -25,6 +25,9 @@ before_script:
 before_cache:
   - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
 
+script:
+  - ./gradlew build connectedCheck jacocoTestReport
+
 env:
   global:
     - ADB_INSTALL_TIMEOUT=8
