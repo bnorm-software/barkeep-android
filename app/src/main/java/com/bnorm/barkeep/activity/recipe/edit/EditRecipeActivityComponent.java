@@ -4,8 +4,8 @@ import com.bnorm.barkeep.inject.activity.ActivityScope;
 import dagger.Subcomponent;
 
 @ActivityScope
-@Subcomponent(modules = {EditRecipeActivityModule.class})
+@Subcomponent(modules = {EditRecipeViewModule.class})
 public interface EditRecipeActivityComponent {
 
-    void inject(EditRecipeView activity);
+    void inject(EditRecipeActivity activity);
 }

@@ -7,14 +7,19 @@ import dagger.Module;
 import dagger.Provides;
 
 @Module
-public class EditRecipeActivityModule {
+public class EditRecipeViewModule {
 
     private final EditRecipeView view;
     private final Recipe recipe;
 
-    public EditRecipeActivityModule(EditRecipeView view, Recipe recipe) {
+    public EditRecipeViewModule(EditRecipeView view, Recipe recipe) {
         this.view = view;
         this.recipe = recipe;
+    }
+
+    @Provides
+    EditRecipeView provideEditRecipeView() {
+        return view;
     }
 
     @ActivityScope

@@ -51,7 +51,7 @@ public class EditRecipeActivity extends BaseActivity
         Recipe recipe = bundle != null ? bundle.getParcelable(RECIPE_TAG) : null;
 
         ButterKnife.bind(this);
-        barkeep().component().plus(new EditRecipeActivityModule(this, recipe)).inject(this);
+        barkeep().component().plus(new EditRecipeViewModule(this, recipe)).inject(this);
 
         setSupportActionBar(toolbar);
         components.setAdapter(adapter);
