@@ -18,10 +18,10 @@
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/app_bar"
+            style="@style/Widget.Barkeep.AppBarOverlay"
             android:layout_width="match_parent"
             android:layout_height="@dimen/app_bar_height"
-            android:fitsSystemWindows="true"
-            android:theme="@style/AppTheme.NoActionBar.AppBarOverlay">
+            android:fitsSystemWindows="true">
 
             <android.support.design.widget.CollapsingToolbarLayout
                 android:layout_width="match_parent"
@@ -32,24 +32,26 @@
                 app:statusBarScrim="?attr/colorPrimaryDark">
 
                 <ImageView
+                    android:id="@+id/recipe_image"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:contentDescription="Cocktail Image"
                     android:fitsSystemWindows="true"
                     android:scaleType="centerCrop"
+                    android:transitionName="recipeImage"
                     app:imageUrl="@{recipe.picture}"
                     app:layout_collapseMode="parallax"
                     app:layout_collapseParallaxMultiplier="0.75" />
 
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
+                    style="@style/Widget.Barkeep.Toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     android:layout_marginTop="24dp"
                     android:fitsSystemWindows="true"
                     android:title="@{recipe.name}"
-                    app:layout_collapseMode="pin"
-                    app:popupTheme="@style/AppTheme.NoActionBar.PopupOverlay" />
+                    app:layout_collapseMode="pin" />
 
             </android.support.design.widget.CollapsingToolbarLayout>
 

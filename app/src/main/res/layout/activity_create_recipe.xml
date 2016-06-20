@@ -8,20 +8,20 @@
     tools:context=".activity.recipe.edit.EditRecipeActivity">
 
     <android.support.design.widget.AppBarLayout
+        style="@style/Widget.Barkeep.AppBarOverlay"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.NoActionBar.AppBarOverlay">
+        android:layout_height="wrap_content">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
+            style="@style/Widget.Barkeep.Toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/colorPrimary"
             app:contentInsetEnd="0dp"
             app:contentInsetLeft="0dp"
             app:contentInsetRight="0dp"
-            app:contentInsetStart="0dp"
-            app:popupTheme="@style/AppTheme.NoActionBar.PopupOverlay">
+            app:contentInsetStart="0dp">
 
             <LinearLayout
                 android:layout_width="fill_parent"
