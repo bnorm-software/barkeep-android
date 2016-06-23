@@ -1,11 +1,10 @@
-package com.bnorm.barkeep.activity;
+package com.bnorm.barkeep.ui;
 
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.bnorm.barkeep.R;
 
-import com.bnorm.barkeep.ui.MainActivity;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
