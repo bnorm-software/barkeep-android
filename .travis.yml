@@ -17,6 +17,7 @@ before_script:
   - echo no | android create avd --force -n test -t android-19 --abi armeabi-v7a
   - emulator -avd test -no-audio -no-window &
   - android-wait-for-emulator
+  - adb devices
   - adb shell settings put global window_animation_scale 0 &
   - adb shell settings put global transition_animation_scale 0 &
   - adb shell settings put global animator_duration_scale 0 &
@@ -26,7 +27,7 @@ before_cache:
   - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
 
 script:
-  - ./gradlew build connectedCheck jacocoTestReport
+  - ./gradlew build connectedCheck --continue --stacktrace
 
 env:
   global:
@@ -39,4 +40,12 @@ cache:
     - $HOME/.gradle/wrapper/
 
 after_success:
+  - ./gradlew jacocoTestReport
   - bash <(curl -s https://codecov.io/bash)
+
+after_failure:
+  - wget http://imgur.com/tools/imgurbash.sh
+  - chmod a+x imgurbash.sh
+  - adb shell screencap -p | sed 's/\r$//' &gt; screen.png
+  - ./imgurbash.sh screen.png
+  - pandoc app/build/reports/tests/debug/index.html -t plain | sed -n '/^Failed tests/,/default-package/p'
