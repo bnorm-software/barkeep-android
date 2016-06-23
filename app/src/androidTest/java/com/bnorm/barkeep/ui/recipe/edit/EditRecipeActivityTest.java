@@ -27,9 +27,9 @@ public class EditRecipeActivityTest {
         EditRecipeActivity activity = activityRule.launchActivity(new Intent(Intent.ACTION_MAIN));
 
         // then
-        assertThat(activity.name).hasText("");
-        assertThat(activity.description).hasText("");
-        assertThat(activity.directions).hasText("");
+        assertThat(activity.name).hasTextString("");
+        assertThat(activity.description).hasTextString("");
+        assertThat(activity.directions).hasTextString("");
         assertThat(activity.adapter.getItems()).isEmpty();
     }
 
@@ -47,9 +47,9 @@ public class EditRecipeActivityTest {
         EditRecipeActivity activity = activityRule.launchActivity(intent);
 
         // then
-        assertThat(activity.name).hasText("Name");
-        assertThat(activity.description).hasText("Description");
-        assertThat(activity.directions).hasText("Directions");
+        assertThat(activity.name).hasTextString("Name");
+        assertThat(activity.description).hasTextString("Description");
+        assertThat(activity.directions).hasTextString("Directions");
     }
 }
 
