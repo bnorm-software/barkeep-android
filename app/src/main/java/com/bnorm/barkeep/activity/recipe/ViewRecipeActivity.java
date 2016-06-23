@@ -1,5 +1,7 @@
 package com.bnorm.barkeep.activity.recipe;
 
+import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -12,16 +14,28 @@ import com.bnorm.barkeep.databinding.ActivityViewRecipeBinding;
 import com.bnorm.barkeep.server.data.store.Amount;
 import com.bnorm.barkeep.server.data.store.Component;
 import com.bnorm.barkeep.server.data.store.Ingredient;
+import com.bnorm.barkeep.server.data.store.Recipe;
 import com.bnorm.barkeep.ui.base.activity.BaseActivity;
 
 public class ViewRecipeActivity extends BaseActivity {
 
-    public static final String RECIPE_TAG = ViewRecipeActivity.class.getName() + ".recipe";
+    private static final String RECIPE_TAG = ViewRecipeActivity.class.getName() + ".recipe";
 
     // ===== Model ===== //
 
     private ActivityViewRecipeBinding binding;
 
+    public static void launch(Context source, Recipe recipe) {
+        Intent intent = new Intent(source, ViewRecipeActivity.class);
+        intent.putExtra(RECIPE_TAG, recipe);
+        source.startActivity(intent);
+    }
+
+    public static void launch(Context source, Recipe recipe, Bundle bundle) {
+        Intent intent = new Intent(source, ViewRecipeActivity.class);
+        intent.putExtra(RECIPE_TAG, recipe);
+        source.startActivity(intent, bundle);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
