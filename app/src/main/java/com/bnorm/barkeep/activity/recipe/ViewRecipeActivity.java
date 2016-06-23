@@ -31,6 +31,12 @@ public class ViewRecipeActivity extends BaseActivity {
         source.startActivity(intent);
     }
 
+    public static void launch(Context source, Recipe recipe, Bundle bundle) {
+        Intent intent = new Intent(source, ViewRecipeActivity.class);
+        intent.putExtra(RECIPE_TAG, recipe);
+        source.startActivity(intent, bundle);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
