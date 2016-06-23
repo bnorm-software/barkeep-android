@@ -28,8 +28,6 @@ before_cache:
 cache:
   directories:
     - $HOME/.gradle/caches
-    - $HOME/.gradle/daemon
-    - $HOME/.gradle/native
     - $HOME/.gradle/wrapper
 
 before_script:
@@ -37,14 +35,13 @@ before_script:
   - emulator -avd test -no-skin -no-audio -no-window -gpu off -no-boot-anim &
 
 script:
-  - ./gradlew build --continue --stacktrace
+  - ./gradlew build jacocoTestReport --continue --stacktrace
   - android-wait-for-emulator
   - adb devices
   - adb shell input keyevent 82 &
   - ./gradlew connectedCheck --continue --stacktrace
 
 after_success:
-  - ./gradlew jacocoTestReport
   - bash <(curl -s https://codecov.io/bash)
 
 after_failure:
