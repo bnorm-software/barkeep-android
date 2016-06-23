@@ -5,7 +5,7 @@
 
         <variable
             name="book"
-            type="com.bnorm.barkeep.server.data.store.Book" />
+            type="com.bnorm.barkeep.data.api.model.Book" />
     </data>
 
     <LinearLayout

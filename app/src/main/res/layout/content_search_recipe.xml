@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".activity.recipe.search.SearchRecipeActivity"
+    tools:context=".ui.recipe.search.SearchRecipeActivity"
     tools:showIn="@layout/activity_search_recipe">
 
     <android.support.v7.widget.RecyclerView

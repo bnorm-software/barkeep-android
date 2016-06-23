@@ -1,11 +1,9 @@
 package com.bnorm.barkeep;
 
 import android.app.Application;
-import com.bnorm.barkeep.inject.app.AppComponent;
-import com.bnorm.barkeep.inject.app.DaggerAppComponent;
-import com.bnorm.barkeep.inject.endpoint.DaggerEndpointComponent;
-import com.bnorm.barkeep.inject.endpoint.EndpointComponent;
-import com.bnorm.barkeep.inject.endpoint.EndpointModule;
+import com.bnorm.barkeep.data.api.DaggerEndpointComponent;
+import com.bnorm.barkeep.data.api.EndpointComponent;
+import com.bnorm.barkeep.data.api.EndpointModule;
 
 public class BarkeepApp extends Application {
 

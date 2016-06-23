@@ -5,7 +5,7 @@
 
         <variable
             name="component"
-            type="com.bnorm.barkeep.server.data.store.Component" />
+            type="com.bnorm.barkeep.data.api.model.Component" />
     </data>
 
     <LinearLayout

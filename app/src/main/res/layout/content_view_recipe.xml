@@ -7,14 +7,14 @@
 
         <variable
             name="recipe"
-            type="com.bnorm.barkeep.server.data.store.Recipe" />
+            type="com.bnorm.barkeep.data.api.model.Recipe" />
     </data>
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context="com.bnorm.barkeep.activity.recipe.ViewRecipeActivity"
+        tools:context=".ui.recipe.ViewRecipeActivity"
         tools:showIn="@layout/activity_view_recipe">
 
         <LinearLayout
