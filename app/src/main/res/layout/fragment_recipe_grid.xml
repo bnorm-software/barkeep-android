@@ -8,5 +8,5 @@
     android:scrollbars="vertical"
     app:layoutManager="GridLayoutManager"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".activity.book.BookDetailActivity"
+    tools:context=".ui.book.BookDetailActivity"
     tools:listitem="@layout/item_recipe_grid" />

@@ -7,14 +7,14 @@
 
         <variable
             name="recipe"
-            type="com.bnorm.barkeep.server.data.store.Recipe" />
+            type="com.bnorm.barkeep.data.api.model.Recipe" />
     </data>
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        tools:context="com.bnorm.barkeep.activity.recipe.ViewRecipeActivity">
+        tools:context=".ui.recipe.ViewRecipeActivity">
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/app_bar"

@@ -9,7 +9,7 @@
     android:divider="?android:attr/dividerHorizontal"
     android:orientation="horizontal"
     android:showDividers="middle"
-    tools:context="com.bnorm.barkeep.activity.MainActivity">
+    tools:context=".ui.MainActivity">
 
     <android.support.v7.widget.RecyclerView android:id="@+id/book_list"
         android:name="com.bnorm.barkeep.activity.BookListFragment"
@@ -20,7 +20,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         app:layoutManager="LinearLayoutManager"
-        tools:context="com.bnorm.barkeep.activity.BookListActivity"
+        tools:context=".ui.BookListActivity"
         tools:listitem="@layout/item_book" />
 
     <FrameLayout

@@ -8,13 +8,13 @@
 
         <variable
             name="shelf"
-            type="com.bnorm.barkeep.activity.bar.BarShelf" />
+            type="com.bnorm.barkeep.ui.bar.BarShelf" />
     </data>
 
     <LinearLayout
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        tools:context=".activity.book.BookDetailActivity">
+        tools:context=".ui.book.BookDetailActivity">
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
