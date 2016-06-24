@@ -7,14 +7,16 @@ import java.util.List;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
+import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.bnorm.barkeep.R;
 import com.bnorm.barkeep.data.api.model.Bar;
 import com.bnorm.barkeep.databinding.ItemBarBinding;
@@ -27,9 +29,8 @@ import rx.schedulers.Schedulers;
 
 public class BarListFragment extends BaseFragment {
 
-    @BindView(R.id.fab) FloatingActionButton mFab;
-
-    private boolean mTwoPane;
+    @BindView(R.id.bar_list) RecyclerView recyclerView;
+    @Nullable @BindView(R.id.bar_detail_container) FrameLayout detailContainer;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -43,18 +44,7 @@ public class BarListFragment extends BaseFragment {
             actionBar.setTitle("Bars");
         }
 
-        // todo should this only be available within a bar?
-        mFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), EditRecipeActivity.class);
-                startActivity(intent);
-            }
-        });
-
-
-        final BarAdapter adapter = new BarAdapter();
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.bar_list);
+        BarAdapter adapter = new BarAdapter();
         recyclerView.setAdapter(adapter);
 
         Observable.<List<Bar>>fromCallable(() -> {
@@ -74,11 +64,13 @@ public class BarListFragment extends BaseFragment {
             adapter.notifyDataSetChanged();
         });
 
-        if (view.findViewById(R.id.bar_detail_container) != null) {
-            mTwoPane = true;
-        }
-
         return view;
+    }
+
+    @OnClick(R.id.fab)
+    void onFabClick() {
+        // todo should this only be available within a book?
+        EditRecipeActivity.launch(getContext());
     }
 
     public class BarAdapter extends RecyclerView.Adapter<BarAdapter.ViewHolder> {
@@ -120,12 +112,10 @@ public class BarListFragment extends BaseFragment {
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (mTwoPane) {
+                        if (detailContainer != null) {
                             IngredientShelvesFragment fragment = new IngredientShelvesFragment();
                             fragment.setBar(binding.getBar());
-                            getFragmentManager().beginTransaction()
-                                                .replace(R.id.bar_detail_container, fragment)
-                                                .commit();
+                            getFragmentManager().beginTransaction().replace(detailContainer.getId(), fragment).commit();
                         } else {
                             Context context = v.getContext();
                             // ActivityOptions options = ActivityOptions.makeCustomAnimation(context,

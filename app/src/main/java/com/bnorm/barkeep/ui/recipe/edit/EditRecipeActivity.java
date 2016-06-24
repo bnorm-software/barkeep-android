@@ -36,11 +36,18 @@ public class EditRecipeActivity extends BaseActivity
     @Inject EditRecipePresenter presenter;
     @Inject ComponentAdapter adapter;
 
+
     public static void launch(Context source, Recipe recipe) {
         Intent intent = new Intent(source, EditRecipeActivity.class);
         intent.putExtra(RECIPE_TAG, recipe);
         source.startActivity(intent);
     }
+
+    public static void launch(Context source) {
+        Intent intent = new Intent(source, EditRecipeActivity.class);
+        source.startActivity(intent);
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

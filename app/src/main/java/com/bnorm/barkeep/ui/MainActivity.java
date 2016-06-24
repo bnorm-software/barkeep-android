@@ -1,6 +1,5 @@
 package com.bnorm.barkeep.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -28,7 +27,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.drawer_layout) DrawerLayout drawer;
     @BindView(R.id.nav_view) NavigationView navigationView;
-    private MenuItem search;
     private ActionBarDrawerToggle toggle;
 
     @Override
@@ -74,19 +72,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_home, menu);
-
-        search = menu.findItem(R.id.action_search);
-        search.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                Intent intent = new Intent(MainActivity.this, SearchRecipeActivity.class);
-                startActivity(intent);
-                return true;
-            }
-        });
-
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -95,6 +81,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         int id = item.getItemId();
         if (id == android.R.id.home) {
             return toggle.onOptionsItemSelected(item);
+        } else if (id == R.id.action_search) {
+            SearchRecipeActivity.launch(this);
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }

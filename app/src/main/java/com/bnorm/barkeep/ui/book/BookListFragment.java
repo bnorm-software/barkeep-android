@@ -7,14 +7,16 @@ import java.util.List;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
+import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.bnorm.barkeep.R;
 import com.bnorm.barkeep.data.api.model.Book;
 import com.bnorm.barkeep.databinding.ItemBookBinding;
@@ -27,9 +29,8 @@ import rx.schedulers.Schedulers;
 
 public class BookListFragment extends BaseFragment {
 
-    @BindView(R.id.fab) FloatingActionButton mFab;
-
-    private boolean mTwoPane;
+    @BindView(R.id.book_list) RecyclerView recyclerView;
+    @Nullable @BindView(R.id.bar_detail_container) FrameLayout detailContainer;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -43,18 +44,7 @@ public class BookListFragment extends BaseFragment {
             actionBar.setTitle("Books");
         }
 
-        // todo should this only be available within a book?
-        mFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), EditRecipeActivity.class);
-                startActivity(intent);
-            }
-        });
-
-
-        final BookAdapter adapter = new BookAdapter();
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.book_list);
+        BookAdapter adapter = new BookAdapter();
         recyclerView.setAdapter(adapter);
 
         Observable.<List<Book>>fromCallable(() -> {
@@ -74,11 +64,13 @@ public class BookListFragment extends BaseFragment {
             adapter.notifyDataSetChanged();
         });
 
-        if (view.findViewById(R.id.book_detail_container) != null) {
-            mTwoPane = true;
-        }
-
         return view;
+    }
+
+    @OnClick(R.id.fab)
+    void onFabClick() {
+        // todo should this only be available within a book?
+        EditRecipeActivity.launch(getContext());
     }
 
     public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
@@ -120,12 +112,10 @@ public class BookListFragment extends BaseFragment {
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (mTwoPane) {
+                        if (detailContainer != null) {
                             RecipeGridFragment fragment = new RecipeGridFragment();
                             fragment.setBook(binding.getBook());
-                            getFragmentManager().beginTransaction()
-                                                .replace(R.id.book_detail_container, fragment)
-                                                .commit();
+                            getFragmentManager().beginTransaction().replace(detailContainer.getId(), fragment).commit();
                         } else {
                             Context context = v.getContext();
                             // ActivityOptions options = ActivityOptions.makeCustomAnimation(context,
