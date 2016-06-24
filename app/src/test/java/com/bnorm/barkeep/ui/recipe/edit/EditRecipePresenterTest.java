@@ -3,6 +3,7 @@ package com.bnorm.barkeep.ui.recipe.edit;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import android.support.annotation.NonNull;
 import com.bnorm.barkeep.data.api.model.Recipe;
 import com.bnorm.barkeep.server.data.store.v1.endpoint.Endpoint;
 import org.junit.Rule;
@@ -10,11 +11,6 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
-import rx.Scheduler;
-import rx.android.plugins.RxAndroidPluginsRule;
-import rx.android.plugins.RxAndroidSchedulersHook;
-import rx.plugins.RxJavaPluginsRule;
-import rx.plugins.RxJavaSchedulersHook;
 import rx.schedulers.Schedulers;
 
 import static com.google.common.truth.Truth.assertThat;
@@ -26,27 +22,20 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class EditRecipePresenterTest {
-    @Rule public RxJavaPluginsRule rxJavaPluginsRule = new RxJavaPluginsRule(new RxJavaSchedulersHook() {
-        @Override
-        public Scheduler getIOScheduler() {
-            return Schedulers.immediate();
-        }
-    });
-    @Rule public RxAndroidPluginsRule rxAndroidPluginsRule = new RxAndroidPluginsRule(new RxAndroidSchedulersHook() {
-        @Override
-        public Scheduler getMainThreadScheduler() {
-            return Schedulers.immediate();
-        }
-    });
     @Rule public MockitoRule rule = MockitoJUnit.rule();
 
     @Mock EditRecipeView view;
     @Mock Endpoint endpoint;
 
+    @NonNull
+    private EditRecipePresenter presenter(Recipe recipe) {
+        return new EditRecipePresenter(view, endpoint, Schedulers.immediate(), Schedulers.immediate(), recipe);
+    }
+
     @Test
     public void cancel() {
         // given
-        EditRecipePresenter presenter = new EditRecipePresenter(view, endpoint, null);
+        EditRecipePresenter presenter = presenter(null);
 
         // when
         presenter.cancel();
@@ -58,7 +47,7 @@ public class EditRecipePresenterTest {
     @Test
     public void validate() {
         // given
-        EditRecipePresenter presenter = new EditRecipePresenter(view, endpoint, null);
+        EditRecipePresenter presenter = presenter(null);
 
         // when
         boolean validate = presenter.validate();
@@ -72,7 +61,7 @@ public class EditRecipePresenterTest {
         // given
         Recipe recipe = new Recipe();
         recipe.setNameWords(new ArrayList<>());
-        EditRecipePresenter presenter = new EditRecipePresenter(view, endpoint, recipe);
+        EditRecipePresenter presenter = presenter(recipe);
         when(view.getName()).thenReturn("name");
         when(view.getComponents()).thenReturn(new ArrayList<>());
         when(endpoint.getRecipe(any())).thenThrow(new IOException());
@@ -93,7 +82,7 @@ public class EditRecipePresenterTest {
         // given
         Recipe recipe = new Recipe();
         recipe.setNameWords(new ArrayList<>());
-        EditRecipePresenter presenter = new EditRecipePresenter(view, endpoint, recipe);
+        EditRecipePresenter presenter = presenter(recipe);
         when(view.getName()).thenReturn("name");
         when(view.getComponents()).thenReturn(new ArrayList<>());
         when(endpoint.getRecipe(any())).thenReturn(mock(Endpoint.GetRecipe.class));
@@ -112,7 +101,7 @@ public class EditRecipePresenterTest {
     @Test
     public void save_invalid() throws IOException {
         // given
-        EditRecipePresenter presenter = spy(new EditRecipePresenter(view, endpoint, null));
+        EditRecipePresenter presenter = spy(presenter(null));
         when(presenter.validate()).thenReturn(false);
 
         // when
@@ -125,7 +114,7 @@ public class EditRecipePresenterTest {
     @Test
     public void addComponent() {
         // given
-        EditRecipePresenter presenter = new EditRecipePresenter(view, endpoint, null);
+        EditRecipePresenter presenter = presenter(null);
 
         // when
         presenter.addComponent();
@@ -138,7 +127,7 @@ public class EditRecipePresenterTest {
     public void updateRecipe() {
         // given
         Recipe recipe = new Recipe();
-        EditRecipePresenter presenter = new EditRecipePresenter(view, endpoint, recipe);
+        EditRecipePresenter presenter = presenter(recipe);
         when(view.getName()).thenReturn("Name");
         when(view.getDescription()).thenReturn("Description");
         when(view.getDirections()).thenReturn("Directions");
@@ -158,7 +147,7 @@ public class EditRecipePresenterTest {
     public void recipe() {
         // given
         Recipe expected = new Recipe();
-        EditRecipePresenter presenter = new EditRecipePresenter(view, endpoint, expected);
+        EditRecipePresenter presenter = presenter(expected);
 
         // when
         Recipe actual = presenter.recipe();

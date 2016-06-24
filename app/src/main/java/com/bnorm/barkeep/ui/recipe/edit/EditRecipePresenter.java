@@ -6,18 +6,22 @@ import com.bnorm.barkeep.data.api.model.Component;
 import com.bnorm.barkeep.data.api.model.Recipe;
 import com.bnorm.barkeep.server.data.store.v1.endpoint.Endpoint;
 import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import rx.Scheduler;
 
 public class EditRecipePresenter {
 
     private final EditRecipeView view;
     private final Endpoint endpoint;
+    private final Scheduler apiScheduler;
+    private final Scheduler uiScheduler;
     private final Recipe recipe;
 
-    public EditRecipePresenter(EditRecipeView view, Endpoint endpoint, Recipe recipe) {
+    public EditRecipePresenter(EditRecipeView view, Endpoint endpoint, Scheduler apiScheduler, Scheduler uiScheduler,
+                               Recipe recipe) {
         this.view = view;
         this.endpoint = endpoint;
+        this.apiScheduler = apiScheduler;
+        this.uiScheduler = uiScheduler;
         this.recipe = recipe != null ? recipe : new Recipe();
     }
 
@@ -27,7 +31,7 @@ public class EditRecipePresenter {
     }
 
     public boolean validate() {
-        // todo(bnorman) validate all required fields
+        // todo(bnorm) validate all required fields
         return true;
     }
 
@@ -47,7 +51,7 @@ public class EditRecipePresenter {
                     endpoint.insertRecipe(recipe.toStore()).execute();
                 }
                 return recipe;
-            }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(recipe -> {
+            }).subscribeOn(apiScheduler).observeOn(uiScheduler).subscribe(recipe -> {
                 view.onRecipeSaved(recipe);
                 view.onClose();
             });
