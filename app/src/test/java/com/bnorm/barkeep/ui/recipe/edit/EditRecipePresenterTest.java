@@ -28,14 +28,14 @@ public class EditRecipePresenterTest {
     @Mock Endpoint endpoint;
 
     @NonNull
-    private EditRecipePresenter presenter(Recipe recipe) {
+    private static EditRecipePresenter presenter(EditRecipeView view, Endpoint endpoint, Recipe recipe) {
         return new EditRecipePresenter(view, endpoint, Schedulers.immediate(), Schedulers.immediate(), recipe);
     }
 
     @Test
     public void cancel() {
         // given
-        EditRecipePresenter presenter = presenter(null);
+        EditRecipePresenter presenter = presenter(view, endpoint, null);
 
         // when
         presenter.cancel();
@@ -47,7 +47,7 @@ public class EditRecipePresenterTest {
     @Test
     public void validate() {
         // given
-        EditRecipePresenter presenter = presenter(null);
+        EditRecipePresenter presenter = presenter(view, endpoint, null);
 
         // when
         boolean validate = presenter.validate();
@@ -61,7 +61,7 @@ public class EditRecipePresenterTest {
         // given
         Recipe recipe = new Recipe();
         recipe.setNameWords(new ArrayList<>());
-        EditRecipePresenter presenter = presenter(recipe);
+        EditRecipePresenter presenter = presenter(view, endpoint, recipe);
         when(view.getName()).thenReturn("name");
         when(view.getComponents()).thenReturn(new ArrayList<>());
         when(endpoint.getRecipe(any())).thenThrow(new IOException());
@@ -82,7 +82,7 @@ public class EditRecipePresenterTest {
         // given
         Recipe recipe = new Recipe();
         recipe.setNameWords(new ArrayList<>());
-        EditRecipePresenter presenter = presenter(recipe);
+        EditRecipePresenter presenter = presenter(view, endpoint, recipe);
         when(view.getName()).thenReturn("name");
         when(view.getComponents()).thenReturn(new ArrayList<>());
         when(endpoint.getRecipe(any())).thenReturn(mock(Endpoint.GetRecipe.class));
@@ -101,7 +101,7 @@ public class EditRecipePresenterTest {
     @Test
     public void save_invalid() throws IOException {
         // given
-        EditRecipePresenter presenter = spy(presenter(null));
+        EditRecipePresenter presenter = spy(presenter(view, endpoint, null));
         when(presenter.validate()).thenReturn(false);
 
         // when
@@ -114,7 +114,7 @@ public class EditRecipePresenterTest {
     @Test
     public void addComponent() {
         // given
-        EditRecipePresenter presenter = presenter(null);
+        EditRecipePresenter presenter = presenter(view, endpoint, null);
 
         // when
         presenter.addComponent();
@@ -127,7 +127,7 @@ public class EditRecipePresenterTest {
     public void updateRecipe() {
         // given
         Recipe recipe = new Recipe();
-        EditRecipePresenter presenter = presenter(recipe);
+        EditRecipePresenter presenter = presenter(view, endpoint, recipe);
         when(view.getName()).thenReturn("Name");
         when(view.getDescription()).thenReturn("Description");
         when(view.getDirections()).thenReturn("Directions");
@@ -147,7 +147,7 @@ public class EditRecipePresenterTest {
     public void recipe() {
         // given
         Recipe expected = new Recipe();
-        EditRecipePresenter presenter = presenter(expected);
+        EditRecipePresenter presenter = presenter(view, endpoint, expected);
 
         // when
         Recipe actual = presenter.recipe();
