@@ -21,7 +21,7 @@ import com.bnorm.barkeep.ui.base.BaseActivity;
 
 public class EditRecipeActivity extends BaseActivity
         implements EditRecipeView, ComponentDialogFragment.ComponentDialogListener {
-    private static final String RECIPE_TAG = EditRecipeView.class.getName() + ".recipe";
+    static final String RECIPE_TAG = EditRecipeActivity.class.getName() + ".recipe";
 
     // ===== View ===== //
 
