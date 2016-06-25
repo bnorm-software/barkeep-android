@@ -7,20 +7,6 @@
     android:fitsSystemWindows="true"
     tools:context=".ui.MainActivity">
 
-    <android.support.design.widget.AppBarLayout
-        style="@style/Widget.Barkeep.AppBarOverlay"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/main_toolbar"
-            style="@style/Widget.Barkeep.Toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary" />
-
-    </android.support.design.widget.AppBarLayout>
-
     <FrameLayout
         android:id="@+id/frameLayout"
         android:layout_width="match_parent"

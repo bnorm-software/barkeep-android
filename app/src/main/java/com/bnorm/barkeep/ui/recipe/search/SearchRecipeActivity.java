@@ -5,6 +5,7 @@ import javax.inject.Inject;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
@@ -31,6 +32,13 @@ public class SearchRecipeActivity extends BaseActivity implements SearchRecipeVi
 
     @Inject SearchRecipePresenter presenter;
     @Inject RecipeAdapter adapter;
+
+
+    public static void launch(Context context) {
+        Intent intent = new Intent(context, SearchRecipeActivity.class);
+        context.startActivity(intent);
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
