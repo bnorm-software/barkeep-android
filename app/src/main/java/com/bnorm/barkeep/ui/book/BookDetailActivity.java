@@ -1,5 +1,7 @@
 package com.bnorm.barkeep.ui.book;
 
+import javax.inject.Inject;
+
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -7,18 +9,27 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import com.bnorm.barkeep.R;
 import com.bnorm.barkeep.data.api.model.Book;
+import com.bnorm.barkeep.ui.ViewContainer;
 import com.bnorm.barkeep.ui.base.BaseActivity;
 
 public class BookDetailActivity extends BaseActivity {
 
     public static final String BOOK_TAG = BookDetailActivity.class.getName() + ".book";
 
+    // ===== View ===== //
+
+    @Inject ViewContainer viewContainer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_book_detail);
+        barkeep().component().plus(new BookDetailViewModule()).inject(this);
+
+        ViewGroup container = viewContainer.forActivity(this);
+        getLayoutInflater().inflate(R.layout.activity_book_detail, container);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);
