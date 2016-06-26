@@ -17,7 +17,7 @@ import com.bnorm.barkeep.lib.ListBindingAdapter;
 import com.bnorm.barkeep.ui.base.BaseFragment;
 import com.bnorm.barkeep.ui.recipe.ViewRecipeActivity;
 
-public class RecipeGridFragment extends BaseFragment {
+public class BookDetailFragment extends BaseFragment {
 
     private Book mBook;
 
@@ -38,7 +38,7 @@ public class RecipeGridFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_recipe_grid, container, false);
+        View root = inflater.inflate(R.layout.fragment_book_detail, container, false);
 
         RecyclerView gridview = (RecyclerView) root.findViewById(R.id.recipe_grid);
         GridLayoutManager manager = new GridLayoutManager(getContext(), 2);

@@ -39,7 +39,7 @@ public class BarDetailActivity extends BaseActivity {
             Bundle bundle = getIntent().getExtras();
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
-            IngredientShelvesFragment fragment = new IngredientShelvesFragment();
+            BarDetailFragment fragment = new BarDetailFragment();
             fragment.setBar((Bar) bundle.getParcelable(BAR_TAG));
             getSupportFragmentManager().beginTransaction().add(R.id.bar_detail_container, fragment).commit();
         }

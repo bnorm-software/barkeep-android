@@ -17,7 +17,7 @@ import com.bnorm.barkeep.data.api.model.Ingredient;
 import com.bnorm.barkeep.lib.Retained;
 import com.bnorm.barkeep.ui.base.BaseFragment;
 
-public class IngredientShelvesFragment extends BaseFragment {
+public class BarDetailFragment extends BaseFragment {
 
     private Bar mBar;
 
@@ -40,13 +40,13 @@ public class IngredientShelvesFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_ingredient_shelves, container, false);
+        View root = inflater.inflate(R.layout.fragment_bar_detail, container, false);
 
         RecyclerView shelves = (RecyclerView) root.findViewById(R.id.ingredient_shelves);
         LinearLayoutManager manager = new LinearLayoutManager(root.getContext(), LinearLayoutManager.VERTICAL, false);
         shelves.setLayoutManager(manager);
 
-        IngredientShelfAdapter adapter = new IngredientShelfAdapter();
+        BarShelfAdapter adapter = new BarShelfAdapter();
         shelves.setAdapter(adapter);
         if (mBar != null) {
             int num = 6;
