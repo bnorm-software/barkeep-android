@@ -7,79 +7,44 @@ import java.util.List;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.widget.DrawerLayout;
+import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.bnorm.barkeep.R;
 import com.bnorm.barkeep.data.api.model.Bar;
 import com.bnorm.barkeep.databinding.ItemBarBinding;
 import com.bnorm.barkeep.ui.MainActivity;
 import com.bnorm.barkeep.ui.base.BaseFragment;
 import com.bnorm.barkeep.ui.recipe.edit.EditRecipeActivity;
-import com.bnorm.barkeep.ui.recipe.search.SearchRecipeActivity;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 public class BarListFragment extends BaseFragment {
 
-    @BindView(R.id.fab) FloatingActionButton mFab;
-
-    private MenuItem mSearch;
-
-    private DrawerLayout mDrawer;
-    private ActionBarDrawerToggle mToggle;
-
-    private boolean mTwoPane;
+    @BindView(R.id.bar_list) RecyclerView recyclerView;
+    @Nullable @BindView(R.id.bar_detail_container) FrameLayout detailContainer;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_bar_list, container, false);
+        ButterKnife.bind(this, view);
 
         MainActivity activity = (MainActivity) getActivity();
-        mDrawer = activity.getDrawer();
-
-        Toolbar toolbar = (Toolbar) view.findViewById(R.id.main_toolbar);
-        activity.setSupportActionBar(toolbar);
         ActionBar actionBar = activity.getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setTitle("Bars");
         }
 
-        mToggle = new ActionBarDrawerToggle(activity,
-                                            mDrawer,
-                                            (Toolbar) view.findViewById(R.id.main_toolbar),
-                                            R.string.navigation_drawer_open,
-                                            R.string.navigation_drawer_close);
-        mDrawer.setDrawerListener(mToggle);
-        mToggle.syncState();
-        setHasOptionsMenu(true);
-
-        // todo should this only be available within a bar?
-        mFab = (FloatingActionButton) view.findViewById(R.id.fab);
-        mFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), EditRecipeActivity.class);
-                startActivity(intent);
-            }
-        });
-
-
-        final BarAdapter adapter = new BarAdapter();
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.bar_list);
+        BarAdapter adapter = new BarAdapter();
         recyclerView.setAdapter(adapter);
 
         Observable.<List<Bar>>fromCallable(() -> {
@@ -99,38 +64,13 @@ public class BarListFragment extends BaseFragment {
             adapter.notifyDataSetChanged();
         });
 
-        if (view.findViewById(R.id.bar_detail_container) != null) {
-            mTwoPane = true;
-        }
-
         return view;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == android.R.id.home) {
-            return mToggle.onOptionsItemSelected(item);
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        inflater.inflate(R.menu.menu_home, menu);
-
-        mSearch = menu.findItem(R.id.action_search);
-        mSearch.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                Intent intent = new Intent(getActivity(), SearchRecipeActivity.class);
-                startActivity(intent);
-                return true;
-            }
-        });
-
-        super.onCreateOptionsMenu(menu, inflater);
+    @OnClick(R.id.fab)
+    void onFabClick() {
+        // todo should this only be available within a book?
+        EditRecipeActivity.launch(getContext());
     }
 
     public class BarAdapter extends RecyclerView.Adapter<BarAdapter.ViewHolder> {
@@ -172,12 +112,10 @@ public class BarListFragment extends BaseFragment {
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (mTwoPane) {
+                        if (detailContainer != null) {
                             IngredientShelvesFragment fragment = new IngredientShelvesFragment();
                             fragment.setBar(binding.getBar());
-                            getFragmentManager().beginTransaction()
-                                                .replace(R.id.bar_detail_container, fragment)
-                                                .commit();
+                            getFragmentManager().beginTransaction().replace(detailContainer.getId(), fragment).commit();
                         } else {
                             Context context = v.getContext();
                             // ActivityOptions options = ActivityOptions.makeCustomAnimation(context,

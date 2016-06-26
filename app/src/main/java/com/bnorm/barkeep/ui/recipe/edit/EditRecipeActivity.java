@@ -23,7 +23,7 @@ import com.bnorm.barkeep.ui.base.BaseActivity;
 
 public class EditRecipeActivity extends BaseActivity
         implements EditRecipeView, ComponentDialogFragment.ComponentDialogListener {
-    private static final String RECIPE_TAG = EditRecipeView.class.getName() + ".recipe";
+    static final String RECIPE_TAG = EditRecipeActivity.class.getName() + ".recipe";
 
     // ===== View ===== //
 
@@ -39,11 +39,18 @@ public class EditRecipeActivity extends BaseActivity
     @Inject EditRecipePresenter presenter;
     @Inject ComponentAdapter adapter;
 
+
     public static void launch(Context source, Recipe recipe) {
         Intent intent = new Intent(source, EditRecipeActivity.class);
         intent.putExtra(RECIPE_TAG, recipe);
         source.startActivity(intent);
     }
+
+    public static void launch(Context source) {
+        Intent intent = new Intent(source, EditRecipeActivity.class);
+        source.startActivity(intent);
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
