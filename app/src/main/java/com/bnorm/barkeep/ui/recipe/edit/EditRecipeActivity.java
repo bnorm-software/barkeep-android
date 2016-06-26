@@ -1,11 +1,12 @@
 package com.bnorm.barkeep.ui.recipe.edit;
 
-import java.util.List;
 import javax.inject.Inject;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -54,11 +55,8 @@ public class EditRecipeActivity extends BaseActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_recipe);
 
-        Bundle bundle = getIntent().getExtras();
-        Recipe recipe = bundle != null ? bundle.getParcelable(RECIPE_TAG) : null;
-
         ButterKnife.bind(this);
-        barkeep().component().plus(new EditRecipeViewModule(this, recipe)).inject(this);
+        barkeep().component().plus(new EditRecipeViewModule(this)).inject(this);
 
         setSupportActionBar(toolbar);
         components.setAdapter(adapter);
@@ -66,18 +64,27 @@ public class EditRecipeActivity extends BaseActivity
         components.setItemAnimator(null);
         components.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
-        recipe = presenter.recipe();
-        name.setText(recipe.getName());
-        description.setText(recipe.getDescription());
-        directions.setText(recipe.getDirections());
-        adapter.set(recipe.getComponents());
-        adapter.notifyDataSetChanged();
+        loadRecipe(getIntent().getParcelableExtra(RECIPE_TAG));
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        presenter.updateRecipe();
+    @NonNull
+    private Recipe getRecipe() {
+        Recipe recipe = new Recipe();
+        recipe.setName(name.getText().toString());
+        recipe.setDescription(description.getText().toString());
+        recipe.setDirections(directions.getText().toString());
+        recipe.setComponents(adapter.getItems());
+        return recipe;
+    }
+
+    private void loadRecipe(@Nullable Recipe recipe) {
+        if (recipe != null) {
+            name.setText(recipe.getName());
+            description.setText(recipe.getDescription());
+            directions.setText(recipe.getDirections());
+            adapter.set(recipe.getComponents());
+            adapter.notifyDataSetChanged();
+        }
     }
 
     @OnClick(R.id.create_recipe_cancel)
@@ -87,7 +94,8 @@ public class EditRecipeActivity extends BaseActivity
 
     @OnClick(R.id.create_recipe_save)
     void onSave() {
-        presenter.save();
+        // todo(bnorm) check fields are properly filled
+        presenter.save(getRecipe());
     }
 
     @OnClick(R.id.create_recipe_add_component)
@@ -126,27 +134,8 @@ public class EditRecipeActivity extends BaseActivity
     }
 
     @Override
-    public void onComponentDialog(Integer position, Component component, String negativeText) {
+    public void onEditComponent(Integer position, Component component, String negativeText) {
+        // if position is null, it is a new component
         ComponentDialogFragment.launch(getSupportFragmentManager(), position, component, negativeText);
-    }
-
-    @Override
-    public String getName() {
-        return name.getText().toString();
-    }
-
-    @Override
-    public String getDescription() {
-        return description.getText().toString();
-    }
-
-    @Override
-    public String getDirections() {
-        return directions.getText().toString();
-    }
-
-    @Override
-    public List<Component> getComponents() {
-        return adapter.getItems();
     }
 }

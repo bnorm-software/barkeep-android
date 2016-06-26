@@ -17,7 +17,6 @@ import static com.google.common.truth.Truth.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -28,14 +27,14 @@ public class EditRecipePresenterTest {
     @Mock Endpoint endpoint;
 
     @NonNull
-    private static EditRecipePresenter presenter(EditRecipeView view, Endpoint endpoint, Recipe recipe) {
-        return new EditRecipePresenter(view, endpoint, Schedulers.immediate(), Schedulers.immediate(), recipe);
+    private static EditRecipePresenter presenter(EditRecipeView view, Endpoint endpoint) {
+        return new EditRecipePresenter(view, endpoint, Schedulers.immediate(), Schedulers.immediate());
     }
 
     @Test
     public void cancel() {
         // given
-        EditRecipePresenter presenter = presenter(view, endpoint, null);
+        EditRecipePresenter presenter = presenter(view, endpoint);
 
         // when
         presenter.cancel();
@@ -45,32 +44,94 @@ public class EditRecipePresenterTest {
     }
 
     @Test
-    public void validate() {
+    public void save_null() {
         // given
-        EditRecipePresenter presenter = presenter(view, endpoint, null);
+        EditRecipePresenter presenter = presenter(view, endpoint);
 
         // when
-        boolean validate = presenter.validate();
+        boolean result = presenter.save(null);
 
         // then
-        assertThat(validate).named("validate").isTrue();
+        assertThat(result).named("save result").isFalse();
+    }
+
+    @Test
+    public void save_nullName() {
+        // given
+        Recipe recipe = new Recipe();
+        recipe.setNameWords(new ArrayList<>());
+        recipe.setComponents(new ArrayList<>());
+        EditRecipePresenter presenter = presenter(view, endpoint);
+
+        // when
+        boolean result = presenter.save(recipe);
+
+        // then
+        assertThat(result).named("save result").isFalse();
+    }
+
+    @Test
+    public void save_nullNameWords() {
+        // given
+        Recipe recipe = new Recipe();
+        recipe.setName("name");
+        recipe.setComponents(new ArrayList<>());
+        EditRecipePresenter presenter = presenter(view, endpoint);
+
+        // when
+        boolean result = presenter.save(recipe);
+
+        // then
+        assertThat(result).named("save result").isFalse();
+    }
+
+    @Test
+    public void save_nullComponents() {
+        // given
+        Recipe recipe = new Recipe();
+        recipe.setName("name");
+        recipe.setNameWords(new ArrayList<>());
+        EditRecipePresenter presenter = presenter(view, endpoint);
+
+        // when
+        boolean result = presenter.save(recipe);
+
+        // then
+        assertThat(result).named("save result").isFalse();
+    }
+
+    @Test
+    public void save_good() {
+        // given
+        Recipe recipe = new Recipe();
+        recipe.setName("name");
+        recipe.setNameWords(new ArrayList<>());
+        recipe.setComponents(new ArrayList<>());
+        EditRecipePresenter presenter = presenter(view, endpoint);
+
+        // when
+        boolean result = presenter.save(recipe);
+
+        // then
+        assertThat(result).named("save result").isTrue();
     }
 
     @Test
     public void save_valid_new() throws IOException {
         // given
         Recipe recipe = new Recipe();
+        recipe.setName("name");
         recipe.setNameWords(new ArrayList<>());
-        EditRecipePresenter presenter = presenter(view, endpoint, recipe);
-        when(view.getName()).thenReturn("name");
-        when(view.getComponents()).thenReturn(new ArrayList<>());
+        recipe.setComponents(new ArrayList<>());
+        EditRecipePresenter presenter = presenter(view, endpoint);
         when(endpoint.getRecipe(any())).thenThrow(new IOException());
         when(endpoint.insertRecipe(any())).thenReturn(mock(Endpoint.InsertRecipe.class));
 
         // when
-        presenter.save();
+        boolean result = presenter.save(recipe);
 
         // then
+        assertThat(result).named("save result").isTrue();
         verify(endpoint).getRecipe("name");
         verify(endpoint).insertRecipe(any());
         verify(view).onRecipeSaved(recipe);
@@ -81,17 +142,18 @@ public class EditRecipePresenterTest {
     public void save_valid_update() throws IOException {
         // given
         Recipe recipe = new Recipe();
+        recipe.setName("name");
         recipe.setNameWords(new ArrayList<>());
-        EditRecipePresenter presenter = presenter(view, endpoint, recipe);
-        when(view.getName()).thenReturn("name");
-        when(view.getComponents()).thenReturn(new ArrayList<>());
+        recipe.setComponents(new ArrayList<>());
+        EditRecipePresenter presenter = presenter(view, endpoint);
         when(endpoint.getRecipe(any())).thenReturn(mock(Endpoint.GetRecipe.class));
         when(endpoint.updateRecipe(any(), any())).thenReturn(mock(Endpoint.UpdateRecipe.class));
 
         // when
-        presenter.save();
+        boolean result = presenter.save(recipe);
 
         // then
+        assertThat(result).named("save result").isTrue();
         verify(endpoint).getRecipe("name");
         verify(endpoint).updateRecipe(eq("name"), any());
         verify(view).onRecipeSaved(recipe);
@@ -99,60 +161,14 @@ public class EditRecipePresenterTest {
     }
 
     @Test
-    public void save_invalid() throws IOException {
-        // given
-        EditRecipePresenter presenter = spy(presenter(view, endpoint, null));
-        when(presenter.validate()).thenReturn(false);
-
-        // when
-        presenter.save();
-
-        // then
-        verify(presenter).validate();
-    }
-
-    @Test
     public void addComponent() {
         // given
-        EditRecipePresenter presenter = presenter(view, endpoint, null);
+        EditRecipePresenter presenter = presenter(view, endpoint);
 
         // when
         presenter.addComponent();
 
         // then
-        verify(view).onComponentDialog(eq(null), any(), eq("Cancel"));
-    }
-
-    @Test
-    public void updateRecipe() {
-        // given
-        Recipe recipe = new Recipe();
-        EditRecipePresenter presenter = presenter(view, endpoint, recipe);
-        when(view.getName()).thenReturn("Name");
-        when(view.getDescription()).thenReturn("Description");
-        when(view.getDirections()).thenReturn("Directions");
-        when(view.getComponents()).thenReturn(null);
-
-        // when
-        presenter.updateRecipe();
-
-        // then
-        assertThat(recipe.getName()).named("recipe name").isEqualTo("Name");
-        assertThat(recipe.getDescription()).named("recipe description").isEqualTo("Description");
-        assertThat(recipe.getDirections()).named("recipe directions").isEqualTo("Directions");
-        assertThat(recipe.getComponents()).named("recipe components").isEqualTo(null);
-    }
-
-    @Test
-    public void recipe() {
-        // given
-        Recipe expected = new Recipe();
-        EditRecipePresenter presenter = presenter(view, endpoint, expected);
-
-        // when
-        Recipe actual = presenter.recipe();
-
-        // then
-        assertThat(actual).isEqualTo(expected);
+        verify(view).onEditComponent(eq(null), any(), eq("Cancel"));
     }
 }
