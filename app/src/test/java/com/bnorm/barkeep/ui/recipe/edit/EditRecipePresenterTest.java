@@ -91,6 +91,7 @@ public class EditRecipePresenterTest {
         Recipe recipe = new Recipe();
         recipe.setName("name");
         recipe.setNameWords(new ArrayList<>());
+        recipe.setComponents(null);
         EditRecipePresenter presenter = presenter(view, endpoint);
 
         // when
@@ -98,22 +99,6 @@ public class EditRecipePresenterTest {
 
         // then
         assertThat(result).named("save result").isFalse();
-    }
-
-    @Test
-    public void save_good() {
-        // given
-        Recipe recipe = new Recipe();
-        recipe.setName("name");
-        recipe.setNameWords(new ArrayList<>());
-        recipe.setComponents(new ArrayList<>());
-        EditRecipePresenter presenter = presenter(view, endpoint);
-
-        // when
-        boolean result = presenter.save(recipe);
-
-        // then
-        assertThat(result).named("save result").isTrue();
     }
 
     @Test
@@ -134,7 +119,7 @@ public class EditRecipePresenterTest {
         assertThat(result).named("save result").isTrue();
         verify(endpoint).getRecipe("name");
         verify(endpoint).insertRecipe(any());
-        verify(view).onRecipeSaved(recipe);
+        verify(view).onRecipeSaved(any());
         verify(view).onClose();
     }
 
@@ -156,7 +141,7 @@ public class EditRecipePresenterTest {
         assertThat(result).named("save result").isTrue();
         verify(endpoint).getRecipe("name");
         verify(endpoint).updateRecipe(eq("name"), any());
-        verify(view).onRecipeSaved(recipe);
+        verify(view).onRecipeSaved(any());
         verify(view).onClose();
     }
 

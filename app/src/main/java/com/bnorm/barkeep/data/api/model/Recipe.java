@@ -19,14 +19,18 @@ public class Recipe implements Parcelable {
     }
 
     public Recipe(com.bnorm.barkeep.server.data.store.v1.endpoint.model.Recipe recipe) {
-        this.name = recipe.getName();
-        this.nameWords = recipe.getNameWords();
-        this.picture = recipe.getPicture();
-        this.description = recipe.getDescription();
-        for (com.bnorm.barkeep.server.data.store.v1.endpoint.model.Component component : recipe.getComponents()) {
-            this.components.add(new Component(component));
+        if (recipe != null) {
+            this.name = recipe.getName();
+            this.nameWords = recipe.getNameWords();
+            this.picture = recipe.getPicture();
+            this.description = recipe.getDescription();
+            if (recipe.getComponents() != null) {
+                for (com.bnorm.barkeep.server.data.store.v1.endpoint.model.Component component : recipe.getComponents()) {
+                    this.components.add(new Component(component));
+                }
+            }
+            this.directions = recipe.getDirections();
         }
-        this.directions = recipe.getDirections();
     }
 
     public String getName() {
