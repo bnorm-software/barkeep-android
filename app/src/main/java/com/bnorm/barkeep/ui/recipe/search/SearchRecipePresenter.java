@@ -9,17 +9,20 @@ import com.bnorm.barkeep.data.api.model.Recipe;
 import com.bnorm.barkeep.server.data.store.v1.endpoint.Endpoint;
 import com.google.common.base.Preconditions;
 import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import rx.Scheduler;
 
 public class SearchRecipePresenter {
 
     private final SearchRecipeView view;
     private final Endpoint endpoint;
+    private final Scheduler apiScheduler;
+    private final Scheduler uiScheduler;
 
-    public SearchRecipePresenter(SearchRecipeView view, Endpoint endpoint) {
+    public SearchRecipePresenter(SearchRecipeView view, Endpoint endpoint, Scheduler apiScheduler, Scheduler uiScheduler) {
         this.view = view;
         this.endpoint = endpoint;
+        this.apiScheduler = apiScheduler;
+        this.uiScheduler = uiScheduler;
     }
 
     public void submit(String query) {
@@ -40,6 +43,6 @@ public class SearchRecipePresenter {
             } catch (IOException e) {
                 return Collections.<Recipe>emptyList();
             }
-        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(view::onSearchResults);
+        }).subscribeOn(apiScheduler).observeOn(uiScheduler).subscribe(view::onSearchResults);
     }
 }

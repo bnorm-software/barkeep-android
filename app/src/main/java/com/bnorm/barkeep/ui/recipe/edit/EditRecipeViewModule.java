@@ -1,10 +1,13 @@
 package com.bnorm.barkeep.ui.recipe.edit;
 
+import com.bnorm.barkeep.data.api.ApiScheduler;
 import com.bnorm.barkeep.data.api.model.Recipe;
 import com.bnorm.barkeep.server.data.store.v1.endpoint.Endpoint;
 import com.bnorm.barkeep.ui.ActivityScope;
+import com.bnorm.barkeep.ui.UiScheduler;
 import dagger.Module;
 import dagger.Provides;
+import rx.Scheduler;
 
 @Module
 public class EditRecipeViewModule {
@@ -24,7 +27,8 @@ public class EditRecipeViewModule {
 
     @ActivityScope
     @Provides
-    EditRecipePresenter provideEditRecipeActivityPresenter(Endpoint endpoint) {
-        return new EditRecipePresenter(view, endpoint, recipe);
+    EditRecipePresenter provideEditRecipeActivityPresenter(Endpoint endpoint, @ApiScheduler Scheduler apiScheduler,
+                                                           @UiScheduler Scheduler uiScheduler) {
+        return new EditRecipePresenter(view, endpoint, apiScheduler, uiScheduler, recipe);
     }
 }
