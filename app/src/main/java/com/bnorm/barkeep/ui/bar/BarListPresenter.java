@@ -1,5 +1,6 @@
 package com.bnorm.barkeep.ui.bar;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -25,15 +26,19 @@ public class BarListPresenter {
 
     public void loadBars() {
         Observable.fromCallable(() -> {
-            List<com.bnorm.barkeep.server.data.store.v1.endpoint.model.Bar> bars;
-            bars = endpoint.listBars().execute().getItems();
-            if (bars != null) {
-                List<Bar> result = new ArrayList<>();
-                for (com.bnorm.barkeep.server.data.store.v1.endpoint.model.Bar bar : bars) {
-                    result.add(new Bar(bar));
+            try {
+                List<com.bnorm.barkeep.server.data.store.v1.endpoint.model.Bar> bars;
+                bars = endpoint.listBars().execute().getItems();
+                if (bars != null) {
+                    List<Bar> result = new ArrayList<>();
+                    for (com.bnorm.barkeep.server.data.store.v1.endpoint.model.Bar bar : bars) {
+                        result.add(new Bar(bar));
+                    }
+                    return result;
+                } else {
+                    return Collections.<Bar>emptyList();
                 }
-                return result;
-            } else {
+            } catch (IOException ignore) {
                 return Collections.<Bar>emptyList();
             }
         }).subscribeOn(apiScheduler).observeOn(uiScheduler).subscribe(result -> {
