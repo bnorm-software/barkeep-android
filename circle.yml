@@ -24,11 +24,11 @@ test:
         background: true
         parallel: true
   override:
-    - ./gradlew build jacocoTestReport --continue --stacktrace
+    - ./gradlew build jacocoTestReport --continue --stacktrace --console=plain
     - circle-android wait-for-boot
     - adb devices
     - adb shell input keyevent 82 &
-    - ./gradlew connectedCheck --continue --stacktrace
+    - ./gradlew connectedCheck --continue --stacktrace --console=plain
     - cp -r app/build/outputs $CIRCLE_ARTIFACTS
   post:
     - bash <(curl -s https://codecov.io/bash)
