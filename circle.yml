@@ -4,7 +4,7 @@ machine:
     GRADLE_OPTS: -Xmx512m
 
 dependencies:
-  post:
+  pre:
     - echo y | android update sdk --no-ui --all --filter "platform-tools"
     - echo y | android update sdk --no-ui --all --filter "tools"
     - echo y | android update sdk --no-ui --all --filter "build-tools-23.0.3"
