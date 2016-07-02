@@ -1,4 +1,6 @@
 machine:
+  java:
+    version: openjdk8
   environment:
     ANDROID_HOME: /usr/local/android-sdk-linux
     GRADLE_OPTS: -Xmx512m
@@ -13,8 +15,8 @@ dependencies:
     - echo y | android update sdk --no-ui --all --filter "sys-img-armeabi-v7a-android-19"
     - echo n | android create avd --force -n test -t android-19 --abi armeabi-v7a
   cache_directories:
-    - $ANDROID_HOME/tools
-    - $ANDROID_HOME/build-tools/23.0.3
+    - /usr/local/android-sdk-linux/tools
+    - /usr/local/android-sdk-linux/build-tools/23.0.3
 
 test:
   pre:
