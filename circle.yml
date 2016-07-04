@@ -21,7 +21,7 @@ dependencies:
 
 test:
   pre:
-    - $ANDROID_HOME/tools/emulator -avd test -no-window -no-boot-anim -no-audio:
+    - $ANDROID_HOME/tools/emulator -avd test -gpu off -no-skin -no-window -no-boot-anim -no-audio:
         background: true
         parallel: true
   override:
