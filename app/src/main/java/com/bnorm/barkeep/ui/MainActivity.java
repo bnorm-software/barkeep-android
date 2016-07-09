@@ -17,6 +17,8 @@ import com.bnorm.barkeep.ui.bar.BarListFragment;
 import com.bnorm.barkeep.ui.base.BaseActivity;
 import com.bnorm.barkeep.ui.book.BookListFragment;
 import com.bnorm.barkeep.ui.recipe.search.SearchRecipeActivity;
+import com.google.android.gms.ads.doubleclick.PublisherAdRequest;
+import com.google.android.gms.ads.doubleclick.PublisherAdView;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -27,6 +29,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.drawer_layout) DrawerLayout drawer;
     @BindView(R.id.nav_view) NavigationView navigationView;
+    @BindView(R.id.publisherAdView) PublisherAdView publisherAdView;
     private ActionBarDrawerToggle toggle;
 
     @Override
@@ -51,6 +54,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         toggle.syncState();
 
         navigationView.setNavigationItemSelectedListener(this);
+
+        publisherAdView.loadAd(new PublisherAdRequest.Builder().build());
 
         Fragment fragment = getSupportFragmentManager().findFragmentByTag(FRAG_TAG);
         if (fragment == null) {

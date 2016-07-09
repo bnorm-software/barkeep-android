@@ -16,4 +16,6 @@
     <string name="title_book_list">Books</string>
     <string name="title_book_detail">Book Detail</string>
     <string name="title_bar_detail">Bar Detail</string>
+
+    <string name="banner_ad_unit_id">/6499/example/banner</string>
 </resources>

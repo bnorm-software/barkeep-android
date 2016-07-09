@@ -2,7 +2,6 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-
         <variable
             name="bar"
             type="com.bnorm.barkeep.data.api.model.Bar" />
