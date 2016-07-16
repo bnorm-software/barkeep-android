@@ -1,21 +1,32 @@
 package com.bnorm.barkeep.ui.bar;
 
+import javax.inject.Inject;
+
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import com.bnorm.barkeep.R;
 import com.bnorm.barkeep.data.api.model.Bar;
+import com.bnorm.barkeep.ui.ViewContainer;
 import com.bnorm.barkeep.ui.base.BaseActivity;
 
 public class BarDetailActivity extends BaseActivity {
 
     public static final String BAR_TAG = BarDetailActivity.class.getName() + ".bar";
 
+    // ===== View ===== //
+
+    @Inject ViewContainer viewContainer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bar_detail);
+        barkeep().component().plus(new BarDetailViewModule()).inject(this);
+
+        ViewGroup container = viewContainer.forActivity(this);
+        getLayoutInflater().inflate(R.layout.activity_bar_detail, container);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);

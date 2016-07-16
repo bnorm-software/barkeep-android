@@ -15,4 +15,10 @@ public class UiModule {
     Scheduler provideUiScheduler() {
         return AndroidSchedulers.mainThread();
     }
+
+    @AppScope
+    @Provides
+    ViewContainer providesViewContainer() {
+        return ViewContainer.DEFAULT;
+    }
 }
