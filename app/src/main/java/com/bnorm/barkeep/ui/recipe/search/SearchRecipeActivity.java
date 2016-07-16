@@ -13,10 +13,12 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.bnorm.barkeep.R;
 import com.bnorm.barkeep.data.api.model.Recipe;
+import com.bnorm.barkeep.ui.ViewContainer;
 import com.bnorm.barkeep.ui.base.BaseActivity;
 import com.bnorm.barkeep.ui.recipe.ViewRecipeActivity;
 
@@ -24,6 +26,7 @@ public class SearchRecipeActivity extends BaseActivity implements SearchRecipeVi
 
     // ===== View ===== //
 
+    @Inject ViewContainer viewContainer;
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.search) SearchView searchView;
     @BindView(R.id.recipe_search_results) RecyclerView results;
@@ -43,10 +46,11 @@ public class SearchRecipeActivity extends BaseActivity implements SearchRecipeVi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search_recipe);
-
-        ButterKnife.bind(this);
         barkeep().component().plus(new SearchRecipeViewModule(this)).inject(this);
+
+        ViewGroup container = viewContainer.forActivity(this);
+        getLayoutInflater().inflate(R.layout.activity_search_recipe, container);
+        ButterKnife.bind(this, container);
 
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
