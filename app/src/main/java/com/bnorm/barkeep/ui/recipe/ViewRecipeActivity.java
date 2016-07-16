@@ -1,5 +1,7 @@
 package com.bnorm.barkeep.ui.recipe;
 
+import javax.inject.Inject;
+
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -7,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 import com.bnorm.barkeep.R;
 import com.bnorm.barkeep.data.api.model.Amount;
@@ -14,6 +17,7 @@ import com.bnorm.barkeep.data.api.model.Component;
 import com.bnorm.barkeep.data.api.model.Ingredient;
 import com.bnorm.barkeep.data.api.model.Recipe;
 import com.bnorm.barkeep.databinding.ActivityViewRecipeBinding;
+import com.bnorm.barkeep.ui.ViewContainer;
 import com.bnorm.barkeep.ui.base.BaseActivity;
 import com.bnorm.barkeep.ui.recipe.edit.EditRecipeActivity;
 
@@ -24,6 +28,10 @@ public class ViewRecipeActivity extends BaseActivity {
     // ===== Model ===== //
 
     private ActivityViewRecipeBinding binding;
+
+    // ===== View ===== //
+
+    @Inject ViewContainer viewContainer;
 
     public static void launch(Context source, Recipe recipe) {
         Intent intent = new Intent(source, ViewRecipeActivity.class);
@@ -40,7 +48,10 @@ public class ViewRecipeActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_view_recipe);
+        barkeep().component().plus(new ViewRecipeViewModule()).inject(this);
+
+        ViewGroup container = viewContainer.forActivity(this);
+        binding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.activity_view_recipe, container, true);
 
 
         // ===== Pull intent extras ===== //
