@@ -3,6 +3,8 @@ package com.bnorm.barkeep.ui.bar;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -15,6 +17,7 @@ public class BarAdapter extends RecyclerView.Adapter<BarAdapter.ViewHolder> {
     private final BarListView view;
     private final List<Bar> items;
 
+    @Inject
     public BarAdapter(BarListView view) {
         this.view = view;
         this.items = new ArrayList<>();

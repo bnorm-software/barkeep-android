@@ -2,6 +2,8 @@ package com.bnorm.barkeep.ui.book;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -31,11 +33,13 @@ public class BookListFragment extends BaseFragment implements BookListView {
 
     // ===== Presenter ===== //
 
-    private BookListPresenter presenter;
-    private BookAdapter adapter;
+    @Inject BookListPresenter presenter;
+    @Inject BookAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        barkeep().component().plus(new BookListViewModule(this)).inject(this);
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_book_list, container, false);
         ButterKnife.bind(this, view);

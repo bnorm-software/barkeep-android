@@ -3,6 +3,8 @@ package com.bnorm.barkeep.ui.book;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -15,6 +17,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
     private final BookListView view;
     private final List<Book> items;
 
+    @Inject
     public BookAdapter(BookListView view) {
         this.view = view;
         this.items = new ArrayList<>();

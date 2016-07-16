@@ -4,12 +4,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import javax.inject.Inject;
 
+import com.bnorm.barkeep.data.api.ApiScheduler;
 import com.bnorm.barkeep.data.api.model.Bar;
 import com.bnorm.barkeep.server.data.store.v1.endpoint.Endpoint;
+import com.bnorm.barkeep.ui.ActivityScope;
+import com.bnorm.barkeep.ui.UiScheduler;
 import rx.Observable;
 import rx.Scheduler;
 
+@ActivityScope
 public class BarListPresenter {
 
     private final BarListView view;
@@ -17,7 +22,9 @@ public class BarListPresenter {
     private final Scheduler apiScheduler;
     private final Scheduler uiScheduler;
 
-    public BarListPresenter(BarListView view, Endpoint endpoint, Scheduler apiScheduler, Scheduler uiScheduler) {
+    @Inject
+    public BarListPresenter(BarListView view, Endpoint endpoint, @ApiScheduler Scheduler apiScheduler,
+                            @UiScheduler Scheduler uiScheduler) {
         this.view = view;
         this.endpoint = endpoint;
         this.apiScheduler = apiScheduler;
