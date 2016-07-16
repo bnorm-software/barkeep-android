@@ -1,5 +1,7 @@
 package com.bnorm.barkeep.ui;
 
+import javax.inject.Inject;
+
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -10,6 +12,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.bnorm.barkeep.R;
@@ -24,6 +27,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     // ===== View ===== //
 
+    @Inject ViewContainer viewContainer;
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.drawer_layout) DrawerLayout drawer;
     @BindView(R.id.nav_view) NavigationView navigationView;
@@ -32,9 +36,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        barkeep().component().plus(new MainViewModule()).inject(this);
 
-        ButterKnife.bind(this);
+        ViewGroup container = viewContainer.forActivity(this);
+        getLayoutInflater().inflate(R.layout.activity_main, container);
+        ButterKnife.bind(this, container);
 
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();

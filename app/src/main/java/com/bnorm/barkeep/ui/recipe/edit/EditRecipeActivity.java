@@ -10,6 +10,7 @@ import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.ViewGroup;
 import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -17,6 +18,7 @@ import butterknife.OnClick;
 import com.bnorm.barkeep.R;
 import com.bnorm.barkeep.data.api.model.Component;
 import com.bnorm.barkeep.data.api.model.Recipe;
+import com.bnorm.barkeep.ui.ViewContainer;
 import com.bnorm.barkeep.ui.base.BaseActivity;
 
 public class EditRecipeActivity extends BaseActivity
@@ -25,6 +27,7 @@ public class EditRecipeActivity extends BaseActivity
 
     // ===== View ===== //
 
+    @Inject ViewContainer viewContainer;
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.create_recipe_name) AppCompatEditText name;
     @BindView(R.id.create_recipe_description) AppCompatEditText description;
@@ -52,13 +55,15 @@ public class EditRecipeActivity extends BaseActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_recipe);
 
         Bundle bundle = getIntent().getExtras();
         Recipe recipe = bundle != null ? bundle.getParcelable(RECIPE_TAG) : null;
 
-        ButterKnife.bind(this);
         barkeep().component().plus(new EditRecipeViewModule(this, recipe)).inject(this);
+
+        ViewGroup container = viewContainer.forActivity(this);
+        getLayoutInflater().inflate(R.layout.activity_create_recipe, container);
+        ButterKnife.bind(this, container);
 
         setSupportActionBar(toolbar);
         components.setAdapter(adapter);

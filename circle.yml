@@ -1,0 +1,33 @@
+machine:
+  java:
+    version: openjdk8
+  environment:
+    ANDROID_HOME: /usr/local/android-sdk-linux
+    GRADLE_OPTS: -Xmx512m
+
+dependencies:
+  pre:
+    - echo y | android update sdk --no-ui --all --filter "platform-tools"
+    - echo y | android update sdk --no-ui --all --filter "tools"
+    - echo y | android update sdk --no-ui --all --filter "build-tools-23.0.3"
+    - echo y | android update sdk --no-ui --all --filter "android-19"
+    - echo y | android update sdk --no-ui --all --filter "android-23"
+    - echo y | android update sdk --no-ui --all --filter "extra-android-m2repository"
+    - echo y | android update sdk --no-ui --all --filter "sys-img-armeabi-v7a-android-19"
+    - echo n | android create avd --force -n test -t android-19 --abi armeabi-v7a
+  cache_directories:
+    - /usr/local/android-sdk-linux/tools
+    - /usr/local/android-sdk-linux/build-tools/23.0.3
+
+test:
+  pre:
+    - $ANDROID_HOME/tools/emulator -avd test -gpu off -no-skin -no-window -no-boot-anim -no-audio:
+        background: true
+        parallel: true
+  override:
+    - ./gradlew build jacocoTestReport --continue --stacktrace --console=plain
+    - circle-android wait-for-boot
+    - ./gradlew connectedCheck --continue --stacktrace --console=plain
+    - cp -r app/build/outputs $CIRCLE_ARTIFACTS
+  post:
+    - bash <(curl -s https://codecov.io/bash)
