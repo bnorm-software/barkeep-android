@@ -63,7 +63,7 @@ public class BookDetailActivity extends BaseActivity {
             Bundle bundle = getIntent().getExtras();
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
-            RecipeGridFragment fragment = new RecipeGridFragment();
+            BookDetailFragment fragment = new BookDetailFragment();
             fragment.setBook((Book) bundle.getParcelable(BOOK_TAG));
             getSupportFragmentManager().beginTransaction().add(R.id.book_detail_container, fragment).commit();
         }

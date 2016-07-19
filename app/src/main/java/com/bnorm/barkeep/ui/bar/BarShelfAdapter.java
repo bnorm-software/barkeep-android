@@ -11,11 +11,11 @@ import android.view.ViewGroup;
 import com.bnorm.barkeep.R;
 import com.bnorm.barkeep.databinding.ItemIngredientShelfBinding;
 
-public class IngredientShelfAdapter extends RecyclerView.Adapter<IngredientShelfAdapter.RecipeViewHolder> {
+public class BarShelfAdapter extends RecyclerView.Adapter<BarShelfAdapter.RecipeViewHolder> {
 
     private final List<BarShelf> shelves;
 
-    public IngredientShelfAdapter() {
+    public BarShelfAdapter() {
         this.shelves = new ArrayList<>();
     }
 
