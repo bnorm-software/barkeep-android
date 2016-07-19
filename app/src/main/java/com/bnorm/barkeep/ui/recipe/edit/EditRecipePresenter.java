@@ -14,15 +14,12 @@ public class EditRecipePresenter {
     private final Endpoint endpoint;
     private final Scheduler apiScheduler;
     private final Scheduler uiScheduler;
-    private final Recipe recipe;
 
-    public EditRecipePresenter(EditRecipeView view, Endpoint endpoint, Scheduler apiScheduler, Scheduler uiScheduler,
-                               Recipe recipe) {
+    public EditRecipePresenter(EditRecipeView view, Endpoint endpoint, Scheduler apiScheduler, Scheduler uiScheduler) {
         this.view = view;
         this.endpoint = endpoint;
         this.apiScheduler = apiScheduler;
         this.uiScheduler = uiScheduler;
-        this.recipe = recipe != null ? recipe : new Recipe();
     }
 
     public void cancel() {
@@ -30,46 +27,36 @@ public class EditRecipePresenter {
         view.onClose();
     }
 
-    public boolean validate() {
-        // todo(bnorm) validate all required fields
-        return true;
+    private boolean validate(Recipe recipe) {
+        boolean malformed = recipe == null //
+                || recipe.getName() == null //
+                || recipe.getNameWords() == null //
+                || recipe.getComponents() == null;
+        return !malformed;
     }
 
-    public void save() {
-        if (validate()) {
-            updateRecipe();
+    public boolean save(Recipe recipe) {
+        if (validate(recipe)) {
             Observable.fromCallable(() -> {
-                boolean exists = true;
+                Recipe response;
                 try {
                     endpoint.getRecipe(recipe.getName()).execute();
+                    response = new Recipe(endpoint.updateRecipe(recipe.getName(), recipe.toStore()).execute());
                 } catch (IOException e) {
-                    exists = false;
+                    response = new Recipe(endpoint.insertRecipe(recipe.toStore()).execute());
                 }
-                if (exists) {
-                    endpoint.updateRecipe(recipe.getName(), recipe.toStore()).execute();
-                } else {
-                    endpoint.insertRecipe(recipe.toStore()).execute();
-                }
-                return recipe;
-            }).subscribeOn(apiScheduler).observeOn(uiScheduler).subscribe(recipe -> {
-                view.onRecipeSaved(recipe);
+                return response;
+            }).subscribeOn(apiScheduler).observeOn(uiScheduler).subscribe(response -> {
+                view.onRecipeSaved(response);
                 view.onClose();
             });
+            return true;
+        } else {
+            return false;
         }
     }
 
     public void addComponent() {
-        view.onComponentDialog(null, new Component(), "Cancel");
-    }
-
-    public void updateRecipe() {
-        recipe.setName(view.getName());
-        recipe.setDescription(view.getDescription());
-        recipe.setDirections(view.getDirections());
-        recipe.setComponents(view.getComponents());
-    }
-
-    public Recipe recipe() {
-        return recipe;
+        view.onEditComponent(null, new Component(), "Cancel");
     }
 }

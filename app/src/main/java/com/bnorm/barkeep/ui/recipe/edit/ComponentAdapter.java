@@ -39,7 +39,7 @@ public class ComponentAdapter extends RecyclerView.Adapter<ComponentAdapter.Comp
     }
 
     private void onComponentClick(int position) {
-        activity.onComponentDialog(position, items.get(position), "Delete");
+        activity.onEditComponent(position, items.get(position), "Delete");
     }
 
     @Override
