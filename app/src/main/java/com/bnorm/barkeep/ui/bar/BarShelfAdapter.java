@@ -6,10 +6,10 @@ import java.util.List;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import com.bnorm.barkeep.R;
-import com.bnorm.barkeep.databinding.ItemIngredientShelfBinding;
 
 public class BarShelfAdapter extends RecyclerView.Adapter<BarShelfAdapter.RecipeViewHolder> {
 
@@ -21,10 +21,7 @@ public class BarShelfAdapter extends RecyclerView.Adapter<BarShelfAdapter.Recipe
 
     @Override
     public RecipeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View v = inflater.inflate(R.layout.item_ingredient_shelf, parent, false);
-        ItemIngredientShelfBinding binding = ItemIngredientShelfBinding.bind(v);
-        return new RecipeViewHolder(binding);
+        return new RecipeViewHolder(parent);
     }
 
     @Override
@@ -44,17 +41,16 @@ public class BarShelfAdapter extends RecyclerView.Adapter<BarShelfAdapter.Recipe
     }
 
     public class RecipeViewHolder extends RecyclerView.ViewHolder {
-        private final ItemIngredientShelfBinding binding;
+        @BindView(R.id.ingredient_shelf_list) RecyclerView ingredientShelfList;
         private final IngredientAdapter adapter;
 
-        private RecipeViewHolder(ItemIngredientShelfBinding binding) {
-            super(binding.getRoot());
-            this.binding = binding;
+        private RecipeViewHolder(ViewGroup parent) {
+            super(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_ingredient_shelf, parent, false));
             this.adapter = new IngredientAdapter();
 
-            RecyclerView ingredientShelfList = this.binding.ingredientShelfList;
+            ButterKnife.bind(this, itemView);
             ingredientShelfList.setAdapter(adapter);
-            ingredientShelfList.setLayoutManager(new LinearLayoutManager(binding.getRoot().getContext(),
+            ingredientShelfList.setLayoutManager(new LinearLayoutManager(itemView.getContext(),
                                                                          LinearLayoutManager.HORIZONTAL,
                                                                          false));
         }

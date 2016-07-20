@@ -2,7 +2,6 @@ package com.bnorm.barkeep.lib;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import android.databinding.BindingAdapter;
 import android.widget.ImageView;
 import com.bnorm.barkeep.R;
 import com.squareup.picasso.Picasso;
@@ -18,7 +17,6 @@ public class BindingAdapters {
 
     private static final AtomicInteger position = new AtomicInteger();
 
-    @BindingAdapter({"bind:imageUrl"})
     public static void loadImage(ImageView view, String url) {
         Picasso with = Picasso.with(view.getContext());
         RequestCreator load;

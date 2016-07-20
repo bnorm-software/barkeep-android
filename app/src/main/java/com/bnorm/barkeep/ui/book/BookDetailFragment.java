@@ -1,5 +1,8 @@
 package com.bnorm.barkeep.ui.book;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -9,11 +12,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import com.bnorm.barkeep.R;
 import com.bnorm.barkeep.data.api.model.Book;
 import com.bnorm.barkeep.data.api.model.Recipe;
-import com.bnorm.barkeep.databinding.ItemRecipeGridBinding;
-import com.bnorm.barkeep.lib.ListBindingAdapter;
+import com.bnorm.barkeep.lib.BindingAdapters;
 import com.bnorm.barkeep.ui.base.BaseFragment;
 import com.bnorm.barkeep.ui.recipe.ViewRecipeActivity;
 
@@ -47,30 +53,54 @@ public class BookDetailFragment extends BaseFragment {
         RecipeGridAdapter adapter = new RecipeGridAdapter();
         gridview.setAdapter(adapter);
         if (mBook != null) {
-            adapter.setAll(mBook.getRecipes());
+            adapter.items.clear();
+            adapter.items.addAll(mBook.getRecipes());
         }
 
         return root;
     }
 
-    private class RecipeGridAdapter extends ListBindingAdapter<Recipe, ItemRecipeGridBinding> {
+    public class RecipeGridAdapter extends RecyclerView.Adapter<RecipeGridAdapter.Holder> {
+
+        private final List<Recipe> items = new ArrayList<>();
 
         @Override
-        public BindingViewHolder<ItemRecipeGridBinding> onCreateViewHolder(ViewGroup parent, int viewType) {
-            LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-            ItemRecipeGridBinding binding = ItemRecipeGridBinding.inflate(inflater, parent, false);
-            binding.getRoot().setOnClickListener(view -> {
-                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(),
-                                                                                                   binding.recipeImage,
-                                                                                                   "recipeImage");
-                ViewRecipeActivity.launch(view.getContext(), binding.getRecipe(), options.toBundle());
-            });
-            return new BindingViewHolder<>(binding);
+        public RecipeGridAdapter.Holder onCreateViewHolder(ViewGroup parent, int viewType) {
+            Holder holder = new Holder(parent);
+            holder.itemView.setOnClickListener(v -> onRecipeClick(holder));
+            return holder;
+        }
+
+        private void onRecipeClick(Holder holder) {
+            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(),
+                                                                                               holder.recipeImage,
+                                                                                               "recipeImage");
+            ViewRecipeActivity.launch(getContext(), items.get(holder.getAdapterPosition()), options.toBundle());
         }
 
         @Override
-        public void onBindViewHolder(BindingViewHolder<ItemRecipeGridBinding> holder, int position) {
-            holder.getBinding().setRecipe(items.get(position));
+        public void onBindViewHolder(RecipeGridAdapter.Holder holder, int position) {
+            holder.bind(items.get(position));
+        }
+
+        @Override
+        public int getItemCount() {
+            return items.size();
+        }
+
+        public class Holder extends RecyclerView.ViewHolder {
+            @BindView(R.id.recipe_title) TextView recipeTitle;
+            @BindView(R.id.recipe_image) ImageView recipeImage;
+
+            public Holder(ViewGroup parent) {
+                super(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recipe_grid, parent, false));
+                ButterKnife.bind(this, itemView);
+            }
+
+            public void bind(Recipe recipe) {
+                recipeTitle.setText(recipe.getName());
+                BindingAdapters.loadImage(recipeImage, recipe.getPicture());
+            }
         }
     }
 }
