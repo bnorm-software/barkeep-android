@@ -1,10 +1,11 @@
 package com.bnorm.barkeep.data.api.net;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import com.bnorm.barkeep.data.api.WireTraceInterceptor;
-import com.google.common.collect.ImmutableSet;
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.Cache;
@@ -37,10 +38,10 @@ public class NetModule {
     @NetScope
     @Provides(type = Provides.Type.SET_VALUES)
     Set<Interceptor> provideInterceptors(CacheInterceptor cacheInterceptor) {
-        return ImmutableSet.of(cacheInterceptor,
-                               // new SessionInterceptor(),
-                               // new TokenInterceptor(),
-                               new WireTraceInterceptor());
+        return new LinkedHashSet<>(Arrays.asList(cacheInterceptor,
+                                                 // new SessionInterceptor(),
+                                                 // new TokenInterceptor(),
+                                                 new WireTraceInterceptor()));
     }
 
     @NetScope
