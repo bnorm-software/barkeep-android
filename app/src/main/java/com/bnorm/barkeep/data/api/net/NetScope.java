@@ -1,4 +1,4 @@
-package com.bnorm.barkeep.data.api;
+package com.bnorm.barkeep.data.api.net;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
@@ -8,5 +8,5 @@ import javax.inject.Scope;
 @Scope
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-public @interface EndpointScope {
+public @interface NetScope {
 }

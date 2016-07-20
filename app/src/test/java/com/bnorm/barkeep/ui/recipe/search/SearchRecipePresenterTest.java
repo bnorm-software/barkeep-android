@@ -4,17 +4,18 @@ import java.io.IOException;
 import java.util.Collections;
 
 import android.support.annotation.NonNull;
-import com.bnorm.barkeep.server.data.store.v1.endpoint.Endpoint;
-import com.bnorm.barkeep.server.data.store.v1.endpoint.model.CollectionResponseRecipe;
+import com.bnorm.barkeep.data.api.BarkeepService;
+import com.bnorm.barkeep.data.api.model.GaeList;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
+import retrofit2.Response;
+import rx.Single;
 import rx.schedulers.Schedulers;
 
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -22,18 +23,18 @@ public class SearchRecipePresenterTest {
     @Rule public MockitoRule rule = MockitoJUnit.rule();
 
     @Mock SearchRecipeView view;
-    @Mock Endpoint endpoint;
+    @Mock BarkeepService service;
 
     @NonNull
-    private static SearchRecipePresenter presenter(SearchRecipeView view, Endpoint endpoint) {
-        return new SearchRecipePresenter(view, endpoint, Schedulers.immediate(), Schedulers.immediate());
+    private static SearchRecipePresenter presenter(SearchRecipeView view, BarkeepService service) {
+        return new SearchRecipePresenter(view, service, Schedulers.immediate(), Schedulers.immediate());
     }
 
     @Test
     public void submit_networkFailure() throws Exception {
         // given
-        SearchRecipePresenter presenter = presenter(view, endpoint);
-        when(endpoint.listRecipes()).thenThrow(new IOException());
+        SearchRecipePresenter presenter = presenter(view, service);
+        when(service.getRecipes(any())).thenReturn(Single.error(new IOException()));
 
         // when
         presenter.submit("");
@@ -45,15 +46,8 @@ public class SearchRecipePresenterTest {
     @Test
     public void submit() throws Exception {
         // given
-        SearchRecipePresenter presenter = presenter(view, endpoint);
-
-        // todo(bnorm) eww...  smelly...
-        Endpoint.ListRecipes listRecipes = mock(Endpoint.ListRecipes.class);
-        CollectionResponseRecipe responseRecipe = new CollectionResponseRecipe();
-        responseRecipe.setItems(null);
-        when(endpoint.listRecipes()).thenReturn(listRecipes);
-        when(listRecipes.setName(any())).thenReturn(listRecipes);
-        when(listRecipes.execute()).thenReturn(responseRecipe);
+        SearchRecipePresenter presenter = presenter(view, service);
+        when(service.getRecipes(any())).thenReturn(Single.just(Response.success(new GaeList<>())));
 
         // when
         presenter.submit("");

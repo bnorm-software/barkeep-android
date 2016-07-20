@@ -14,15 +14,6 @@ public class Book implements Parcelable {
     public Book() {
     }
 
-    public Book(com.bnorm.barkeep.server.data.store.v1.endpoint.model.Book book) {
-        this.name = book.getName();
-        if (book.getRecipes() != null) {
-            for (com.bnorm.barkeep.server.data.store.v1.endpoint.model.Recipe recipe : book.getRecipes()) {
-                this.recipes.add(new Recipe(recipe));
-            }
-        }
-    }
-
     public String getName() {
         return name;
     }
@@ -37,16 +28,6 @@ public class Book implements Parcelable {
 
     public void setRecipes(List<Recipe> recipes) {
         this.recipes = recipes;
-    }
-
-    public com.bnorm.barkeep.server.data.store.v1.endpoint.model.Book toStore() {
-        com.bnorm.barkeep.server.data.store.v1.endpoint.model.Book book;
-        book = new com.bnorm.barkeep.server.data.store.v1.endpoint.model.Book();
-        book.setName(name);
-        for (Recipe recipe : recipes) {
-            book.getRecipes().add(recipe.toStore());
-        }
-        return book;
     }
 
     @Override

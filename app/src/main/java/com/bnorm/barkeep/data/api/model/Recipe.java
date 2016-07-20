@@ -18,21 +18,6 @@ public class Recipe implements Parcelable {
     public Recipe() {
     }
 
-    public Recipe(com.bnorm.barkeep.server.data.store.v1.endpoint.model.Recipe recipe) {
-        if (recipe != null) {
-            this.name = recipe.getName();
-            this.nameWords = recipe.getNameWords();
-            this.picture = recipe.getPicture();
-            this.description = recipe.getDescription();
-            if (recipe.getComponents() != null) {
-                for (com.bnorm.barkeep.server.data.store.v1.endpoint.model.Component component : recipe.getComponents()) {
-                    this.components.add(new Component(component));
-                }
-            }
-            this.directions = recipe.getDirections();
-        }
-    }
-
     public String getName() {
         return name;
     }
@@ -79,20 +64,6 @@ public class Recipe implements Parcelable {
 
     public void setDirections(String directions) {
         this.directions = directions;
-    }
-
-    public com.bnorm.barkeep.server.data.store.v1.endpoint.model.Recipe toStore() {
-        com.bnorm.barkeep.server.data.store.v1.endpoint.model.Recipe recipe;
-        recipe = new com.bnorm.barkeep.server.data.store.v1.endpoint.model.Recipe();
-        recipe.setName(name);
-        recipe.setNameWords(new ArrayList<>(nameWords));
-        recipe.setPicture(picture);
-        recipe.setDescription(description);
-        for (Component component : components) {
-            recipe.getComponents().add(component.toStore());
-        }
-        recipe.setDirections(directions);
-        return recipe;
     }
 
     @Override

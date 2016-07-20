@@ -47,7 +47,6 @@ android {
 dependencies {
     retrolambdaConfig 'net.orfjackal.retrolambda:retrolambda:2.3.0'
 
-    compile project(path: ':backend', configuration: 'android-endpoints')
     compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'com.android.support:support-v4:23.3.0'
     compile 'com.android.support:design:23.3.0'
@@ -61,6 +60,8 @@ dependencies {
     compile 'com.jakewharton:butterknife:8.1.0'
     apt 'com.jakewharton:butterknife-compiler:8.1.0'
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
+    compile 'com.squareup.retrofit2:converter-moshi:2.1.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
 
     compile 'com.trello:navi:0.2.0'

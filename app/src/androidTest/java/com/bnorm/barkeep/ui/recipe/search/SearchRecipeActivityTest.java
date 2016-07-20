@@ -9,7 +9,6 @@ import org.junit.runner.RunWith;
 
 import static org.assertj.android.api.Assertions.assertThat;
 
-
 @RunWith(AndroidJUnit4.class)
 public class SearchRecipeActivityTest {
 
@@ -20,8 +19,10 @@ public class SearchRecipeActivityTest {
     @Test
     public void starts() {
         // given
+
         // when
         SearchRecipeActivity activity = activityRule.launchActivity(new Intent(Intent.ACTION_MAIN));
+
         // then
         assertThat(activity).isNotNull();
     }

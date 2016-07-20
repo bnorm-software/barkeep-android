@@ -1,6 +1,6 @@
 package com.bnorm.barkeep;
 
-import com.bnorm.barkeep.data.api.EndpointComponent;
+import com.bnorm.barkeep.data.api.ApiComponent;
 import com.bnorm.barkeep.ui.MainActivityComponent;
 import com.bnorm.barkeep.ui.MainViewModule;
 import com.bnorm.barkeep.ui.UiModule;
@@ -21,8 +21,8 @@ import com.bnorm.barkeep.ui.recipe.search.SearchRecipeViewModule;
 import dagger.Component;
 
 @AppScope
-@Component(modules = {UiModule.class}, dependencies = {EndpointComponent.class})
-public interface AppComponent extends EndpointComponent {
+@Component(modules = {UiModule.class}, dependencies = {ApiComponent.class})
+public interface AppComponent extends ApiComponent {
 
     MainActivityComponent plus(MainViewModule module);
 

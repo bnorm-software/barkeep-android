@@ -11,7 +11,6 @@ import org.junit.runner.RunWith;
 import static org.assertj.android.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThat;
 
-
 @RunWith(AndroidJUnit4.class)
 public class EditRecipeActivityTest {
 
