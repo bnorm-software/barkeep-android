@@ -14,15 +14,6 @@ public class Bar implements Parcelable {
     public Bar() {
     }
 
-    public Bar(com.bnorm.barkeep.server.data.store.v1.endpoint.model.Bar bar) {
-        this.name = bar.getName();
-        if (bar.getIngredients() != null) {
-            for (com.bnorm.barkeep.server.data.store.v1.endpoint.model.Ingredient ingredient : bar.getIngredients()) {
-                this.ingredients.add(new Ingredient(ingredient));
-            }
-        }
-    }
-
     public String getName() {
         return name;
     }
@@ -38,17 +29,6 @@ public class Bar implements Parcelable {
     public void setIngredients(List<Ingredient> ingredients) {
         this.ingredients = ingredients;
     }
-
-    public com.bnorm.barkeep.server.data.store.v1.endpoint.model.Bar toStore() {
-        com.bnorm.barkeep.server.data.store.v1.endpoint.model.Bar bar;
-        bar = new com.bnorm.barkeep.server.data.store.v1.endpoint.model.Bar();
-        bar.setName(name);
-        for (Ingredient ingredient : ingredients) {
-            bar.getIngredients().add(ingredient.toStore());
-        }
-        return bar;
-    }
-
 
     @Override
     public int describeContents() {

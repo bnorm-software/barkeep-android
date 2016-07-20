@@ -56,7 +56,7 @@ public class BarListFragment extends BaseFragment implements BarListView {
 
         // todo(bnorm) inject
         presenter = new BarListPresenter(this,
-                                         barkeep().component().endpoint(),
+                                         barkeep().component().service(),
                                          Schedulers.io(),
                                          AndroidSchedulers.mainThread());
         presenter.loadBars();

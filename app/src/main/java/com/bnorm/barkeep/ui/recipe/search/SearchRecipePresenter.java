@@ -1,48 +1,39 @@
 package com.bnorm.barkeep.ui.recipe.search;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
+import javax.inject.Inject;
 
-import com.bnorm.barkeep.data.api.model.Recipe;
-import com.bnorm.barkeep.server.data.store.v1.endpoint.Endpoint;
-import com.google.common.base.Preconditions;
-import rx.Observable;
+import com.bnorm.barkeep.data.api.ApiScheduler;
+import com.bnorm.barkeep.data.api.BarkeepService;
+import com.bnorm.barkeep.ui.ActivityScope;
+import com.bnorm.barkeep.ui.UiScheduler;
 import rx.Scheduler;
 
+@ActivityScope
 public class SearchRecipePresenter {
 
     private final SearchRecipeView view;
-    private final Endpoint endpoint;
+    private final BarkeepService service;
     private final Scheduler apiScheduler;
     private final Scheduler uiScheduler;
 
-    public SearchRecipePresenter(SearchRecipeView view, Endpoint endpoint, Scheduler apiScheduler, Scheduler uiScheduler) {
+    @Inject
+    public SearchRecipePresenter(SearchRecipeView view, BarkeepService service, @ApiScheduler Scheduler apiScheduler,
+                                 @UiScheduler Scheduler uiScheduler) {
         this.view = view;
-        this.endpoint = endpoint;
+        this.service = service;
         this.apiScheduler = apiScheduler;
         this.uiScheduler = uiScheduler;
     }
 
     public void submit(String query) {
-        Observable.fromCallable(() -> {
-            String name = Preconditions.checkNotNull(query);
-            try {
-                List<com.bnorm.barkeep.server.data.store.v1.endpoint.model.Recipe> recipes;
-                recipes = endpoint.listRecipes().setName(name).execute().getItems();
-                if (recipes != null) {
-                    List<Recipe> items = new ArrayList<>();
-                    for (com.bnorm.barkeep.server.data.store.v1.endpoint.model.Recipe recipe : recipes) {
-                        items.add(new Recipe(recipe));
-                    }
-                    return items;
-                } else {
-                    return Collections.<Recipe>emptyList();
-                }
-            } catch (IOException e) {
-                return Collections.<Recipe>emptyList();
-            }
-        }).subscribeOn(apiScheduler).observeOn(uiScheduler).subscribe(view::onSearchResults);
+        service.getRecipes(query)
+               .subscribeOn(apiScheduler)
+               .observeOn(uiScheduler)
+               .subscribe(response -> {
+            view.onSearchResults(response.body().getItems());
+        }, error -> {
+            view.onSearchResults(Collections.emptyList());
+        });
     }
 }

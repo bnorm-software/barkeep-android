@@ -12,12 +12,6 @@ public class Amount implements Parcelable {
     public Amount() {
     }
 
-    public Amount(com.bnorm.barkeep.server.data.store.v1.endpoint.model.Amount amount) {
-        this.recommended = amount.getRecommended();
-        this.min = amount.getMin();
-        this.max = amount.getMax();
-    }
-
     public Double getRecommended() {
         return recommended;
     }
@@ -40,15 +34,6 @@ public class Amount implements Parcelable {
 
     public void setMax(Double max) {
         this.max = max;
-    }
-
-    public com.bnorm.barkeep.server.data.store.v1.endpoint.model.Amount toStore() {
-        com.bnorm.barkeep.server.data.store.v1.endpoint.model.Amount amount;
-        amount = new com.bnorm.barkeep.server.data.store.v1.endpoint.model.Amount();
-        amount.setRecommended(recommended);
-        amount.setMin(min);
-        amount.setMax(max);
-        return amount;
     }
 
     @Override

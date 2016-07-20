@@ -56,7 +56,7 @@ public class BookListFragment extends BaseFragment implements BookListView {
 
         // todo(bnorm) inject
         presenter = new BookListPresenter(this,
-                                          barkeep().component().endpoint(),
+                                          barkeep().component().service(),
                                           Schedulers.io(),
                                           AndroidSchedulers.mainThread());
         presenter.loadBooks();

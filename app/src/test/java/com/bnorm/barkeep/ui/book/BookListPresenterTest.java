@@ -1,20 +1,22 @@
 package com.bnorm.barkeep.ui.book;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collections;
 
 import android.support.annotation.NonNull;
-import com.bnorm.barkeep.server.data.store.v1.endpoint.Endpoint;
-import com.bnorm.barkeep.server.data.store.v1.endpoint.model.CollectionResponseBook;
-import org.junit.Ignore;
+import com.bnorm.barkeep.data.api.BarkeepService;
+import com.bnorm.barkeep.data.api.model.Book;
+import com.bnorm.barkeep.data.api.model.GaeList;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
+import retrofit2.Response;
+import rx.Single;
 import rx.schedulers.Schedulers;
 
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -22,20 +24,18 @@ public class BookListPresenterTest {
     @Rule public MockitoRule rule = MockitoJUnit.rule();
 
     @Mock BookListView view;
-    @Mock Endpoint endpoint;
+    @Mock BarkeepService service;
 
     @NonNull
-    private static BookListPresenter presenter(BookListView view, Endpoint endpoint) {
-        return new BookListPresenter(view, endpoint, Schedulers.immediate(), Schedulers.immediate());
+    private static BookListPresenter presenter(BookListView view, BarkeepService service) {
+        return new BookListPresenter(view, service, Schedulers.immediate(), Schedulers.immediate());
     }
 
     @Test
     public void loadBooks_error() throws Exception {
         // given
-        BookListPresenter presenter = presenter(view, endpoint);
-        Endpoint.ListBooks listBooks = mock(Endpoint.ListBooks.class);
-        when(endpoint.listBooks()).thenReturn(listBooks);
-        when(listBooks.execute()).thenThrow(new IOException());
+        BookListPresenter presenter = presenter(view, service);
+        when(service.getBooks()).thenReturn(Single.error(new IOException()));
 
         // when
         presenter.loadBooks();
@@ -45,13 +45,10 @@ public class BookListPresenterTest {
     }
 
     @Test
-    public void loadBooks_null() throws Exception {
+    public void loadBooks_empty() throws Exception {
         // given
-        BookListPresenter presenter = presenter(view, endpoint);
-        CollectionResponseBook response = new CollectionResponseBook();
-        Endpoint.ListBooks listBooks = mock(Endpoint.ListBooks.class);
-        when(endpoint.listBooks()).thenReturn(listBooks);
-        when(listBooks.execute()).thenReturn(response);
+        BookListPresenter presenter = presenter(view, service);
+        when(service.getBooks()).thenReturn(Single.just(Response.success(new GaeList<>())));
 
         // when
         presenter.loadBooks();
@@ -60,9 +57,17 @@ public class BookListPresenterTest {
         verify(view).onBooks(Collections.emptyList());
     }
 
-    @Ignore
     @Test
     public void loadBooks_valid() throws Exception {
-        // todo(bnorm) this test would be really smelly
+        // given
+        BookListPresenter presenter = presenter(view, service);
+        GaeList<Book> items = new GaeList<>(Arrays.asList(new Book(), new Book(), new Book()));
+        when(service.getBooks()).thenReturn(Single.just(Response.success(items)));
+
+        // when
+        presenter.loadBooks();
+
+        // then
+        verify(view).onBooks(items.getItems());
     }
 }

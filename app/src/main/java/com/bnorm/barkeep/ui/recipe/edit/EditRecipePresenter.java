@@ -1,23 +1,28 @@
 package com.bnorm.barkeep.ui.recipe.edit;
 
-import java.io.IOException;
+import javax.inject.Inject;
 
+import com.bnorm.barkeep.data.api.ApiScheduler;
+import com.bnorm.barkeep.data.api.BarkeepService;
 import com.bnorm.barkeep.data.api.model.Component;
 import com.bnorm.barkeep.data.api.model.Recipe;
-import com.bnorm.barkeep.server.data.store.v1.endpoint.Endpoint;
-import rx.Observable;
+import com.bnorm.barkeep.ui.ActivityScope;
+import com.bnorm.barkeep.ui.UiScheduler;
 import rx.Scheduler;
 
+@ActivityScope
 public class EditRecipePresenter {
 
     private final EditRecipeView view;
-    private final Endpoint endpoint;
+    private final BarkeepService service;
     private final Scheduler apiScheduler;
     private final Scheduler uiScheduler;
 
-    public EditRecipePresenter(EditRecipeView view, Endpoint endpoint, Scheduler apiScheduler, Scheduler uiScheduler) {
+    @Inject
+    public EditRecipePresenter(EditRecipeView view, BarkeepService service, @ApiScheduler Scheduler apiScheduler,
+                               @UiScheduler Scheduler uiScheduler) {
         this.view = view;
-        this.endpoint = endpoint;
+        this.service = service;
         this.apiScheduler = apiScheduler;
         this.uiScheduler = uiScheduler;
     }
@@ -37,19 +42,15 @@ public class EditRecipePresenter {
 
     public boolean save(Recipe recipe) {
         if (validate(recipe)) {
-            Observable.fromCallable(() -> {
-                Recipe response;
-                try {
-                    endpoint.getRecipe(recipe.getName()).execute();
-                    response = new Recipe(endpoint.updateRecipe(recipe.getName(), recipe.toStore()).execute());
-                } catch (IOException e) {
-                    response = new Recipe(endpoint.insertRecipe(recipe.toStore()).execute());
-                }
-                return response;
-            }).subscribeOn(apiScheduler).observeOn(uiScheduler).subscribe(response -> {
-                view.onRecipeSaved(response);
-                view.onClose();
-            });
+            service.getRecipe(recipe.getName())
+                   .flatMap(response -> response.isSuccessful() ? service.updateRecipe(recipe.getName(), recipe)
+                                                                : service.createRecipe(recipe))
+                   .subscribeOn(apiScheduler)
+                   .observeOn(uiScheduler)
+                   .subscribe(response -> {
+                       view.onRecipeSaved(response.body());
+                       view.onClose();
+                   });
             return true;
         } else {
             return false;
