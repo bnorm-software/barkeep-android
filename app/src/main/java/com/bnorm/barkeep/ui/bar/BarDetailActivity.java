@@ -3,6 +3,7 @@ package com.bnorm.barkeep.ui.bar;
 import javax.inject.Inject;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import com.bnorm.barkeep.R;
 import com.bnorm.barkeep.data.api.model.Bar;
 import com.bnorm.barkeep.ui.ViewContainer;
+import com.bnorm.barkeep.ui.bar.edit.EditBarActivity;
 import com.bnorm.barkeep.ui.base.BaseActivity;
 
 public class BarDetailActivity extends BaseActivity {
@@ -47,11 +49,17 @@ public class BarDetailActivity extends BaseActivity {
         // http://developer.android.com/guide/components/fragments.html
         //
         if (savedInstanceState == null) {
-            Bundle bundle = getIntent().getExtras();
+            Bar bar = getIntent().getParcelableExtra(BAR_TAG);
+            FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+            assert bar != null;
+            assert fab != null;
+
+            fab.setOnClickListener(view -> EditBarActivity.launch(this, bar));
+
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             BarDetailFragment fragment = new BarDetailFragment();
-            fragment.setBar((Bar) bundle.getParcelable(BAR_TAG));
+            fragment.setBar(bar);
             getSupportFragmentManager().beginTransaction().add(R.id.bar_detail_container, fragment).commit();
         }
     }

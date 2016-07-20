@@ -20,6 +20,7 @@ import com.bnorm.barkeep.R;
 import com.bnorm.barkeep.data.api.model.Book;
 import com.bnorm.barkeep.ui.MainActivity;
 import com.bnorm.barkeep.ui.base.BaseFragment;
+import com.bnorm.barkeep.ui.book.edit.EditBookActivity;
 import com.bnorm.barkeep.ui.recipe.edit.EditRecipeActivity;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -65,8 +66,7 @@ public class BookListFragment extends BaseFragment implements BookListView {
 
     @OnClick(R.id.fab)
     void onFabClick() {
-        // todo should this only be available within a book?
-        EditRecipeActivity.launch(getContext());
+        EditBookActivity.launch(getContext());
     }
 
     @Override

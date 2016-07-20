@@ -14,6 +14,7 @@ import com.bnorm.barkeep.R;
 import com.bnorm.barkeep.data.api.model.Book;
 import com.bnorm.barkeep.ui.ViewContainer;
 import com.bnorm.barkeep.ui.base.BaseActivity;
+import com.bnorm.barkeep.ui.book.edit.EditBookActivity;
 
 public class BookDetailActivity extends BaseActivity {
 
@@ -34,16 +35,6 @@ public class BookDetailActivity extends BaseActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own detail action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null)
-                        .show();
-            }
-        });
-
         // Show the Up button in the action bar.
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -60,11 +51,17 @@ public class BookDetailActivity extends BaseActivity {
         // http://developer.android.com/guide/components/fragments.html
         //
         if (savedInstanceState == null) {
-            Bundle bundle = getIntent().getExtras();
+            Book book = getIntent().getParcelableExtra(BOOK_TAG);
+            FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+            assert book != null;
+            assert fab != null;
+
+            fab.setOnClickListener(view -> EditBookActivity.launch(this, book));
+
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             BookDetailFragment fragment = new BookDetailFragment();
-            fragment.setBook((Book) bundle.getParcelable(BOOK_TAG));
+            fragment.setBook(book);
             getSupportFragmentManager().beginTransaction().add(R.id.book_detail_container, fragment).commit();
         }
     }
