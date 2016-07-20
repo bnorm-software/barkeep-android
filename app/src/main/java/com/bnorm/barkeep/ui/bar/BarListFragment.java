@@ -19,6 +19,7 @@ import butterknife.OnClick;
 import com.bnorm.barkeep.R;
 import com.bnorm.barkeep.data.api.model.Bar;
 import com.bnorm.barkeep.ui.MainActivity;
+import com.bnorm.barkeep.ui.bar.edit.EditBarActivity;
 import com.bnorm.barkeep.ui.base.BaseFragment;
 import com.bnorm.barkeep.ui.recipe.edit.EditRecipeActivity;
 import rx.android.schedulers.AndroidSchedulers;
@@ -65,8 +66,7 @@ public class BarListFragment extends BaseFragment implements BarListView {
 
     @OnClick(R.id.fab)
     void onFabClick() {
-        // todo(bnorm) launch the new bar activity
-        EditRecipeActivity.launch(getContext());
+        EditBarActivity.launch(getContext());
     }
 
     @Override

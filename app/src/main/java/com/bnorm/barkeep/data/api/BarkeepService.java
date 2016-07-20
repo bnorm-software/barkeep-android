@@ -28,13 +28,13 @@ public interface BarkeepService {
     Single<Response<Book>> createBook(@Body Book book);
 
     @GET("book/{id}")
-    Single<Response<Book>> getBook(@Path("id") long id);
+    Single<Response<Book>> getBook(@Path("id") String id);
 
     @PUT("book/{id}")
-    Single<Response<Book>> updateBook(@Path("id") long id, @Body Book book);
+    Single<Response<Book>> updateBook(@Path("id") String id, @Body Book book);
 
     @DELETE("book/{id}")
-    Single<Response<Void>> deleteBook(@Path("id") long id);
+    Single<Response<Void>> deleteBook(@Path("id") String id);
 
 
     // ================= //
@@ -48,13 +48,13 @@ public interface BarkeepService {
     Single<Response<Bar>> createBar(@Body Bar bar);
 
     @GET("bar/{id}")
-    Single<Response<Bar>> getBar(@Path("id") long id);
+    Single<Response<Bar>> getBar(@Path("id") String id);
 
     @PUT("bar/{id}")
-    Single<Response<Bar>> updateBar(@Path("id") long id, @Body Bar bar);
+    Single<Response<Bar>> updateBar(@Path("id") String id, @Body Bar bar);
 
     @DELETE("bar/{id}")
-    Single<Response<Void>> deleteBar(@Path("id") long id);
+    Single<Response<Void>> deleteBar(@Path("id") String id);
 
 
     // =================== //
