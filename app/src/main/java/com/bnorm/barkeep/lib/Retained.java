@@ -3,7 +3,6 @@ package com.bnorm.barkeep.lib;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import com.google.common.base.Supplier;
 
 public final class Retained<E> extends Fragment {
 
@@ -13,13 +12,6 @@ public final class Retained<E> extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
-    }
-
-    public E get(Supplier<? extends E> fallback) {
-        if (data == null) {
-            data = fallback.get();
-        }
-        return data;
     }
 
     public E get(E fallback) {
@@ -37,10 +29,6 @@ public final class Retained<E> extends Fragment {
         this.data = data;
     }
 
-
-    public static <E> E retain(Fragment parent, String name, Supplier<? extends E> fallback) {
-        return Retained.<E>init(parent, name).get(fallback);
-    }
 
     public static <E> E retain(Fragment parent, String name, E fallback) {
         return Retained.<E>init(parent, name).get(fallback);

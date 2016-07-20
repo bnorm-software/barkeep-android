@@ -1,9 +1,8 @@
 package com.bnorm.barkeep.data.api;
 
+import java.util.LinkedHashSet;
 import java.util.Set;
 
-import com.bnorm.barkeep.data.api.net.NetScope;
-import com.google.common.collect.ImmutableSet;
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
 import dagger.Module;
@@ -28,7 +27,7 @@ public class ApiModule {
     @ApiScope
     @Provides(type = Provides.Type.SET_VALUES)
     Set<JsonAdapter.Factory> provideJsonAdapterFactories() {
-        return ImmutableSet.of();
+        return new LinkedHashSet<>();
     }
 
     @ApiScope
