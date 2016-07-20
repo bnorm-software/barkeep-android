@@ -16,6 +16,7 @@ import com.bnorm.barkeep.data.api.model.Book;
 import com.bnorm.barkeep.lib.Bundles;
 import com.bnorm.barkeep.ui.ViewContainer;
 import com.bnorm.barkeep.ui.base.BaseActivity;
+import com.bnorm.barkeep.ui.book.edit.EditBookActivity;
 
 public class BookDetailActivity extends BaseActivity {
     private static final String BOOK_TAG = "book";
@@ -51,6 +52,12 @@ public class BookDetailActivity extends BaseActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setTitle(book.getName());
         }
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        assert book != null;
+        assert fab != null;
+
+        fab.setOnClickListener(view -> EditBookActivity.launch(this, book));
     }
 
     @Override

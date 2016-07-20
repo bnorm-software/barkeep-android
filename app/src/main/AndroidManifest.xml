@@ -62,6 +62,17 @@
                 android:value=".ui.recipe.search.SearchRecipeActivity" />
         </activity>
         <activity
+            android:name=".ui.book.edit.EditBookActivity"
+            android:label="@string/title_activity_create_book"
+            android:parentActivityName=".ui.MainActivity"
+            android:theme="@style/Barkeep.Book.Edit">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.MainActivity" />
+        </activity>
+        <activity
             android:name=".ui.book.BookDetailActivity"
             android:label="@string/title_book_detail"
             android:parentActivityName=".ui.MainActivity"
@@ -69,6 +80,17 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.bnorm.barkeep.ui.MainActivity" />
+        </activity>
+        <activity
+            android:name=".ui.bar.edit.EditBarActivity"
+            android:label="@string/title_activity_create_bar"
+            android:parentActivityName=".ui.MainActivity"
+            android:theme="@style/Barkeep.Bar.Edit">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.MainActivity" />
         </activity>
         <activity
             android:name=".ui.bar.BarDetailActivity"

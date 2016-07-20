@@ -5,6 +5,7 @@ import javax.inject.Inject;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -15,6 +16,7 @@ import com.bnorm.barkeep.R;
 import com.bnorm.barkeep.data.api.model.Bar;
 import com.bnorm.barkeep.lib.Bundles;
 import com.bnorm.barkeep.ui.ViewContainer;
+import com.bnorm.barkeep.ui.bar.edit.EditBarActivity;
 import com.bnorm.barkeep.ui.base.BaseActivity;
 
 public class BarDetailActivity extends BaseActivity {
@@ -50,6 +52,14 @@ public class BarDetailActivity extends BaseActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setTitle(bar.getName());
+        }
+
+        Bar bar = getIntent().getParcelableExtra(BAR_TAG);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        assert bar != null;
+        assert fab != null;
+
+        fab.setOnClickListener(view -> EditBarActivity.launch(this, bar));
         }
     }
 

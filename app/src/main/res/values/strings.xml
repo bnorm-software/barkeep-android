@@ -13,7 +13,9 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="title_activity_create_book">CreateBookActivity</string>
     <string name="title_book_list">Books</string>
     <string name="title_book_detail">Book Detail</string>
+    <string name="title_activity_create_bar">CreateBarActivity</string>
     <string name="title_bar_detail">Bar Detail</string>
 </resources>
