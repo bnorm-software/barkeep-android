@@ -3,9 +3,7 @@ package com.bnorm.barkeep.ui.book;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,44 +18,49 @@ import com.bnorm.barkeep.R;
 import com.bnorm.barkeep.data.api.model.Book;
 import com.bnorm.barkeep.data.api.model.Recipe;
 import com.bnorm.barkeep.lib.BindingAdapters;
+import com.bnorm.barkeep.lib.Bundles;
 import com.bnorm.barkeep.ui.base.BaseFragment;
 import com.bnorm.barkeep.ui.recipe.ViewRecipeActivity;
+import com.trello.navi.Event;
+import com.trello.navi.rx.RxNavi;
 
 public class BookDetailFragment extends BaseFragment {
+    private static final String BOOK_TAG = "book";
 
-    private Book mBook;
+    // ===== View ===== //
 
-    public void setBook(Book book) {
-        this.mBook = book;
+    @BindView(R.id.recipe_grid) RecyclerView recyclerView;
+
+
+    public static BookDetailFragment create(Book book) {
+        Bundle args = new Bundle();
+        args.putParcelable(BOOK_TAG, book);
+
+        BookDetailFragment fragment = new BookDetailFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        Activity activity = this.getActivity();
-        CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
-        if (appBarLayout != null && mBook != null) {
-            appBarLayout.setTitle(mBook.getName());
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_book_detail, container, false);
+        View view = inflater.inflate(R.layout.fragment_book_detail, container, false);
+        ButterKnife.bind(this, view);
 
-        RecyclerView gridview = (RecyclerView) root.findViewById(R.id.recipe_grid);
-        GridLayoutManager manager = new GridLayoutManager(getContext(), 2);
-        gridview.setLayoutManager(manager);
+        Book book = Bundles.getParcelable(BOOK_TAG,
+                                          getArguments(),
+                                          getActivity().getIntent().getExtras(),
+                                          savedInstanceState);
+        assert book != null;
+        RxNavi.observe(this, Event.SAVE_INSTANCE_STATE).subscribe(outState -> outState.putParcelable(BOOK_TAG, book));
 
         RecipeGridAdapter adapter = new RecipeGridAdapter();
-        gridview.setAdapter(adapter);
-        if (mBook != null) {
-            adapter.items.clear();
-            adapter.items.addAll(mBook.getRecipes());
-        }
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
 
-        return root;
+        adapter.setAll(book.getRecipes());
+
+        return view;
     }
 
     public class RecipeGridAdapter extends RecyclerView.Adapter<RecipeGridAdapter.Holder> {
@@ -86,6 +89,11 @@ public class BookDetailFragment extends BaseFragment {
         @Override
         public int getItemCount() {
             return items.size();
+        }
+
+        public void setAll(List<Recipe> recipes) {
+            items.clear();
+            items.addAll(recipes);
         }
 
         public class Holder extends RecyclerView.ViewHolder {
