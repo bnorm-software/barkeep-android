@@ -31,8 +31,8 @@ public class EditBarActivity extends BaseActivity implements EditBarView {
 
     @Inject ViewContainer viewContainer;
     @BindView(R.id.toolbar) Toolbar toolbar;
-    @BindView(R.id.create_bar_title) AppCompatEditText title;
-    @BindView(R.id.create_bar_description) AppCompatEditText description;
+    @BindView(R.id.edit_bar_title) AppCompatEditText title;
+    @BindView(R.id.edit_bar_description) AppCompatEditText description;
 
     // ===== Presenter ===== //
 
@@ -57,7 +57,7 @@ public class EditBarActivity extends BaseActivity implements EditBarView {
         barkeep().component().plus(new EditBarViewModule(this)).inject(this);
 
         ViewGroup container = viewContainer.forActivity(this);
-        getLayoutInflater().inflate(R.layout.activity_create_bar, container);
+        getLayoutInflater().inflate(R.layout.activity_edit_bar, container);
         ButterKnife.bind(this, container);
 
         loadBar(Bundles.getParcelable(BarDetailActivity.BAR_TAG, getIntent().getExtras()));
@@ -76,12 +76,12 @@ public class EditBarActivity extends BaseActivity implements EditBarView {
         }
     }
 
-    @OnClick(R.id.create_bar_cancel)
+    @OnClick(R.id.edit_bar_cancel)
     void onCancel() {
         presenter.cancel();
     }
 
-    @OnClick(R.id.create_bar_save)
+    @OnClick(R.id.edit_bar_save)
     void onSave() {
         presenter.save(getBar());
     }

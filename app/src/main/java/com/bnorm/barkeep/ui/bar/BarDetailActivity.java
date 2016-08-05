@@ -12,6 +12,8 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 import com.bnorm.barkeep.R;
 import com.bnorm.barkeep.data.api.model.Bar;
 import com.bnorm.barkeep.lib.Bundles;
@@ -21,6 +23,10 @@ import com.bnorm.barkeep.ui.base.BaseActivity;
 
 public class BarDetailActivity extends BaseActivity {
     public static final String BAR_TAG = "bar";
+
+    // ===== Model ===== //
+
+    private Bar bar;
 
     // ===== View ===== //
 
@@ -43,7 +49,7 @@ public class BarDetailActivity extends BaseActivity {
         getLayoutInflater().inflate(R.layout.activity_bar_detail, container);
         ButterKnife.bind(this, container);
 
-        Bar bar = Bundles.getParcelable(BAR_TAG, getIntent().getExtras());
+        bar = Bundles.getParcelable(BAR_TAG, getIntent().getExtras());
         assert bar != null;
 
         setSupportActionBar(toolbar);
@@ -52,8 +58,6 @@ public class BarDetailActivity extends BaseActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setTitle(bar.getName());
         }
-
-        fab.setOnClickListener(view -> EditBarActivity.launch(this, bar));
     }
 
     @Override
@@ -64,5 +68,10 @@ public class BarDetailActivity extends BaseActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @OnClick(R.id.fab)
+    public void onFabClick() {
+        EditBarActivity.launch(this, bar);
     }
 }

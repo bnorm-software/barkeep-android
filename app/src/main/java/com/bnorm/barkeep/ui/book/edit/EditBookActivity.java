@@ -31,8 +31,8 @@ public class EditBookActivity extends BaseActivity implements EditBookView {
 
     @Inject ViewContainer viewContainer;
     @BindView(R.id.toolbar) Toolbar toolbar;
-    @BindView(R.id.create_book_title) AppCompatEditText title;
-    @BindView(R.id.create_book_description) AppCompatEditText description;
+    @BindView(R.id.edit_book_title) AppCompatEditText title;
+    @BindView(R.id.edit_book_description) AppCompatEditText description;
 
     // ===== Presenter ===== //
 
@@ -56,7 +56,7 @@ public class EditBookActivity extends BaseActivity implements EditBookView {
         barkeep().component().plus(new EditBookViewModule(this)).inject(this);
 
         ViewGroup container = viewContainer.forActivity(this);
-        getLayoutInflater().inflate(R.layout.activity_create_book, container);
+        getLayoutInflater().inflate(R.layout.activity_edit_book, container);
         ButterKnife.bind(this, container);
 
         loadBook(Bundles.getParcelable(BookDetailActivity.BOOK_TAG, getIntent().getExtras()));
@@ -75,12 +75,12 @@ public class EditBookActivity extends BaseActivity implements EditBookView {
         }
     }
 
-    @OnClick(R.id.create_book_cancel)
+    @OnClick(R.id.edit_book_cancel)
     void onCancel() {
         presenter.cancel();
     }
 
-    @OnClick(R.id.create_book_save)
+    @OnClick(R.id.edit_book_save)
     void onSave() {
         presenter.save(getBook());
     }

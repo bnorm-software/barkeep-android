@@ -34,7 +34,7 @@
                     android:orientation="horizontal">
 
                     <android.support.v7.widget.AppCompatImageButton
-                        android:id="@+id/create_book_cancel"
+                        android:id="@+id/edit_book_cancel"
                         style="?android:attr/buttonStyleSmall"
                         android:layout_width="wrap_content"
                         android:layout_height="fill_parent"
@@ -49,7 +49,7 @@
                         android:layout_weight="1" />
 
                     <android.support.v7.widget.AppCompatButton
-                        android:id="@+id/create_book_save"
+                        android:id="@+id/edit_book_save"
                         style="?android:attr/buttonStyleSmall"
                         android:layout_width="wrap_content"
                         android:layout_height="fill_parent"
@@ -60,8 +60,7 @@
                 </LinearLayout>
 
                 <android.support.v7.widget.AppCompatEditText
-                    android:id="@+id/create_book_title"
-                    android:layout_width="match_parent"
+                    android:id="@+id/edit_book_title" android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
                     android:hint="Enter book name..."
@@ -74,6 +73,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_create_book" />
+    <include layout="@layout/content_edit_book" />
 
 </android.support.design.widget.CoordinatorLayout>

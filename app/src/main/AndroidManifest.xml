@@ -63,7 +63,7 @@
         </activity>
         <activity
             android:name=".ui.book.edit.EditBookActivity"
-            android:label="@string/title_activity_create_book"
+            android:label="@string/title_activity_edit_book"
             android:parentActivityName=".ui.MainActivity"
             android:theme="@style/Barkeep.Book.Edit">
 
@@ -83,7 +83,7 @@
         </activity>
         <activity
             android:name=".ui.bar.edit.EditBarActivity"
-            android:label="@string/title_activity_create_bar"
+            android:label="@string/title_activity_edit_bar"
             android:parentActivityName=".ui.MainActivity"
             android:theme="@style/Barkeep.Bar.Edit">
 
