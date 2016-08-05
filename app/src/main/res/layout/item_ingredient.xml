@@ -1,40 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="100dp"
+    android:layout_height="100dp"
+    android:layout_gravity="center"
+    android:layout_margin="4dp"
+    app:cardCornerRadius="4dp"
+    app:cardElevation="4dp"
+    tools:context=".ui.bar.BarDetailActivity">
 
-    <data>
+    <ImageView
+        android:id="@+id/ingredient_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="ingredient" />
 
-        <variable
-            name="ingredient"
-            type="com.bnorm.barkeep.data.api.model.Ingredient" />
-    </data>
+    <TextView
+        android:id="@+id/ingredient_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginBottom="16dp"
+        android:background="#c0000000"
+        android:gravity="center"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@android:color/white" />
 
-    <android.support.v7.widget.CardView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_gravity="center"
-        android:layout_margin="4dp"
-        app:cardCornerRadius="4dp"
-        app:cardElevation="4dp"
-        tools:context=".ui.bar.BarDetailActivity">
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:contentDescription="ingredient"
-            app:imageUrl='@{"http://2.bp.blogspot.com/-PIQcxG5KkiU/To8duH-jYDI/AAAAAAAACEk/OtbVHe8EjmI/s200/jameson.jpg"}' />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|bottom"
-            android:layout_marginBottom="16dp"
-            android:background="#c0000000"
-            android:gravity="center"
-            android:text="@{ingredient.name}"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@android:color/white" />
-
-    </android.support.v7.widget.CardView>
-</layout>
+</android.support.v7.widget.CardView>

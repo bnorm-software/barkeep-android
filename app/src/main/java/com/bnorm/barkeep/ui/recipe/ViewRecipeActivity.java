@@ -4,19 +4,24 @@ import javax.inject.Inject;
 
 import android.content.Context;
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.bnorm.barkeep.R;
 import com.bnorm.barkeep.data.api.model.Amount;
 import com.bnorm.barkeep.data.api.model.Component;
 import com.bnorm.barkeep.data.api.model.Ingredient;
 import com.bnorm.barkeep.data.api.model.Recipe;
-import com.bnorm.barkeep.databinding.ActivityViewRecipeBinding;
+import com.bnorm.barkeep.lib.BindingAdapters;
 import com.bnorm.barkeep.ui.ViewContainer;
 import com.bnorm.barkeep.ui.base.BaseActivity;
 import com.bnorm.barkeep.ui.recipe.edit.EditRecipeActivity;
@@ -27,9 +32,14 @@ public class ViewRecipeActivity extends BaseActivity {
 
     // ===== Model ===== //
 
-    private ActivityViewRecipeBinding binding;
+    private Recipe recipe;
+
 
     // ===== View ===== //
+
+    @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.recipe_image) ImageView recipeImage;
+    @BindView(R.id.recipe_view_components) LinearLayout recipeViewComponents;
 
     @Inject ViewContainer viewContainer;
 
@@ -51,37 +61,29 @@ public class ViewRecipeActivity extends BaseActivity {
         barkeep().component().plus(new ViewRecipeViewModule()).inject(this);
 
         ViewGroup container = viewContainer.forActivity(this);
-        binding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.activity_view_recipe, container, true);
-
+        View view = getLayoutInflater().inflate(R.layout.activity_view_recipe, container, true);
+        ButterKnife.bind(this, view);
 
         // ===== Pull intent extras ===== //
         Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
-            binding.setRecipe(bundle.getParcelable(RECIPE_TAG));
-        }
+        recipe = bundle.getParcelable(RECIPE_TAG);
+        assert recipe != null;
 
 
         // ===== Configure toolbar ===== //
-        setSupportActionBar(binding.toolbar);
+        setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             // Show the Up button in the action bar.
             actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setTitle(recipe.getName());
         }
 
 
-        // ===== Configure floating button ===== //
-        // todo what should be done with this floating action button?
-        binding.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                EditRecipeActivity.launch(ViewRecipeActivity.this, binding.getRecipe());
-            }
-        });
-
-
         // ===== Load recipe information ===== //
-        for (Component component : binding.getRecipe().getComponents()) {
+        BindingAdapters.loadImage(recipeImage, recipe.getPicture());
+
+        for (Component component : recipe.getComponents()) {
             StringBuilder builder = new StringBuilder();
             Amount amount = component.getAmount();
             if (amount.getRecommended() != null) {
@@ -107,7 +109,7 @@ public class ViewRecipeActivity extends BaseActivity {
             // todo RecycleView
             TextView inflate = (TextView) getLayoutInflater().inflate(android.R.layout.simple_list_item_1, null);
             inflate.setText(builder.toString());
-            binding.content.recipeViewComponents.addView(inflate);
+            recipeViewComponents.addView(inflate);
         }
     }
 
@@ -120,5 +122,10 @@ public class ViewRecipeActivity extends BaseActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @OnClick(R.id.fab)
+    public void onFabClick() {
+        EditRecipeActivity.launch(this, recipe);
     }
 }

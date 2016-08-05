@@ -1,41 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true">
 
-    <data>
-
-        <variable
-            name="recipe"
-            type="com.bnorm.barkeep.data.api.model.Recipe" />
-    </data>
-
-    <FrameLayout
+    <com.squareup.widgets.AspectRatioImageView
+        android:id="@+id/recipe_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:clickable="true">
+        android:background="?attr/selectableItemBackground"
+        android:scaleType="centerCrop"
+        android:transitionName="recipeImage"
+        app:aspectRatio="1"
+        app:aspectRatioEnabled="true"
+        app:dominantMeasurement="width" />
 
-        <com.squareup.widgets.AspectRatioImageView
-            android:id="@+id/recipe_image"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
-            android:contentDescription="@{recipe.picture}"
-            android:scaleType="centerCrop"
-            android:transitionName="recipeImage"
-            app:aspectRatio="1"
-            app:aspectRatioEnabled="true"
-            app:dominantMeasurement="width"
-            app:imageUrl="@{recipe.picture}" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|bottom"
-            android:layout_marginBottom="16dp"
-            android:background="#c0000000"
-            android:gravity="center"
-            android:text="@{recipe.name}"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@android:color/white" />
-    </FrameLayout>
-</layout>
+    <TextView
+        android:id="@+id/recipe_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginBottom="16dp"
+        android:background="#c0000000"
+        android:gravity="center"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@android:color/white" />
+</FrameLayout>
