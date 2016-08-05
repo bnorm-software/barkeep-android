@@ -2,15 +2,16 @@ package com.bnorm.barkeep.ui.book;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.inject.Inject;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import com.bnorm.barkeep.R;
 import com.bnorm.barkeep.data.api.model.Book;
-import com.bnorm.barkeep.databinding.ItemBookBinding;
 
 public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
 
@@ -50,15 +51,15 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private final ItemBookBinding binding;
+        @BindView(R.id.book_title) TextView bookTitle;
 
         public ViewHolder(ViewGroup parent) {
             super(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_book, parent, false));
-            binding = ItemBookBinding.bind(itemView);
+            ButterKnife.bind(this, itemView);
         }
 
         public void bind(Book book) {
-            binding.setBook(book);
+            bookTitle.setText(book.getName());
         }
     }
 }
