@@ -24,11 +24,15 @@
 
     <style name="Barkeep.Book" />
 
+    <style name="Barkeep.Book.Edit" />
+
     <style name="Barkeep.Book.Details" />
 
     <style name="Barkeep.Bar" />
 
     <style name="Barkeep.Bar.Details" />
+
+    <style name="Barkeep.Bar.Edit" />
 
     <style name="Barkeep.Recipe" />
 

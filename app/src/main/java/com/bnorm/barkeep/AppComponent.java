@@ -8,10 +8,14 @@ import com.bnorm.barkeep.ui.bar.BarDetailActivityComponent;
 import com.bnorm.barkeep.ui.bar.BarDetailViewModule;
 import com.bnorm.barkeep.ui.bar.BarListFragmentComponent;
 import com.bnorm.barkeep.ui.bar.BarListViewModule;
+import com.bnorm.barkeep.ui.bar.edit.EditBarActivityComponent;
+import com.bnorm.barkeep.ui.bar.edit.EditBarViewModule;
 import com.bnorm.barkeep.ui.book.BookDetailActivityComponent;
 import com.bnorm.barkeep.ui.book.BookDetailViewModule;
 import com.bnorm.barkeep.ui.book.BookListFragmentComponent;
 import com.bnorm.barkeep.ui.book.BookListViewModule;
+import com.bnorm.barkeep.ui.book.edit.EditBookActivityComponent;
+import com.bnorm.barkeep.ui.book.edit.EditBookViewModule;
 import com.bnorm.barkeep.ui.recipe.ViewRecipeActivityComponent;
 import com.bnorm.barkeep.ui.recipe.ViewRecipeViewModule;
 import com.bnorm.barkeep.ui.recipe.edit.EditRecipeActivityComponent;
@@ -30,9 +34,13 @@ public interface AppComponent extends ApiComponent {
 
     BarListFragmentComponent plus(BarListViewModule module);
 
+    EditBarActivityComponent plus(EditBarViewModule module);
+
     BookDetailActivityComponent plus(BookDetailViewModule module);
 
     BookListFragmentComponent plus(BookListViewModule module);
+
+    EditBookActivityComponent plus(EditBookViewModule module);
 
     ViewRecipeActivityComponent plus(ViewRecipeViewModule module);
 
