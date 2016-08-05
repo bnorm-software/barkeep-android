@@ -5,6 +5,7 @@ import javax.inject.Inject;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -19,20 +20,19 @@ import com.bnorm.barkeep.ui.base.BaseActivity;
 import com.bnorm.barkeep.ui.book.edit.EditBookActivity;
 
 public class BookDetailActivity extends BaseActivity {
-    private static final String BOOK_TAG = "book";
+    public static final String BOOK_TAG = "book";
 
     // ===== View ===== //
 
     @Inject ViewContainer viewContainer;
     @BindView(R.id.toolbar) Toolbar toolbar;
-
+    @BindView(R.id.fab) FloatingActionButton fab;
 
     public static void launch(Context context, Book book) {
         Intent intent = new Intent(context, BookDetailActivity.class);
         intent.putExtra(BookDetailActivity.BOOK_TAG, book);
         context.startActivity(intent);
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,10 +52,6 @@ public class BookDetailActivity extends BaseActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setTitle(book.getName());
         }
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        assert book != null;
-        assert fab != null;
 
         fab.setOnClickListener(view -> EditBookActivity.launch(this, book));
     }

@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.bnorm.barkeep.R;
 import com.bnorm.barkeep.data.api.model.Book;
+import com.bnorm.barkeep.lib.Bundles;
 import com.bnorm.barkeep.ui.ViewContainer;
 import com.bnorm.barkeep.ui.base.BaseActivity;
 import com.bnorm.barkeep.ui.book.BookDetailActivity;
@@ -58,7 +59,7 @@ public class EditBookActivity extends BaseActivity implements EditBookView {
         getLayoutInflater().inflate(R.layout.activity_create_book, container);
         ButterKnife.bind(this, container);
 
-        loadBook(getIntent().getParcelableExtra(BookDetailActivity.BOOK_TAG));
+        loadBook(Bundles.getParcelable(BookDetailActivity.BOOK_TAG, getIntent().getExtras()));
     }
 
     @NonNull

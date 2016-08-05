@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.bnorm.barkeep.R;
 import com.bnorm.barkeep.data.api.model.Bar;
+import com.bnorm.barkeep.lib.Bundles;
 import com.bnorm.barkeep.ui.ViewContainer;
 import com.bnorm.barkeep.ui.bar.BarDetailActivity;
 import com.bnorm.barkeep.ui.base.BaseActivity;
@@ -59,7 +60,7 @@ public class EditBarActivity extends BaseActivity implements EditBarView {
         getLayoutInflater().inflate(R.layout.activity_create_bar, container);
         ButterKnife.bind(this, container);
 
-        loadBar(getIntent().getParcelableExtra(BarDetailActivity.BAR_TAG));
+        loadBar(Bundles.getParcelable(BarDetailActivity.BAR_TAG, getIntent().getExtras()));
     }
 
     @NonNull

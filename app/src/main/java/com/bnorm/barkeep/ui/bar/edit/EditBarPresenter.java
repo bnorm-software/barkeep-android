@@ -34,6 +34,7 @@ public class EditBarPresenter {
     }
 
     public void save(Bar bar) {
+        validate(bar);
         service.getBar(bar.getName())
                .flatMap(response -> response.isSuccessful() ? service.updateBar(bar.getName(), bar)
                                                             : service.createBar(bar))
@@ -43,5 +44,19 @@ public class EditBarPresenter {
                     view.onBarSaved(bar);
                     view.onClose();
                });
+    }
+
+    private void validate(Bar bar) throws IllegalArgumentException {
+        if (bar == null) {
+            throw new IllegalArgumentException("Bar is null");
+        }
+
+        if (bar.getName() == null) {
+            throw new IllegalArgumentException("Bar name is null");
+        }
+
+        if (bar.getIngredients() == null) {
+            throw new IllegalArgumentException("Bar ingredients is null");
+        }
     }
 }

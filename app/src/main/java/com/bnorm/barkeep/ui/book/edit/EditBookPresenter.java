@@ -34,6 +34,8 @@ public class EditBookPresenter {
     }
 
     public void save(Book book) {
+        validate(book);
+
         service.getBook(book.getName())
                .flatMap(response -> response.isSuccessful() ? service.updateBook(book.getName(), book)
                                                             : service.createBook(book))
@@ -44,4 +46,19 @@ public class EditBookPresenter {
                     view.onClose();
                });
     }
+
+    private void validate(Book book) throws IllegalArgumentException {
+        if (book == null) {
+            throw new IllegalArgumentException("Book is null");
+        }
+
+        if (book.getName() == null) {
+            throw new IllegalArgumentException("Book name is null");
+        }
+
+        if (book.getRecipes() == null) {
+            throw new IllegalArgumentException("Book recipes is null");
+        }
+    }
+
 }

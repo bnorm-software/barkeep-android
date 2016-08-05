@@ -26,14 +26,13 @@ public class BarDetailActivity extends BaseActivity {
 
     @Inject ViewContainer viewContainer;
     @BindView(R.id.toolbar) Toolbar toolbar;
-
+    @BindView(R.id.fab) FloatingActionButton fab;
 
     public static void launch(Context context, Bar bar) {
         Intent intent = new Intent(context, BarDetailActivity.class);
         intent.putExtra(BarDetailActivity.BAR_TAG, bar);
         context.startActivity(intent);
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,13 +53,7 @@ public class BarDetailActivity extends BaseActivity {
             actionBar.setTitle(bar.getName());
         }
 
-        Bar bar = getIntent().getParcelableExtra(BAR_TAG);
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        assert bar != null;
-        assert fab != null;
-
         fab.setOnClickListener(view -> EditBarActivity.launch(this, bar));
-        }
     }
 
     @Override
