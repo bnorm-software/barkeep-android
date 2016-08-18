@@ -12,7 +12,6 @@ import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.moshi.MoshiConverterFactory;
-import rx.Scheduler;
 import rx.schedulers.Schedulers;
 
 @Module
@@ -45,7 +44,7 @@ public class ApiModule {
     Retrofit provideRetrofit(OkHttpClient okHttpClient, Moshi moshi) {
         Retrofit.Builder builder = new Retrofit.Builder();
         builder.addConverterFactory(MoshiConverterFactory.create(moshi));
-        builder.addCallAdapterFactory(RxJavaCallAdapterFactory.create());
+        builder.addCallAdapterFactory(RxJavaCallAdapterFactory.createWithScheduler(Schedulers.io()));
         builder.baseUrl(httpUrl);
         builder.client(okHttpClient);
         return builder.build();
@@ -55,13 +54,5 @@ public class ApiModule {
     @Provides
     BarkeepService provideBarkeepService(Retrofit retrofit) {
         return retrofit.create(BarkeepService.class);
-    }
-
-
-    @ApiScope
-    @Provides
-    @ApiScheduler
-    Scheduler provideApiScheduler() {
-        return Schedulers.io();
     }
 }

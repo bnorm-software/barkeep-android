@@ -9,7 +9,4 @@ import rx.Scheduler;
 public interface ApiComponent {
 
     BarkeepService service();
-
-    @ApiScheduler
-    Scheduler apiScheduler();
 }

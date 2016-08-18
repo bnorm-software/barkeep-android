@@ -50,17 +50,21 @@ public class BookListFragment extends BaseFragment implements BookListView {
             actionBar.setTitle("Books");
         }
 
-        // todo(bnorm) inject
-        adapter = new BookAdapter(this);
         recyclerView.setAdapter(adapter);
-
-        // todo(bnorm) inject
-        presenter = new BookListPresenter(this,
-                                          barkeep().component().service(),
-                                          Schedulers.io(),
-                                          AndroidSchedulers.mainThread());
         presenter.loadBooks();
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        presenter.attach(this);
+    }
+
+    @Override
+    public void onStop() {
+        presenter.detach();
+        super.onStop();
     }
 
     @OnClick(R.id.fab)

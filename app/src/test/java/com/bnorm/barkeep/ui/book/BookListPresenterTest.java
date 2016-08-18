@@ -28,7 +28,9 @@ public class BookListPresenterTest {
 
     @NonNull
     private static BookListPresenter presenter(BookListView view, BarkeepService service) {
-        return new BookListPresenter(view, service, Schedulers.immediate(), Schedulers.immediate());
+        BookListPresenter presenter = new BookListPresenter(service, Schedulers.immediate());
+        presenter.attach(view);
+        return presenter;
     }
 
     @Test

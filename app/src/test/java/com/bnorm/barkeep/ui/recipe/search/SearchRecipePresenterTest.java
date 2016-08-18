@@ -3,7 +3,6 @@ package com.bnorm.barkeep.ui.recipe.search;
 import java.io.IOException;
 import java.util.Collections;
 
-import android.support.annotation.NonNull;
 import com.bnorm.barkeep.data.api.BarkeepService;
 import com.bnorm.barkeep.data.api.model.GaeList;
 import org.junit.Rule;
@@ -25,9 +24,10 @@ public class SearchRecipePresenterTest {
     @Mock SearchRecipeView view;
     @Mock BarkeepService service;
 
-    @NonNull
     private static SearchRecipePresenter presenter(SearchRecipeView view, BarkeepService service) {
-        return new SearchRecipePresenter(view, service, Schedulers.immediate(), Schedulers.immediate());
+        SearchRecipePresenter presenter = new SearchRecipePresenter(service, Schedulers.immediate());
+        presenter.attach(view);
+        return presenter;
     }
 
     @Test

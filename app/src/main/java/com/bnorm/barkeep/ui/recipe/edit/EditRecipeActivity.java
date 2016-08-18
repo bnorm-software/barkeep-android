@@ -57,9 +57,6 @@ public class EditRecipeActivity extends BaseActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Bundle bundle = getIntent().getExtras();
-        Recipe recipe = bundle != null ? bundle.getParcelable(RECIPE_TAG) : null;
-
         barkeep().component().plus(new EditRecipeViewModule(this)).inject(this);
 
         ViewGroup container = viewContainer.forActivity(this);
@@ -73,6 +70,18 @@ public class EditRecipeActivity extends BaseActivity
         components.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
         loadRecipe(getIntent().getParcelableExtra(RECIPE_TAG));
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        presenter.attach(this);
+    }
+
+    @Override
+    public void onStop() {
+        presenter.detach();
+        super.onStop();
     }
 
     @NonNull
@@ -97,7 +106,8 @@ public class EditRecipeActivity extends BaseActivity
 
     @OnClick(R.id.create_recipe_cancel)
     void onCancel() {
-        presenter.cancel();
+        // todo(bnorm) are you sure? - if there are changed fields
+        onBackPressed();
     }
 
     @OnClick(R.id.create_recipe_save)
@@ -108,7 +118,7 @@ public class EditRecipeActivity extends BaseActivity
 
     @OnClick(R.id.create_recipe_add_component)
     void onAddComponent() {
-        presenter.addComponent();
+        onEditComponent(null, new Component(), "Cancel");
     }
 
     @Override
@@ -132,13 +142,9 @@ public class EditRecipeActivity extends BaseActivity
     }
 
     @Override
-    public void onClose() {
-        onBackPressed();
-    }
-
-    @Override
     public void onRecipeSaved(Recipe recipe) {
         Toast.makeText(getApplicationContext(), "Saved " + recipe.getName(), Toast.LENGTH_LONG).show();
+        onBackPressed();
     }
 
     @Override

@@ -50,17 +50,21 @@ public class BarListFragment extends BaseFragment implements BarListView {
             actionBar.setTitle("Bars");
         }
 
-        // todo(bnorm) inject
-        adapter = new BarAdapter(this);
         recyclerView.setAdapter(adapter);
-
-        // todo(bnorm) inject
-        presenter = new BarListPresenter(this,
-                                         barkeep().component().service(),
-                                         Schedulers.io(),
-                                         AndroidSchedulers.mainThread());
         presenter.loadBars();
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        presenter.attach(this);
+    }
+
+    @Override
+    public void onStop() {
+        presenter.detach();
+        super.onStop();
     }
 
     @OnClick(R.id.fab)

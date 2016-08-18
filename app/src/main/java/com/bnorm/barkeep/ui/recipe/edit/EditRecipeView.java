@@ -5,8 +5,6 @@ import com.bnorm.barkeep.data.api.model.Recipe;
 
 public interface EditRecipeView {
 
-    void onClose();
-
     void onRecipeSaved(Recipe recipe);
 
     void onEditComponent(Integer position, Component component, String negativeText);
