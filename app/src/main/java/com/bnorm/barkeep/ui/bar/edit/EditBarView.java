@@ -4,7 +4,5 @@ import com.bnorm.barkeep.data.api.model.Bar;
 
 public interface EditBarView {
 
-    void onClose();
-
     void onBarSaved(Bar bar);
 }

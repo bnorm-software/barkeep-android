@@ -18,8 +18,9 @@ import rx.functions.Action1;
 public class BookListPresenter extends AbstractPresenter<BookListView> {
 
     private final Action1<List<Book>> enqueueBooks = enqueue(BookListView::onBooks);
-    private Action1<Response<GaeList<Book>>> responseBooks = response -> enqueueBooks.call(response.body().getItems());
-    private Action1<Throwable> errorBooks = error -> enqueueBooks.call(Collections.emptyList());
+    private final Action1<Response<GaeList<Book>>> responseBooks = response -> enqueueBooks.call(response.body()
+                                                                                                         .getItems());
+    private final Action1<Throwable> errorBooks = error -> enqueueBooks.call(Collections.emptyList());
 
     private final BarkeepService service;
 

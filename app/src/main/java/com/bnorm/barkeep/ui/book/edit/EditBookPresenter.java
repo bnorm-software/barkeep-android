@@ -1,36 +1,28 @@
 package com.bnorm.barkeep.ui.book.edit;
 
-import com.bnorm.barkeep.data.api.ApiScheduler;
-import com.bnorm.barkeep.data.api.BarkeepService;
-import com.bnorm.barkeep.data.api.model.Book;
-import com.bnorm.barkeep.ui.ActivityScope;
-import com.bnorm.barkeep.ui.UiScheduler;
-
 import javax.inject.Inject;
 
+import com.bnorm.barkeep.AppScope;
+import com.bnorm.barkeep.data.api.BarkeepService;
+import com.bnorm.barkeep.data.api.model.Book;
+import com.bnorm.barkeep.ui.UiScheduler;
+import com.bnorm.barkeep.ui.base.AbstractPresenter;
+import retrofit2.Response;
 import rx.Scheduler;
+import rx.functions.Action1;
 
-@ActivityScope
-public class EditBookPresenter {
+@AppScope
+public class EditBookPresenter extends AbstractPresenter<EditBookView> {
 
-    private final EditBookView view;
+    private final Action1<Book> enqueueBookSaved = enqueue(EditBookView::onBookSaved);
+    private final Action1<Response<Book>> responseBookSaved = response -> enqueueBookSaved.call(response.body());
+
     private final BarkeepService service;
-    private final Scheduler apiScheduler;
-    private final Scheduler uiScheduler;
 
     @Inject
-    public EditBookPresenter(EditBookView view,
-                             BarkeepService service,
-                             @ApiScheduler Scheduler apiScheduler,
-                             @UiScheduler Scheduler uiScheduler) {
-        this.view = view;
+    EditBookPresenter(BarkeepService service, @UiScheduler Scheduler uiScheduler) {
+        super(uiScheduler);
         this.service = service;
-        this.apiScheduler = apiScheduler;
-        this.uiScheduler = uiScheduler;
-    }
-
-    public void cancel() {
-        view.onClose();
     }
 
     public void save(Book book) {
@@ -39,26 +31,12 @@ public class EditBookPresenter {
         service.getBook(book.getName())
                .flatMap(response -> response.isSuccessful() ? service.updateBook(book.getName(), book)
                                                             : service.createBook(book))
-               .subscribeOn(apiScheduler)
-               .observeOn(uiScheduler)
-               .subscribe(response -> {
-                    view.onBookSaved(book);
-                    view.onClose();
-               });
+               .subscribe(responseBookSaved);
     }
 
-    private void validate(Book book) throws IllegalArgumentException {
-        if (book == null) {
-            throw new IllegalArgumentException("Book is null");
-        }
-
-        if (book.getName() == null) {
-            throw new IllegalArgumentException("Book name is null");
-        }
-
-        if (book.getRecipes() == null) {
-            throw new IllegalArgumentException("Book recipes is null");
-        }
+    private void validate(Book book) {
+        if (book == null) throw new NullPointerException("Book is null");
+        if (book.getName() == null) throw new NullPointerException("Book name is null");
+        if (book.getRecipes() == null) throw new NullPointerException("Book recipes is null");
     }
-
 }

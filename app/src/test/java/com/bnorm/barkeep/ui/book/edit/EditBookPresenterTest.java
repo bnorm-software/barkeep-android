@@ -1,27 +1,23 @@
-package com.bnorm.barkeep.ui.book;
+package com.bnorm.barkeep.ui.book.edit;
+
+import java.util.Collections;
 
 import android.support.annotation.NonNull;
-
 import com.bnorm.barkeep.data.api.BarkeepService;
 import com.bnorm.barkeep.data.api.model.Book;
-import com.bnorm.barkeep.ui.book.edit.EditBookPresenter;
-import com.bnorm.barkeep.ui.book.edit.EditBookView;
-
+import okhttp3.MediaType;
+import okhttp3.ResponseBody;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
-
-import java.util.Collections;
-
-import okhttp3.MediaType;
-import okhttp3.ResponseBody;
 import retrofit2.Response;
 import rx.Single;
 import rx.schedulers.Schedulers;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.fail;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
@@ -39,19 +35,9 @@ public class EditBookPresenterTest {
 
     @NonNull
     private static EditBookPresenter presenter(EditBookView view, BarkeepService service) {
-        return new EditBookPresenter(view, service, Schedulers.immediate(), Schedulers.immediate());
-    }
-
-    @Test
-    public void cancel() {
-        // given
-        EditBookPresenter presenter = presenter(view, service);
-
-        // when
-        presenter.cancel();
-
-        // then
-        verify(view).onClose();
+        EditBookPresenter presenter = new EditBookPresenter(service, Schedulers.immediate());
+        presenter.attach(view);
+        return presenter;
     }
 
     @Test
@@ -60,15 +46,13 @@ public class EditBookPresenterTest {
         EditBookPresenter presenter = presenter(view, service);
 
         // when
-        IllegalArgumentException exception = null;
         try {
             presenter.save(null);
-        } catch (IllegalArgumentException e) {
-            exception = e;
+            fail("Presenter should have thrown an exception on save");
+        } catch (NullPointerException e) {
+            // then
+            assertThat(e).isInstanceOf(NullPointerException.class);
         }
-
-        // then
-        assertThat(exception != null).named("save fails for null").isTrue();
     }
 
     @Test
@@ -80,15 +64,13 @@ public class EditBookPresenterTest {
         EditBookPresenter presenter = presenter(view, service);
 
         // when
-        IllegalArgumentException exception = null;
         try {
             presenter.save(book);
-        } catch (IllegalArgumentException e) {
-            exception = e;
+            fail("Presenter should have thrown an exception on save");
+        } catch (NullPointerException e) {
+            // then
+            assertThat(e).isInstanceOf(NullPointerException.class);
         }
-
-        // then
-        assertThat(exception != null).named("save fails for nullName").isTrue();
     }
 
     @Test
@@ -100,15 +82,13 @@ public class EditBookPresenterTest {
         EditBookPresenter presenter = presenter(view, service);
 
         // when
-        IllegalArgumentException exception = null;
         try {
             presenter.save(book);
-        } catch (IllegalArgumentException e) {
-            exception = e;
+            fail("Presenter should have thrown an exception on save");
+        } catch (NullPointerException e) {
+            // then
+            assertThat(e).isInstanceOf(NullPointerException.class);
         }
-
-        // then
-        assertThat(exception != null).named("save fails for nullRecipes").isTrue();
     }
 
     @Test
@@ -128,7 +108,6 @@ public class EditBookPresenterTest {
         verify(service).getBook("name");
         verify(service).createBook(any());
         verify(view).onBookSaved(any());
-        verify(view).onClose();
     }
 
     @Test
@@ -148,6 +127,5 @@ public class EditBookPresenterTest {
         verify(service).getBook("name");
         verify(service).updateBook(eq("name"), any());
         verify(view).onBookSaved(any());
-        verify(view).onClose();
     }
 }

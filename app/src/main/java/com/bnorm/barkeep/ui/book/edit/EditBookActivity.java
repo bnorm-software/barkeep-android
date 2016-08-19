@@ -62,6 +62,18 @@ public class EditBookActivity extends BaseActivity implements EditBookView {
         loadBook(Bundles.getParcelable(BookDetailActivity.BOOK_TAG, getIntent().getExtras()));
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        presenter.attach(this);
+    }
+
+    @Override
+    protected void onStop() {
+        presenter.detach();
+        super.onStop();
+    }
+
     @NonNull
     private Book getBook() {
         Book book = new Book();
@@ -77,21 +89,19 @@ public class EditBookActivity extends BaseActivity implements EditBookView {
 
     @OnClick(R.id.edit_book_cancel)
     void onCancel() {
-        presenter.cancel();
+        // todo(bnorm) are you sure? - if there are changed fields
+        onBackPressed();
     }
 
     @OnClick(R.id.edit_book_save)
     void onSave() {
+        // todo(bnorm) check fields are properly filled
         presenter.save(getBook());
-    }
-
-    @Override
-    public void onClose() {
-        onBackPressed();
     }
 
     @Override
     public void onBookSaved(Book book) {
         Toast.makeText(getApplicationContext(), "Saved " + book.getName(), Toast.LENGTH_LONG).show();
+        onBackPressed();
     }
 }

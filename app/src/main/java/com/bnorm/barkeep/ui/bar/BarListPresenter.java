@@ -18,8 +18,9 @@ import rx.functions.Action1;
 public class BarListPresenter extends AbstractPresenter<BarListView> {
 
     private final Action1<List<Bar>> enqueueBars = enqueue(BarListView::onBars);
-    private Action1<Response<GaeList<Bar>>> responseBars = response -> enqueueBars.call(response.body().getItems());
-    private Action1<Throwable> errorBars = error -> enqueueBars.call(Collections.emptyList());
+    private final Action1<Response<GaeList<Bar>>> responseBars = response -> enqueueBars.call(response.body()
+                                                                                                      .getItems());
+    private final Action1<Throwable> errorBars = error -> enqueueBars.call(Collections.emptyList());
 
     private final BarkeepService service;
 
