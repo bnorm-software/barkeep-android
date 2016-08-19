@@ -3,63 +3,66 @@ package com.bnorm.barkeep.ui.bar;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import com.bnorm.barkeep.R;
 import com.bnorm.barkeep.data.api.model.Bar;
 import com.bnorm.barkeep.data.api.model.Ingredient;
-import com.bnorm.barkeep.lib.Retained;
+import com.bnorm.barkeep.lib.Bundles;
 import com.bnorm.barkeep.ui.base.BaseFragment;
+import com.trello.navi.Event;
+import com.trello.navi.rx.RxNavi;
 
 public class BarDetailFragment extends BaseFragment {
+    private static final String BAR_TAG = "bar";
 
-    private Bar mBar;
+    // ===== View ===== //
 
-    public void setBar(Bar bar) {
-        this.mBar = bar;
+    @BindView(R.id.ingredient_shelves) RecyclerView recyclerView;
+
+
+    public static BarDetailFragment create(Bar bar) {
+        Bundle args = new Bundle();
+        args.putParcelable(BAR_TAG, bar);
+
+        BarDetailFragment fragment = new BarDetailFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        mBar = Retained.retain(this, "bar", mBar);
-
-        Activity activity = this.getActivity();
-        CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
-        if (appBarLayout != null && mBar != null) {
-            appBarLayout.setTitle(mBar.getName());
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_bar_detail, container, false);
+        View view = inflater.inflate(R.layout.fragment_bar_detail, container, false);
+        ButterKnife.bind(this, view);
 
-        RecyclerView shelves = (RecyclerView) root.findViewById(R.id.ingredient_shelves);
-        LinearLayoutManager manager = new LinearLayoutManager(root.getContext(), LinearLayoutManager.VERTICAL, false);
-        shelves.setLayoutManager(manager);
+        Bar bar = Bundles.getParcelable(BAR_TAG,
+                                        getArguments(),
+                                        getActivity().getIntent().getExtras(),
+                                        savedInstanceState);
+        assert bar != null;
+        RxNavi.observe(this, Event.SAVE_INSTANCE_STATE).subscribe(outState -> outState.putParcelable(BAR_TAG, bar));
 
         BarShelfAdapter adapter = new BarShelfAdapter();
-        shelves.setAdapter(adapter);
-        if (mBar != null) {
-            int num = 6;
-            List<Ingredient> ingredients = mBar.getIngredients();
-            int subSize = ingredients.size() / num;
-            List<BarShelf> temp = new ArrayList<>();
-            for (int i = 0; i < num - 1; i++) {
-                BarShelf shelf = new BarShelf(ingredients.subList(i * subSize, (i + 1) * subSize));
-                temp.add(shelf);
-            }
-            adapter.set(temp);
-        }
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false));
 
-        return root;
+        int num = 6;
+        List<Ingredient> ingredients = bar.getIngredients();
+        int subSize = ingredients.size() / num;
+        List<BarShelf> temp = new ArrayList<>();
+        for (int i = 0; i < num - 1; i++) {
+            BarShelf shelf = new BarShelf(ingredients.subList(i * subSize, (i + 1) * subSize));
+            temp.add(shelf);
+        }
+        adapter.set(temp);
+
+        return view;
     }
 }

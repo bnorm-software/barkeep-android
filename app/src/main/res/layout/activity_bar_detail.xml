@@ -14,18 +14,29 @@
         android:layout_height="?attr/actionBarSize">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/detail_toolbar"
+            android:id="@+id/toolbar"
+            style="@style/Widget.Barkeep.Toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:layout_collapseMode="pin"
-            app:popupTheme="@style/Widget.Barkeep.Toolbar" />
+            app:layout_collapseMode="pin" />
 
     </android.support.design.widget.AppBarLayout>
 
-    <FrameLayout
+    <fragment
         android:id="@+id/bar_detail_container"
+        android:name="com.bnorm.barkeep.ui.bar.BarDetailFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|start"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@android:drawable/stat_notify_chat"
+        app:layout_anchor="@+id/bar_detail_container"
+        app:layout_anchorGravity="top|end" />
 
 </android.support.design.widget.CoordinatorLayout>

@@ -2,26 +2,43 @@ package com.bnorm.barkeep.ui.book;
 
 import javax.inject.Inject;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.ViewGroup;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 import com.bnorm.barkeep.R;
 import com.bnorm.barkeep.data.api.model.Book;
+import com.bnorm.barkeep.lib.Bundles;
 import com.bnorm.barkeep.ui.ViewContainer;
 import com.bnorm.barkeep.ui.base.BaseActivity;
+import com.bnorm.barkeep.ui.book.edit.EditBookActivity;
 
 public class BookDetailActivity extends BaseActivity {
+    public static final String BOOK_TAG = "book";
 
-    public static final String BOOK_TAG = BookDetailActivity.class.getName() + ".book";
+    // ===== Model ===== //
+
+    private Book book;
 
     // ===== View ===== //
 
     @Inject ViewContainer viewContainer;
+    @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.fab) FloatingActionButton fab;
+
+    public static void launch(Context context, Book book) {
+        Intent intent = new Intent(context, BookDetailActivity.class);
+        intent.putExtra(BookDetailActivity.BOOK_TAG, book);
+        context.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,42 +47,16 @@ public class BookDetailActivity extends BaseActivity {
 
         ViewGroup container = viewContainer.forActivity(this);
         getLayoutInflater().inflate(R.layout.activity_book_detail, container);
+        ButterKnife.bind(this, container);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
+        book = Bundles.getParcelable(BOOK_TAG, getIntent().getExtras());
+        assert book != null;
+
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own detail action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null)
-                        .show();
-            }
-        });
-
-        // Show the Up button in the action bar.
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-        }
-
-        // savedInstanceState is non-null when there is fragment state
-        // saved from previous configurations of this activity
-        // (e.g. when rotating the screen from portrait to landscape).
-        // In this case, the fragment will automatically be re-added
-        // to its container so we don't need to manually add it.
-        // For more information, see the Fragments API guide at:
-        //
-        // http://developer.android.com/guide/components/fragments.html
-        //
-        if (savedInstanceState == null) {
-            Bundle bundle = getIntent().getExtras();
-            // Create the detail fragment and add it to the activity
-            // using a fragment transaction.
-            BookDetailFragment fragment = new BookDetailFragment();
-            fragment.setBook((Book) bundle.getParcelable(BOOK_TAG));
-            getSupportFragmentManager().beginTransaction().add(R.id.book_detail_container, fragment).commit();
+            actionBar.setTitle(book.getName());
         }
     }
 
@@ -73,15 +64,14 @@ public class BookDetailActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
-            // This ID represents the Home or Up button. In the case of this
-            // activity, the Up button is shown. For
-            // more details, see the Navigation pattern on Android Design:
-            //
-            // http://developer.android.com/design/patterns/navigation.html#up-vs-back
-            //
             onBackPressed();
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @OnClick(R.id.fab)
+    public void onFabClick() {
+        EditBookActivity.launch(this, book);
     }
 }

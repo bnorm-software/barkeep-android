@@ -1,10 +1,8 @@
 package com.bnorm.barkeep.ui.book;
 
 import java.util.List;
-
 import javax.inject.Inject;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
@@ -20,9 +18,8 @@ import com.bnorm.barkeep.R;
 import com.bnorm.barkeep.data.api.model.Book;
 import com.bnorm.barkeep.ui.MainActivity;
 import com.bnorm.barkeep.ui.base.BaseFragment;
+import com.bnorm.barkeep.ui.book.edit.EditBookActivity;
 import com.bnorm.barkeep.ui.recipe.edit.EditRecipeActivity;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 public class BookListFragment extends BaseFragment implements BookListView {
 
@@ -69,8 +66,7 @@ public class BookListFragment extends BaseFragment implements BookListView {
 
     @OnClick(R.id.fab)
     void onFabClick() {
-        // todo should this only be available within a book?
-        EditRecipeActivity.launch(getContext());
+        EditBookActivity.launch(getContext());
     }
 
     @Override
@@ -82,16 +78,13 @@ public class BookListFragment extends BaseFragment implements BookListView {
     @Override
     public void onBookDetail(Book book) {
         if (detailContainer != null) {
-            BookDetailFragment fragment = new BookDetailFragment();
-            fragment.setBook(book);
+            BookDetailFragment fragment = BookDetailFragment.create(book);
             getFragmentManager().beginTransaction().replace(detailContainer.getId(), fragment).commit();
         } else {
             // ActivityOptions options = ActivityOptions.makeCustomAnimation(context,
             //                                                               R.anim.slide_in_from_right,
             //                                                               R.anim.slide_out_to_right);
-            Intent intent = new Intent(getContext(), BookDetailActivity.class);
-            intent.putExtra(BookDetailActivity.BOOK_TAG, book);
-            startActivity(intent);
+            BookDetailActivity.launch(getContext(), book);
         }
     }
 }
