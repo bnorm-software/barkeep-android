@@ -1,17 +1,27 @@
 package com.bnorm.barkeep;
 
-import com.bnorm.barkeep.data.api.DaggerEndpointComponent;
-import com.bnorm.barkeep.data.api.EndpointComponent;
-import com.bnorm.barkeep.data.api.EndpointModule;
+import android.content.Context;
+import com.bnorm.barkeep.data.api.ApiComponent;
+import com.bnorm.barkeep.data.api.ApiModule;
+import com.bnorm.barkeep.data.api.DaggerApiComponent;
+import com.bnorm.barkeep.data.api.net.DaggerNetComponent;
+import com.bnorm.barkeep.data.api.net.NetComponent;
+import com.bnorm.barkeep.data.api.net.NetModule;
+import okhttp3.HttpUrl;
 
 final class AppInjector {
     private AppInjector() {
     }
 
-    static AppComponent inject() {
-        EndpointModule endpointModule = new EndpointModule("https://bartender-1059.appspot.com/_ah/api/", true);
-        EndpointComponent endpointComponent = DaggerEndpointComponent.builder().endpointModule(endpointModule).build();
+    static AppComponent inject(Context context) {
+        NetModule netModule = new NetModule(context.getCacheDir());
+        NetComponent netComponent = DaggerNetComponent.builder().netModule(netModule).build();
+        ApiModule apiModule = new ApiModule(HttpUrl.parse("https://bartender-1059.appspot.com/_ah/api/endpoint/v1/"));
+        ApiComponent apiComponent = DaggerApiComponent.builder()
+                                                      .netComponent(netComponent)
+                                                      .apiModule(apiModule)
+                                                      .build();
 
-        return DaggerAppComponent.builder().endpointComponent(endpointComponent).build();
+        return DaggerAppComponent.builder().apiComponent(apiComponent).build();
     }
 }

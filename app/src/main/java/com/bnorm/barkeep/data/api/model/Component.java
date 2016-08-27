@@ -15,14 +15,6 @@ public class Component implements Parcelable {
     public Component() {
     }
 
-    public Component(com.bnorm.barkeep.server.data.store.v1.endpoint.model.Component component) {
-        for (com.bnorm.barkeep.server.data.store.v1.endpoint.model.Ingredient ingredient : component.getIngredients()) {
-            this.ingredients.add(new Ingredient(ingredient));
-        }
-        this.amount = new Amount(component.getAmount());
-        this.unit = component.getUnit();
-    }
-
     public List<Ingredient> getIngredients() {
         return ingredients;
     }
@@ -48,17 +40,6 @@ public class Component implements Parcelable {
 
     public void setUnit(String unit) {
         this.unit = unit;
-    }
-
-    public com.bnorm.barkeep.server.data.store.v1.endpoint.model.Component toStore() {
-        com.bnorm.barkeep.server.data.store.v1.endpoint.model.Component component;
-        component = new com.bnorm.barkeep.server.data.store.v1.endpoint.model.Component();
-        for (Ingredient ingredient : ingredients) {
-            component.getIngredients().add(ingredient.toStore());
-        }
-        component.setAmount(amount.toStore());
-        component.setUnit(unit);
-        return component;
     }
 
     @Override

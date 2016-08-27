@@ -4,38 +4,44 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import android.support.annotation.NonNull;
+import com.bnorm.barkeep.data.api.BarkeepService;
 import com.bnorm.barkeep.data.api.model.Recipe;
-import com.bnorm.barkeep.server.data.store.v1.endpoint.Endpoint;
+import okhttp3.MediaType;
+import okhttp3.ResponseBody;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
+import retrofit2.Response;
+import rx.Single;
 import rx.schedulers.Schedulers;
 
 import static com.google.common.truth.Truth.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class EditRecipePresenterTest {
+
+    private static final ResponseBody EMPTY_BODY = ResponseBody.create(MediaType.parse("application/json"), "");
+    private static final Response<Recipe> ERROR_404 = Response.error(404, EMPTY_BODY);
+
     @Rule public MockitoRule rule = MockitoJUnit.rule();
 
     @Mock EditRecipeView view;
-    @Mock Endpoint endpoint;
+    @Mock BarkeepService service;
 
     @NonNull
-    private static EditRecipePresenter presenter(EditRecipeView view, Endpoint endpoint, Recipe recipe) {
-        return new EditRecipePresenter(view, endpoint, Schedulers.immediate(), Schedulers.immediate(), recipe);
+    private static EditRecipePresenter presenter(EditRecipeView view, BarkeepService service) {
+        return new EditRecipePresenter(view, service, Schedulers.immediate(), Schedulers.immediate());
     }
 
     @Test
     public void cancel() {
         // given
-        EditRecipePresenter presenter = presenter(view, endpoint, null);
+        EditRecipePresenter presenter = presenter(view, service);
 
         // when
         presenter.cancel();
@@ -45,35 +51,82 @@ public class EditRecipePresenterTest {
     }
 
     @Test
-    public void validate() {
+    public void save_null() {
         // given
-        EditRecipePresenter presenter = presenter(view, endpoint, null);
+        EditRecipePresenter presenter = presenter(view, service);
 
         // when
-        boolean validate = presenter.validate();
+        boolean result = presenter.save(null);
 
         // then
-        assertThat(validate).named("validate").isTrue();
+        assertThat(result).named("save result").isFalse();
+    }
+
+    @Test
+    public void save_nullName() {
+        // given
+        Recipe recipe = new Recipe();
+        recipe.setNameWords(new ArrayList<>());
+        recipe.setComponents(new ArrayList<>());
+        EditRecipePresenter presenter = presenter(view, service);
+
+        // when
+        boolean result = presenter.save(recipe);
+
+        // then
+        assertThat(result).named("save result").isFalse();
+    }
+
+    @Test
+    public void save_nullNameWords() {
+        // given
+        Recipe recipe = new Recipe();
+        recipe.setName("name");
+        recipe.setComponents(new ArrayList<>());
+        EditRecipePresenter presenter = presenter(view, service);
+
+        // when
+        boolean result = presenter.save(recipe);
+
+        // then
+        assertThat(result).named("save result").isFalse();
+    }
+
+    @Test
+    public void save_nullComponents() {
+        // given
+        Recipe recipe = new Recipe();
+        recipe.setName("name");
+        recipe.setNameWords(new ArrayList<>());
+        recipe.setComponents(null);
+        EditRecipePresenter presenter = presenter(view, service);
+
+        // when
+        boolean result = presenter.save(recipe);
+
+        // then
+        assertThat(result).named("save result").isFalse();
     }
 
     @Test
     public void save_valid_new() throws IOException {
         // given
         Recipe recipe = new Recipe();
+        recipe.setName("name");
         recipe.setNameWords(new ArrayList<>());
-        EditRecipePresenter presenter = presenter(view, endpoint, recipe);
-        when(view.getName()).thenReturn("name");
-        when(view.getComponents()).thenReturn(new ArrayList<>());
-        when(endpoint.getRecipe(any())).thenThrow(new IOException());
-        when(endpoint.insertRecipe(any())).thenReturn(mock(Endpoint.InsertRecipe.class));
+        recipe.setComponents(new ArrayList<>());
+        EditRecipePresenter presenter = presenter(view, service);
+        when(service.getRecipe(any())).thenReturn(Single.just(ERROR_404));
+        when(service.createRecipe(any())).thenReturn(Single.just(Response.success(null)));
 
         // when
-        presenter.save();
+        boolean result = presenter.save(recipe);
 
         // then
-        verify(endpoint).getRecipe("name");
-        verify(endpoint).insertRecipe(any());
-        verify(view).onRecipeSaved(recipe);
+        assertThat(result).named("save result").isTrue();
+        verify(service).getRecipe("name");
+        verify(service).createRecipe(any());
+        verify(view).onRecipeSaved(any());
         verify(view).onClose();
     }
 
@@ -81,78 +134,33 @@ public class EditRecipePresenterTest {
     public void save_valid_update() throws IOException {
         // given
         Recipe recipe = new Recipe();
+        recipe.setName("name");
         recipe.setNameWords(new ArrayList<>());
-        EditRecipePresenter presenter = presenter(view, endpoint, recipe);
-        when(view.getName()).thenReturn("name");
-        when(view.getComponents()).thenReturn(new ArrayList<>());
-        when(endpoint.getRecipe(any())).thenReturn(mock(Endpoint.GetRecipe.class));
-        when(endpoint.updateRecipe(any(), any())).thenReturn(mock(Endpoint.UpdateRecipe.class));
+        recipe.setComponents(new ArrayList<>());
+        EditRecipePresenter presenter = presenter(view, service);
+        when(service.getRecipe(any())).thenReturn(Single.just(Response.success(recipe)));
+        when(service.updateRecipe(any(), any())).thenReturn(Single.just(Response.success(recipe)));
 
         // when
-        presenter.save();
+        boolean result = presenter.save(recipe);
 
         // then
-        verify(endpoint).getRecipe("name");
-        verify(endpoint).updateRecipe(eq("name"), any());
-        verify(view).onRecipeSaved(recipe);
+        assertThat(result).named("save result").isTrue();
+        verify(service).getRecipe("name");
+        verify(service).updateRecipe(eq("name"), any());
+        verify(view).onRecipeSaved(any());
         verify(view).onClose();
-    }
-
-    @Test
-    public void save_invalid() throws IOException {
-        // given
-        EditRecipePresenter presenter = spy(presenter(view, endpoint, null));
-        when(presenter.validate()).thenReturn(false);
-
-        // when
-        presenter.save();
-
-        // then
-        verify(presenter).validate();
     }
 
     @Test
     public void addComponent() {
         // given
-        EditRecipePresenter presenter = presenter(view, endpoint, null);
+        EditRecipePresenter presenter = presenter(view, service);
 
         // when
         presenter.addComponent();
 
         // then
-        verify(view).onComponentDialog(eq(null), any(), eq("Cancel"));
-    }
-
-    @Test
-    public void updateRecipe() {
-        // given
-        Recipe recipe = new Recipe();
-        EditRecipePresenter presenter = presenter(view, endpoint, recipe);
-        when(view.getName()).thenReturn("Name");
-        when(view.getDescription()).thenReturn("Description");
-        when(view.getDirections()).thenReturn("Directions");
-        when(view.getComponents()).thenReturn(null);
-
-        // when
-        presenter.updateRecipe();
-
-        // then
-        assertThat(recipe.getName()).named("recipe name").isEqualTo("Name");
-        assertThat(recipe.getDescription()).named("recipe description").isEqualTo("Description");
-        assertThat(recipe.getDirections()).named("recipe directions").isEqualTo("Directions");
-        assertThat(recipe.getComponents()).named("recipe components").isEqualTo(null);
-    }
-
-    @Test
-    public void recipe() {
-        // given
-        Recipe expected = new Recipe();
-        EditRecipePresenter presenter = presenter(view, endpoint, expected);
-
-        // when
-        Recipe actual = presenter.recipe();
-
-        // then
-        assertThat(actual).isEqualTo(expected);
+        verify(view).onEditComponent(eq(null), any(), eq("Cancel"));
     }
 }

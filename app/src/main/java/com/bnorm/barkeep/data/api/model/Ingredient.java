@@ -1,6 +1,5 @@
 package com.bnorm.barkeep.data.api.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.os.Parcel;
@@ -13,12 +12,6 @@ public class Ingredient implements Parcelable {
     private UnitType type;
 
     public Ingredient() {
-    }
-
-    public Ingredient(com.bnorm.barkeep.server.data.store.v1.endpoint.model.Ingredient ingredient) {
-        this.name = ingredient.getName();
-        this.nameWords = ingredient.getNameWords();
-        this.type = UnitType.valueOf(ingredient.getType());
     }
 
     public String getName() {
@@ -43,15 +36,6 @@ public class Ingredient implements Parcelable {
 
     public void setType(UnitType type) {
         this.type = type;
-    }
-
-    public com.bnorm.barkeep.server.data.store.v1.endpoint.model.Ingredient toStore() {
-        com.bnorm.barkeep.server.data.store.v1.endpoint.model.Ingredient ingredient;
-        ingredient = new com.bnorm.barkeep.server.data.store.v1.endpoint.model.Ingredient();
-        ingredient.setName(name);
-        ingredient.setNameWords(new ArrayList<>(nameWords));
-        ingredient.setType(type.toString());
-        return ingredient;
     }
 
     @Override

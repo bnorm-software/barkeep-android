@@ -9,7 +9,7 @@ public class BarkeepApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        component = AppInjector.inject();
+        component = AppInjector.inject(getApplicationContext());
     }
 
     public AppComponent component() {

@@ -7,9 +7,11 @@ import javax.inject.Inject;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import com.bnorm.barkeep.R;
 import com.bnorm.barkeep.data.api.model.Recipe;
-import com.bnorm.barkeep.databinding.ItemRecipeNameBinding;
 
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder> {
 
@@ -49,15 +51,15 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     }
 
     public class RecipeViewHolder extends RecyclerView.ViewHolder {
-        private final ItemRecipeNameBinding binding;
+        @BindView(R.id.recipe_search_name) TextView recipeSearchName;
 
         private RecipeViewHolder(ViewGroup parent) {
             super(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recipe_name, parent, false));
-            binding = ItemRecipeNameBinding.bind(itemView);
+            ButterKnife.bind(this, itemView);
         }
 
         public void bind(Recipe recipe) {
-            binding.setRecipe(recipe);
+            recipeSearchName.setText(recipe.getName());
         }
     }
 }

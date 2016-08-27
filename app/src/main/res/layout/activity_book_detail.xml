@@ -24,7 +24,7 @@
             app:toolbarId="@+id/toolbar">
 
             <android.support.v7.widget.Toolbar
-                android:id="@+id/detail_toolbar"
+                android:id="@+id/toolbar"
                 style="@style/Widget.Barkeep.Toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
@@ -34,11 +34,13 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <FrameLayout
+    <fragment
         android:id="@+id/book_detail_container"
+        android:name="com.bnorm.barkeep.ui.book.BookDetailFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:layout="@layout/fragment_book_detail" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

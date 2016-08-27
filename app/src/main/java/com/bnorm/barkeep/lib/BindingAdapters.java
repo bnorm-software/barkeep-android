@@ -2,12 +2,10 @@ package com.bnorm.barkeep.lib;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import android.databinding.BindingAdapter;
 import android.widget.ImageView;
 import com.bnorm.barkeep.R;
-import com.bumptech.glide.DrawableTypeRequest;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestManager;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.RequestCreator;
 
 public class BindingAdapters {
 
@@ -19,19 +17,14 @@ public class BindingAdapters {
 
     private static final AtomicInteger position = new AtomicInteger();
 
-    @BindingAdapter({"bind:imageUrl"})
     public static void loadImage(ImageView view, String url) {
-        RequestManager with = Glide.with(view.getContext());
-        DrawableTypeRequest<?> load;
+        Picasso with = Picasso.with(view.getContext());
+        RequestCreator load;
         if (url != null) {
             load = with.load(url);
         } else {
             load = with.load(thumbIds[position.getAndIncrement() % thumbIds.length]);
         }
-        //        int size = view.getWidth();
-        //        if (size > 0) {
-        //            load.override(size, size);
-        //        }
-        load.centerCrop().into(view);
+        load.into(view);
     }
 }
