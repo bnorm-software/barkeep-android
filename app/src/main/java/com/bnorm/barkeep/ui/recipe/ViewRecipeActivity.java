@@ -81,7 +81,7 @@ public class ViewRecipeActivity extends BaseActivity {
 
 
         // ===== Load recipe information ===== //
-        BindingAdapters.loadImage(recipeImage, recipe.getPicture());
+        BindingAdapters.loadImage(recipeImage, "http://dummyimage.com/400x400/000/fff.png&text=" + recipe.getName().replace(' ', '+'));
 
         for (Component component : recipe.getComponents()) {
             StringBuilder builder = new StringBuilder();

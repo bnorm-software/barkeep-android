@@ -107,7 +107,8 @@ public class BookDetailFragment extends BaseFragment {
 
             public void bind(Recipe recipe) {
                 recipeTitle.setText(recipe.getName());
-                BindingAdapters.loadImage(recipeImage, recipe.getPicture());
+                BindingAdapters.loadImage(recipeImage,
+                                          "http://dummyimage.com/400x400/000/fff.png&text=" + recipe.getName().replace(' ', '+'));
             }
         }
     }
