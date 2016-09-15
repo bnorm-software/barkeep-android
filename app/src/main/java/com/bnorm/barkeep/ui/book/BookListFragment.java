@@ -48,9 +48,20 @@ public class BookListFragment extends BaseFragment implements BookListView {
         }
 
         recyclerView.setAdapter(adapter);
-
         presenter.loadBooks();
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        presenter.attach(this);
+    }
+
+    @Override
+    public void onStop() {
+        presenter.detach();
+        super.onStop();
     }
 
     @OnClick(R.id.fab)

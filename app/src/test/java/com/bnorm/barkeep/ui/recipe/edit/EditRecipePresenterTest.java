@@ -35,19 +35,9 @@ public class EditRecipePresenterTest {
 
     @NonNull
     private static EditRecipePresenter presenter(EditRecipeView view, BarkeepService service) {
-        return new EditRecipePresenter(view, service, Schedulers.immediate(), Schedulers.immediate());
-    }
-
-    @Test
-    public void cancel() {
-        // given
-        EditRecipePresenter presenter = presenter(view, service);
-
-        // when
-        presenter.cancel();
-
-        // then
-        verify(view).onClose();
+        EditRecipePresenter presenter = new EditRecipePresenter(service, Schedulers.immediate());
+        presenter.attach(view);
+        return presenter;
     }
 
     @Test
@@ -127,7 +117,6 @@ public class EditRecipePresenterTest {
         verify(service).getRecipe("name");
         verify(service).createRecipe(any());
         verify(view).onRecipeSaved(any());
-        verify(view).onClose();
     }
 
     @Test
@@ -149,18 +138,5 @@ public class EditRecipePresenterTest {
         verify(service).getRecipe("name");
         verify(service).updateRecipe(eq("name"), any());
         verify(view).onRecipeSaved(any());
-        verify(view).onClose();
-    }
-
-    @Test
-    public void addComponent() {
-        // given
-        EditRecipePresenter presenter = presenter(view, service);
-
-        // when
-        presenter.addComponent();
-
-        // then
-        verify(view).onEditComponent(eq(null), any(), eq("Cancel"));
     }
 }

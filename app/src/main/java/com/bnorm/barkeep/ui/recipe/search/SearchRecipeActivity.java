@@ -69,6 +69,18 @@ public class SearchRecipeActivity extends BaseActivity implements SearchRecipeVi
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        presenter.attach(this);
+    }
+
+    @Override
+    protected void onStop() {
+        presenter.detach();
+        super.onStop();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             onBackPressed();

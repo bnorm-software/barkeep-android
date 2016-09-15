@@ -31,7 +31,9 @@ public class BarListPresenterTest {
 
     @NonNull
     private static BarListPresenter presenter(BarListView view, BarkeepService service) {
-        return new BarListPresenter(view, service, Schedulers.immediate(), Schedulers.immediate());
+        BarListPresenter presenter = new BarListPresenter(service, Schedulers.immediate());
+        presenter.attach(view);
+        return presenter;
     }
 
     @Test

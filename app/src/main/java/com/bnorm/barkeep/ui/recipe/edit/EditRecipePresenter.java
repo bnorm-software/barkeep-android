@@ -2,34 +2,27 @@ package com.bnorm.barkeep.ui.recipe.edit;
 
 import javax.inject.Inject;
 
-import com.bnorm.barkeep.data.api.ApiScheduler;
+import com.bnorm.barkeep.AppScope;
 import com.bnorm.barkeep.data.api.BarkeepService;
-import com.bnorm.barkeep.data.api.model.Component;
 import com.bnorm.barkeep.data.api.model.Recipe;
-import com.bnorm.barkeep.ui.ActivityScope;
 import com.bnorm.barkeep.ui.UiScheduler;
+import com.bnorm.barkeep.ui.base.AbstractPresenter;
+import retrofit2.Response;
 import rx.Scheduler;
+import rx.functions.Action1;
 
-@ActivityScope
-public class EditRecipePresenter {
+@AppScope
+public class EditRecipePresenter extends AbstractPresenter<EditRecipeView> {
 
-    private final EditRecipeView view;
+    private final Action1<Recipe> enqueueRecipeSaved = enqueue(EditRecipeView::onRecipeSaved);
+    private final Action1<Response<Recipe>> responseRecipeSaved = response -> enqueueRecipeSaved.call(response.body());
+
     private final BarkeepService service;
-    private final Scheduler apiScheduler;
-    private final Scheduler uiScheduler;
 
     @Inject
-    public EditRecipePresenter(EditRecipeView view, BarkeepService service, @ApiScheduler Scheduler apiScheduler,
-                               @UiScheduler Scheduler uiScheduler) {
-        this.view = view;
+    EditRecipePresenter(BarkeepService service, @UiScheduler Scheduler uiScheduler) {
+        super(uiScheduler);
         this.service = service;
-        this.apiScheduler = apiScheduler;
-        this.uiScheduler = uiScheduler;
-    }
-
-    public void cancel() {
-        // todo are you sure popup
-        view.onClose();
     }
 
     private boolean validate(Recipe recipe) {
@@ -45,19 +38,10 @@ public class EditRecipePresenter {
             service.getRecipe(recipe.getName())
                    .flatMap(response -> response.isSuccessful() ? service.updateRecipe(recipe.getName(), recipe)
                                                                 : service.createRecipe(recipe))
-                   .subscribeOn(apiScheduler)
-                   .observeOn(uiScheduler)
-                   .subscribe(response -> {
-                       view.onRecipeSaved(response.body());
-                       view.onClose();
-                   });
+                   .subscribe(responseRecipeSaved);
             return true;
         } else {
             return false;
         }
-    }
-
-    public void addComponent() {
-        view.onEditComponent(null, new Component(), "Cancel");
     }
 }

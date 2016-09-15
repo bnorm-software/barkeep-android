@@ -48,9 +48,20 @@ public class BarListFragment extends BaseFragment implements BarListView {
         }
 
         recyclerView.setAdapter(adapter);
-
         presenter.loadBars();
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        presenter.attach(this);
+    }
+
+    @Override
+    public void onStop() {
+        presenter.detach();
+        super.onStop();
     }
 
     @OnClick(R.id.fab)

@@ -1,62 +1,42 @@
 package com.bnorm.barkeep.ui.bar.edit;
 
-import com.bnorm.barkeep.data.api.ApiScheduler;
-import com.bnorm.barkeep.data.api.BarkeepService;
-import com.bnorm.barkeep.data.api.model.Bar;
-import com.bnorm.barkeep.ui.ActivityScope;
-import com.bnorm.barkeep.ui.UiScheduler;
-
 import javax.inject.Inject;
 
+import com.bnorm.barkeep.AppScope;
+import com.bnorm.barkeep.data.api.BarkeepService;
+import com.bnorm.barkeep.data.api.model.Bar;
+import com.bnorm.barkeep.ui.UiScheduler;
+import com.bnorm.barkeep.ui.base.AbstractPresenter;
+import retrofit2.Response;
 import rx.Scheduler;
+import rx.functions.Action1;
 
-@ActivityScope
-public class EditBarPresenter {
+@AppScope
+public class EditBarPresenter extends AbstractPresenter<EditBarView> {
 
-    private final EditBarView view;
+    private final Action1<Bar> enqueueBarSaved = enqueue(EditBarView::onBarSaved);
+    private final Action1<Response<Bar>> responseBarSaved = response -> enqueueBarSaved.call(response.body());
+
     private final BarkeepService service;
-    private final Scheduler apiScheduler;
-    private final Scheduler uiScheduler;
 
     @Inject
-    public EditBarPresenter(EditBarView view,
-                            BarkeepService service,
-                            @ApiScheduler Scheduler apiScheduler,
-                            @UiScheduler Scheduler uiScheduler) {
-        this.view = view;
+    EditBarPresenter(BarkeepService service, @UiScheduler Scheduler uiScheduler) {
+        super(uiScheduler);
         this.service = service;
-        this.apiScheduler = apiScheduler;
-        this.uiScheduler = uiScheduler;
-    }
-
-    public void cancel() {
-        view.onClose();
     }
 
     public void save(Bar bar) {
         validate(bar);
+
         service.getBar(bar.getName())
                .flatMap(response -> response.isSuccessful() ? service.updateBar(bar.getName(), bar)
                                                             : service.createBar(bar))
-               .subscribeOn(apiScheduler)
-               .observeOn(uiScheduler)
-               .subscribe(response -> {
-                    view.onBarSaved(bar);
-                    view.onClose();
-               });
+               .subscribe(responseBarSaved);
     }
 
-    private void validate(Bar bar) throws IllegalArgumentException {
-        if (bar == null) {
-            throw new IllegalArgumentException("Bar is null");
-        }
-
-        if (bar.getName() == null) {
-            throw new IllegalArgumentException("Bar name is null");
-        }
-
-        if (bar.getIngredients() == null) {
-            throw new IllegalArgumentException("Bar ingredients is null");
-        }
+    private void validate(Bar bar) {
+        if (bar == null) throw new NullPointerException("Bar is null");
+        if (bar.getName() == null) throw new NullPointerException("Bar name is null");
+        if (bar.getIngredients() == null) throw new NullPointerException("Bar ingredients is null");
     }
 }

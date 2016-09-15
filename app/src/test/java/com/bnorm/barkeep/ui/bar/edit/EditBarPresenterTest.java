@@ -1,27 +1,23 @@
-package com.bnorm.barkeep.ui.bar;
+package com.bnorm.barkeep.ui.bar.edit;
+
+import java.util.Collections;
 
 import android.support.annotation.NonNull;
-
 import com.bnorm.barkeep.data.api.BarkeepService;
 import com.bnorm.barkeep.data.api.model.Bar;
-import com.bnorm.barkeep.ui.bar.edit.EditBarPresenter;
-import com.bnorm.barkeep.ui.bar.edit.EditBarView;
-
+import okhttp3.MediaType;
+import okhttp3.ResponseBody;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
-
-import java.util.Collections;
-
-import okhttp3.MediaType;
-import okhttp3.ResponseBody;
 import retrofit2.Response;
 import rx.Single;
 import rx.schedulers.Schedulers;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.fail;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
@@ -39,19 +35,9 @@ public class EditBarPresenterTest {
 
     @NonNull
     private static EditBarPresenter presenter(EditBarView view, BarkeepService service) {
-        return new EditBarPresenter(view, service, Schedulers.immediate(), Schedulers.immediate());
-    }
-
-    @Test
-    public void cancel() {
-        // given
-        EditBarPresenter presenter = presenter(view, service);
-
-        // when
-        presenter.cancel();
-
-        // then
-        verify(view).onClose();
+        EditBarPresenter presenter = new EditBarPresenter(service, Schedulers.immediate());
+        presenter.attach(view);
+        return presenter;
     }
 
     @Test
@@ -60,15 +46,13 @@ public class EditBarPresenterTest {
         EditBarPresenter presenter = presenter(view, service);
 
         // when
-        IllegalArgumentException exception = null;
         try {
             presenter.save(null);
-        } catch (IllegalArgumentException e) {
-            exception = e;
+            fail("Presenter should have thrown an exception on save");
+        } catch (NullPointerException e) {
+            // then
+            assertThat(e).isInstanceOf(NullPointerException.class);
         }
-
-        // then
-        assertThat(exception != null).named("save fails for null").isTrue();
     }
 
     @Test
@@ -80,15 +64,13 @@ public class EditBarPresenterTest {
         EditBarPresenter presenter = presenter(view, service);
 
         // when
-        IllegalArgumentException exception = null;
         try {
             presenter.save(bar);
-        } catch (IllegalArgumentException e) {
-            exception = e;
+            fail("Presenter should have thrown an exception on save");
+        } catch (NullPointerException e) {
+            // then
+            assertThat(e).isInstanceOf(NullPointerException.class);
         }
-
-        // then
-        assertThat(exception != null).named("save fails for nullName").isTrue();
     }
 
     @Test
@@ -100,15 +82,13 @@ public class EditBarPresenterTest {
         EditBarPresenter presenter = presenter(view, service);
 
         // when
-        IllegalArgumentException exception = null;
         try {
             presenter.save(bar);
-        } catch (IllegalArgumentException e) {
-            exception = e;
+            fail("Presenter should have thrown an exception on save");
+        } catch (NullPointerException e) {
+            // then
+            assertThat(e).isInstanceOf(NullPointerException.class);
         }
-
-        // then
-        assertThat(exception != null).named("save fails for nullIngredients").isTrue();
     }
 
     @Test
@@ -128,7 +108,6 @@ public class EditBarPresenterTest {
         verify(service).getBar("name");
         verify(service).createBar(any());
         verify(view).onBarSaved(any());
-        verify(view).onClose();
     }
 
     @Test
@@ -148,6 +127,5 @@ public class EditBarPresenterTest {
         verify(service).getBar("name");
         verify(service).updateBar(eq("name"), any());
         verify(view).onBarSaved(any());
-        verify(view).onClose();
     }
 }

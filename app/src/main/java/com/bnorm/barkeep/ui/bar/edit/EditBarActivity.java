@@ -63,6 +63,18 @@ public class EditBarActivity extends BaseActivity implements EditBarView {
         loadBar(Bundles.getParcelable(BarDetailActivity.BAR_TAG, getIntent().getExtras()));
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        presenter.attach(this);
+    }
+
+    @Override
+    public void onStop() {
+        presenter.detach();
+        super.onStop();
+    }
+
     @NonNull
     private Bar getBar() {
         Bar bar = new Bar();
@@ -78,21 +90,19 @@ public class EditBarActivity extends BaseActivity implements EditBarView {
 
     @OnClick(R.id.edit_bar_cancel)
     void onCancel() {
-        presenter.cancel();
+        // todo(bnorm) are you sure? - if there are changed fields
+        onBackPressed();
     }
 
     @OnClick(R.id.edit_bar_save)
     void onSave() {
+        // todo(bnorm) check fields are properly filled
         presenter.save(getBar());
-    }
-
-    @Override
-    public void onClose() {
-        onBackPressed();
     }
 
     @Override
     public void onBarSaved(Bar bar) {
         Toast.makeText(getApplicationContext(), "Saved " + bar.getName(), Toast.LENGTH_LONG).show();
+        onBackPressed();
     }
 }
