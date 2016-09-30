@@ -14,7 +14,6 @@ import com.bnorm.barkeep.R;
 import com.bnorm.barkeep.data.api.model.Bar;
 import com.bnorm.barkeep.lib.Bundles;
 import com.bnorm.barkeep.ui.ViewContainer;
-import com.bnorm.barkeep.ui.bar.BarDetailActivity;
 import com.bnorm.barkeep.ui.base.BaseActivity;
 
 import javax.inject.Inject;
@@ -24,6 +23,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class EditBarActivity extends BaseActivity implements EditBarView {
+    private static final String BAR_TAG = "bar";
 
     // TODO: use new database format - title, description
 
@@ -46,7 +46,7 @@ public class EditBarActivity extends BaseActivity implements EditBarView {
 
     public static void launch(Context source, Bar bar) {
         Intent intent = new Intent(source, EditBarActivity.class);
-        intent.putExtra(BarDetailActivity.BAR_TAG, bar);
+        intent.putExtra(BAR_TAG, bar);
         source.startActivity(intent);
     }
 
@@ -60,7 +60,7 @@ public class EditBarActivity extends BaseActivity implements EditBarView {
         getLayoutInflater().inflate(R.layout.activity_edit_bar, container);
         ButterKnife.bind(this, container);
 
-        loadBar(Bundles.getParcelable(BarDetailActivity.BAR_TAG, getIntent().getExtras()));
+        loadBar(Bundles.getParcelable(BAR_TAG, getIntent().getExtras()));
     }
 
     @Override

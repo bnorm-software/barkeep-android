@@ -16,9 +16,9 @@ import android.view.ViewGroup;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.bnorm.barkeep.R;
-import com.bnorm.barkeep.ui.bar.BarListFragment;
+import com.bnorm.barkeep.ui.bar.list.BarListFragment;
 import com.bnorm.barkeep.ui.base.BaseActivity;
-import com.bnorm.barkeep.ui.book.BookListFragment;
+import com.bnorm.barkeep.ui.book.list.BookListFragment;
 import com.bnorm.barkeep.ui.recipe.search.SearchRecipeActivity;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {

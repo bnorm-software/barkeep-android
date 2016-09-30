@@ -1,4 +1,4 @@
-package com.bnorm.barkeep.ui.bar;
+package com.bnorm.barkeep.ui.bar.list;
 
 import dagger.Module;
 import dagger.Provides;

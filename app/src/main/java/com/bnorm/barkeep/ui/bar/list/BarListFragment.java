@@ -1,4 +1,4 @@
-package com.bnorm.barkeep.ui.book;
+package com.bnorm.barkeep.ui.bar.list;
 
 import java.util.List;
 import javax.inject.Inject;
@@ -15,40 +15,41 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.bnorm.barkeep.R;
-import com.bnorm.barkeep.data.api.model.Book;
+import com.bnorm.barkeep.data.api.model.Bar;
 import com.bnorm.barkeep.ui.MainActivity;
+import com.bnorm.barkeep.ui.bar.detail.BarDetailActivity;
+import com.bnorm.barkeep.ui.bar.detail.BarDetailFragment;
+import com.bnorm.barkeep.ui.bar.edit.EditBarActivity;
 import com.bnorm.barkeep.ui.base.BaseFragment;
-import com.bnorm.barkeep.ui.book.edit.EditBookActivity;
-import com.bnorm.barkeep.ui.recipe.edit.EditRecipeActivity;
 
-public class BookListFragment extends BaseFragment implements BookListView {
+public class BarListFragment extends BaseFragment implements BarListView {
 
-    // ===== View ===== //
+    // ===== View ====== //
 
-    @BindView(R.id.book_list) RecyclerView recyclerView;
+    @BindView(R.id.bar_list) RecyclerView recyclerView;
     @Nullable @BindView(R.id.bar_detail_container) FrameLayout detailContainer;
 
     // ===== Presenter ===== //
 
-    @Inject BookListPresenter presenter;
-    @Inject BookAdapter adapter;
+    @Inject BarListPresenter presenter;
+    @Inject BarAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        barkeep().component().plus(new BookListViewModule(this)).inject(this);
+        barkeep().component().plus(new BarListViewModule(this)).inject(this);
 
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_book_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_bar_list, container, false);
         ButterKnife.bind(this, view);
 
         MainActivity activity = (MainActivity) getActivity();
         ActionBar actionBar = activity.getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setTitle("Books");
+            actionBar.setTitle("Bars");
         }
 
         recyclerView.setAdapter(adapter);
-        presenter.loadBooks();
+        presenter.loadBars();
         return view;
     }
 
@@ -66,25 +67,25 @@ public class BookListFragment extends BaseFragment implements BookListView {
 
     @OnClick(R.id.fab)
     void onFabClick() {
-        EditBookActivity.launch(getContext());
+        EditBarActivity.launch(getContext());
     }
 
     @Override
-    public void onBooks(List<Book> books) {
-        adapter.set(books);
+    public void onBars(List<Bar> bars) {
+        adapter.set(bars);
         adapter.notifyDataSetChanged();
     }
 
     @Override
-    public void onBookDetail(Book book) {
+    public void onBarDetail(Bar bar) {
         if (detailContainer != null) {
-            BookDetailFragment fragment = BookDetailFragment.create(book);
+            BarDetailFragment fragment = BarDetailFragment.create(bar);
             getFragmentManager().beginTransaction().replace(detailContainer.getId(), fragment).commit();
         } else {
             // ActivityOptions options = ActivityOptions.makeCustomAnimation(context,
             //                                                               R.anim.slide_in_from_right,
             //                                                               R.anim.slide_out_to_right);
-            BookDetailActivity.launch(getContext(), book);
+            BarDetailActivity.launch(getContext(), bar);
         }
     }
 }

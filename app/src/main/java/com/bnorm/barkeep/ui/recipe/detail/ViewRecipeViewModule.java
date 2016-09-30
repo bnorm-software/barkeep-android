@@ -1,4 +1,4 @@
-package com.bnorm.barkeep.ui.recipe;
+package com.bnorm.barkeep.ui.recipe.detail;
 
 import dagger.Module;
 

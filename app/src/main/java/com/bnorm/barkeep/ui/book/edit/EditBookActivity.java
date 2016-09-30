@@ -15,7 +15,7 @@ import com.bnorm.barkeep.data.api.model.Book;
 import com.bnorm.barkeep.lib.Bundles;
 import com.bnorm.barkeep.ui.ViewContainer;
 import com.bnorm.barkeep.ui.base.BaseActivity;
-import com.bnorm.barkeep.ui.book.BookDetailActivity;
+import com.bnorm.barkeep.ui.book.detail.BookDetailActivity;
 
 import javax.inject.Inject;
 
@@ -24,6 +24,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class EditBookActivity extends BaseActivity implements EditBookView {
+    private static final String BOOK_TAG = "book";
 
     // TODO: use new database format - title, description
 
@@ -45,7 +46,7 @@ public class EditBookActivity extends BaseActivity implements EditBookView {
 
     public static void launch(Context source, Book book) {
         Intent intent = new Intent(source, EditBookActivity.class);
-        intent.putExtra(BookDetailActivity.BOOK_TAG, book);
+        intent.putExtra(BOOK_TAG, book);
         source.startActivity(intent);
     }
 
@@ -59,7 +60,7 @@ public class EditBookActivity extends BaseActivity implements EditBookView {
         getLayoutInflater().inflate(R.layout.activity_edit_book, container);
         ButterKnife.bind(this, container);
 
-        loadBook(Bundles.getParcelable(BookDetailActivity.BOOK_TAG, getIntent().getExtras()));
+        loadBook(Bundles.getParcelable(BOOK_TAG, getIntent().getExtras()));
     }
 
     @Override

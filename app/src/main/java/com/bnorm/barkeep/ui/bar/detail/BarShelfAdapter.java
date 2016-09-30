@@ -1,4 +1,4 @@
-package com.bnorm.barkeep.ui.bar;
+package com.bnorm.barkeep.ui.bar.detail;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,21 +1,18 @@
-package com.bnorm.barkeep.ui.bar;
-
-import android.support.annotation.NonNull;
-
-import com.bnorm.barkeep.data.api.BarkeepService;
-import com.bnorm.barkeep.data.api.model.Bar;
-import com.bnorm.barkeep.data.api.model.GaeList;
-
-import org.junit.Rule;
-import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
+package com.bnorm.barkeep.ui.bar.list;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 
+import android.support.annotation.NonNull;
+import com.bnorm.barkeep.data.api.BarkeepService;
+import com.bnorm.barkeep.data.api.model.Bar;
+import com.bnorm.barkeep.data.api.model.GaeList;
+import org.junit.Rule;
+import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
 import retrofit2.Response;
 import rx.Single;
 import rx.schedulers.Schedulers;
