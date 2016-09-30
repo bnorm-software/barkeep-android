@@ -1,23 +1,18 @@
-package com.bnorm.barkeep.ui.book;
-
-import android.support.annotation.NonNull;
-
-import com.bnorm.barkeep.data.api.BarkeepService;
-import com.bnorm.barkeep.data.api.model.Book;
-import com.bnorm.barkeep.data.api.model.GaeList;
-
-import com.bnorm.barkeep.ui.book.list.BookListPresenter;
-import com.bnorm.barkeep.ui.book.list.BookListView;
-import org.junit.Rule;
-import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
+package com.bnorm.barkeep.ui.book.list;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 
+import android.support.annotation.NonNull;
+import com.bnorm.barkeep.data.api.BarkeepService;
+import com.bnorm.barkeep.data.api.model.Book;
+import com.bnorm.barkeep.data.api.model.GaeList;
+import org.junit.Rule;
+import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
 import retrofit2.Response;
 import rx.Single;
 import rx.schedulers.Schedulers;
