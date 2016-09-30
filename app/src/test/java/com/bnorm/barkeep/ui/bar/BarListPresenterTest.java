@@ -6,6 +6,8 @@ import com.bnorm.barkeep.data.api.BarkeepService;
 import com.bnorm.barkeep.data.api.model.Bar;
 import com.bnorm.barkeep.data.api.model.GaeList;
 
+import com.bnorm.barkeep.ui.bar.list.BarListPresenter;
+import com.bnorm.barkeep.ui.bar.list.BarListView;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mock;

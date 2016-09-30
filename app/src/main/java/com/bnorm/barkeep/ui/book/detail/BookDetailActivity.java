@@ -1,4 +1,4 @@
-package com.bnorm.barkeep.ui.bar;
+package com.bnorm.barkeep.ui.book.detail;
 
 import javax.inject.Inject;
 
@@ -15,18 +15,18 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import com.bnorm.barkeep.R;
-import com.bnorm.barkeep.data.api.model.Bar;
+import com.bnorm.barkeep.data.api.model.Book;
 import com.bnorm.barkeep.lib.Bundles;
 import com.bnorm.barkeep.ui.ViewContainer;
-import com.bnorm.barkeep.ui.bar.edit.EditBarActivity;
 import com.bnorm.barkeep.ui.base.BaseActivity;
+import com.bnorm.barkeep.ui.book.edit.EditBookActivity;
 
-public class BarDetailActivity extends BaseActivity {
-    public static final String BAR_TAG = "bar";
+public class BookDetailActivity extends BaseActivity {
+    private static final String BOOK_TAG = "book";
 
     // ===== Model ===== //
 
-    private Bar bar;
+    private Book book;
 
     // ===== View ===== //
 
@@ -34,29 +34,29 @@ public class BarDetailActivity extends BaseActivity {
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.fab) FloatingActionButton fab;
 
-    public static void launch(Context context, Bar bar) {
-        Intent intent = new Intent(context, BarDetailActivity.class);
-        intent.putExtra(BarDetailActivity.BAR_TAG, bar);
+    public static void launch(Context context, Book book) {
+        Intent intent = new Intent(context, BookDetailActivity.class);
+        intent.putExtra(BookDetailActivity.BOOK_TAG, book);
         context.startActivity(intent);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        barkeep().component().plus(new BarDetailViewModule()).inject(this);
+        barkeep().component().plus(new BookDetailViewModule()).inject(this);
 
         ViewGroup container = viewContainer.forActivity(this);
-        getLayoutInflater().inflate(R.layout.activity_bar_detail, container);
+        getLayoutInflater().inflate(R.layout.activity_book_detail, container);
         ButterKnife.bind(this, container);
 
-        bar = Bundles.getParcelable(BAR_TAG, getIntent().getExtras());
-        assert bar != null;
+        book = Bundles.getParcelable(BOOK_TAG, getIntent().getExtras());
+        assert book != null;
 
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setTitle(bar.getName());
+            actionBar.setTitle(book.getName());
         }
     }
 
@@ -72,6 +72,6 @@ public class BarDetailActivity extends BaseActivity {
 
     @OnClick(R.id.fab)
     public void onFabClick() {
-        EditBarActivity.launch(this, bar);
+        EditBookActivity.launch(this, book);
     }
 }

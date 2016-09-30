@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".ui.book.BookDetailActivity"
+    tools:context=".ui.book.detail.BookDetailActivity"
     tools:ignore="MergeRootFrame">
 
     <android.support.design.widget.AppBarLayout
@@ -36,7 +36,7 @@
 
     <fragment
         android:id="@+id/book_detail_container"
-        android:name="com.bnorm.barkeep.ui.book.BookDetailFragment"
+        android:name="com.bnorm.barkeep.ui.book.detail.BookDetailFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"

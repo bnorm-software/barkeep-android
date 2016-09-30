@@ -1,4 +1,4 @@
-package com.bnorm.barkeep.ui.book;
+package com.bnorm.barkeep.ui.book.detail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +20,7 @@ import com.bnorm.barkeep.data.api.model.Recipe;
 import com.bnorm.barkeep.lib.BindingAdapters;
 import com.bnorm.barkeep.lib.Bundles;
 import com.bnorm.barkeep.ui.base.BaseFragment;
-import com.bnorm.barkeep.ui.recipe.ViewRecipeActivity;
+import com.bnorm.barkeep.ui.recipe.detail.ViewRecipeActivity;
 import com.trello.navi.Event;
 import com.trello.navi.rx.RxNavi;
 

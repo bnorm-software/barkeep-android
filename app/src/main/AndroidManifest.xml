@@ -52,7 +52,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.recipe.ViewRecipeActivity"
+            android:name=".ui.recipe.detail.ViewRecipeActivity"
             android:parentActivityName=".ui.recipe.search.SearchRecipeActivity"
             android:theme="@style/Barkeep.Recipe.Details">
 
@@ -73,7 +73,7 @@
                 android:value=".ui.MainActivity" />
         </activity>
         <activity
-            android:name=".ui.book.BookDetailActivity"
+            android:name=".ui.book.detail.BookDetailActivity"
             android:label="@string/title_book_detail"
             android:parentActivityName=".ui.MainActivity"
             android:theme="@style/Barkeep.Book.Details">
@@ -93,7 +93,7 @@
                 android:value=".ui.MainActivity" />
         </activity>
         <activity
-            android:name=".ui.bar.BarDetailActivity"
+            android:name=".ui.bar.detail.BarDetailActivity"
             android:label="@string/title_bar_detail"
             android:parentActivityName=".ui.MainActivity"
             android:theme="@style/Barkeep.Bar.Details">

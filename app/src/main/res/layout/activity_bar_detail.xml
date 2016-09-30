@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".ui.bar.BarDetailActivity"
+    tools:context=".ui.bar.detail.BarDetailActivity"
     tools:ignore="MergeRootFrame">
 
     <android.support.design.widget.AppBarLayout
@@ -24,7 +24,7 @@
 
     <fragment
         android:id="@+id/bar_detail_container"
-        android:name="com.bnorm.barkeep.ui.bar.BarDetailFragment"
+        android:name="com.bnorm.barkeep.ui.bar.detail.BarDetailFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />

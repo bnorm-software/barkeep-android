@@ -20,7 +20,7 @@ import com.bnorm.barkeep.R;
 import com.bnorm.barkeep.data.api.model.Recipe;
 import com.bnorm.barkeep.ui.ViewContainer;
 import com.bnorm.barkeep.ui.base.BaseActivity;
-import com.bnorm.barkeep.ui.recipe.ViewRecipeActivity;
+import com.bnorm.barkeep.ui.recipe.detail.ViewRecipeActivity;
 
 public class SearchRecipeActivity extends BaseActivity implements SearchRecipeView, SearchView.OnQueryTextListener {
 

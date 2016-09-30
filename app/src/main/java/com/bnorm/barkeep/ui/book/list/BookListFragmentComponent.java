@@ -1,4 +1,4 @@
-package com.bnorm.barkeep.ui.book;
+package com.bnorm.barkeep.ui.book.list;
 
 import com.bnorm.barkeep.ui.ActivityScope;
 import dagger.Subcomponent;
