@@ -21,8 +21,8 @@ import com.bnorm.barkeep.lib.BindingAdapters;
 import com.bnorm.barkeep.lib.Bundles;
 import com.bnorm.barkeep.ui.base.BaseFragment;
 import com.bnorm.barkeep.ui.recipe.detail.ViewRecipeActivity;
-import com.trello.navi.Event;
-import com.trello.navi.rx.RxNavi;
+import com.trello.navi2.Event;
+import com.trello.navi2.rx.RxNavi;
 
 public class BookDetailFragment extends BaseFragment {
     private static final String BOOK_TAG = "book";
@@ -44,6 +44,7 @@ public class BookDetailFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_book_detail, container, false);
         ButterKnife.bind(this, view);
 

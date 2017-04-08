@@ -7,15 +7,15 @@ import com.bnorm.barkeep.data.api.BarkeepService;
 import com.bnorm.barkeep.data.api.model.Bar;
 import com.bnorm.barkeep.ui.UiScheduler;
 import com.bnorm.barkeep.ui.base.AbstractPresenter;
+import io.reactivex.Scheduler;
+import io.reactivex.functions.Consumer;
 import retrofit2.Response;
-import rx.Scheduler;
-import rx.functions.Action1;
 
 @AppScope
 public class EditBarPresenter extends AbstractPresenter<EditBarView> {
 
-    private final Action1<Bar> enqueueBarSaved = enqueue(EditBarView::onBarSaved);
-    private final Action1<Response<Bar>> responseBarSaved = response -> enqueueBarSaved.call(response.body());
+    private final Consumer<Bar> enqueueBarSaved = enqueue(EditBarView::onBarSaved);
+    private final Consumer<Response<Bar>> responseBarSaved = response -> enqueueBarSaved.accept(response.body());
 
     private final BarkeepService service;
 

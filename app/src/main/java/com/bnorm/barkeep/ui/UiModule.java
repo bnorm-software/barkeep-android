@@ -3,8 +3,8 @@ package com.bnorm.barkeep.ui;
 import com.bnorm.barkeep.AppScope;
 import dagger.Module;
 import dagger.Provides;
-import rx.Scheduler;
-import rx.android.schedulers.AndroidSchedulers;
+import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 
 @Module
 public class UiModule {

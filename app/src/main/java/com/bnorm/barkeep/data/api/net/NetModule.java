@@ -8,6 +8,7 @@ import java.util.Set;
 import com.bnorm.barkeep.data.api.WireTraceInterceptor;
 import dagger.Module;
 import dagger.Provides;
+import dagger.multibindings.ElementsIntoSet;
 import okhttp3.Cache;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -36,7 +37,8 @@ public class NetModule {
     }
 
     @NetScope
-    @Provides(type = Provides.Type.SET_VALUES)
+    @Provides
+    @ElementsIntoSet
     Set<Interceptor> provideInterceptors(CacheInterceptor cacheInterceptor) {
         return new LinkedHashSet<>(Arrays.asList(cacheInterceptor,
                                                  // new SessionInterceptor(),

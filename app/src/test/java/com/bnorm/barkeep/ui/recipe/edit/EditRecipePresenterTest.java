@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import android.support.annotation.NonNull;
 import com.bnorm.barkeep.data.api.BarkeepService;
 import com.bnorm.barkeep.data.api.model.Recipe;
+import io.reactivex.Single;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.MediaType;
 import okhttp3.ResponseBody;
 import org.junit.Rule;
@@ -14,8 +16,6 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import retrofit2.Response;
-import rx.Single;
-import rx.schedulers.Schedulers;
 
 import static com.google.common.truth.Truth.assertThat;
 import static org.mockito.Matchers.any;
@@ -35,7 +35,7 @@ public class EditRecipePresenterTest {
 
     @NonNull
     private static EditRecipePresenter presenter(EditRecipeView view, BarkeepService service) {
-        EditRecipePresenter presenter = new EditRecipePresenter(service, Schedulers.immediate());
+        EditRecipePresenter presenter = new EditRecipePresenter(service, Schedulers.trampoline());
         presenter.attach(view);
         return presenter;
     }

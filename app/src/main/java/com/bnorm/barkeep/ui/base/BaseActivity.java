@@ -1,7 +1,7 @@
 package com.bnorm.barkeep.ui.base;
 
 import com.bnorm.barkeep.BarkeepApp;
-import com.trello.navi.component.support.NaviAppCompatActivity;
+import com.trello.navi2.component.support.NaviAppCompatActivity;
 
 public abstract class BaseActivity extends NaviAppCompatActivity {
 

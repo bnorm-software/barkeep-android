@@ -10,17 +10,17 @@ import com.bnorm.barkeep.data.api.model.GaeList;
 import com.bnorm.barkeep.data.api.model.Recipe;
 import com.bnorm.barkeep.ui.UiScheduler;
 import com.bnorm.barkeep.ui.base.AbstractPresenter;
+import io.reactivex.Scheduler;
+import io.reactivex.functions.Consumer;
 import retrofit2.Response;
-import rx.Scheduler;
-import rx.functions.Action1;
 
 @AppScope
 public class SearchRecipePresenter extends AbstractPresenter<SearchRecipeView> {
 
-    private final Action1<List<Recipe>> enqueueSearchResults = enqueue(SearchRecipeView::onSearchResults);
-    private final Action1<Response<GaeList<Recipe>>> responseSearchResults = response -> enqueueSearchResults.call(
+    private final Consumer<List<Recipe>> enqueueSearchResults = enqueue(SearchRecipeView::onSearchResults);
+    private final Consumer<Response<GaeList<Recipe>>> responseSearchResults = response -> enqueueSearchResults.accept(
             response.body().getItems());
-    private final Action1<Throwable> errorSearchResults = error -> enqueueSearchResults.call(Collections.emptyList());
+    private final Consumer<Throwable> errorSearchResults = error -> enqueueSearchResults.accept(Collections.emptyList());
 
     private final BarkeepService service;
 

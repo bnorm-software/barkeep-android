@@ -7,12 +7,13 @@ import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
 import dagger.Module;
 import dagger.Provides;
+import dagger.multibindings.ElementsIntoSet;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.moshi.MoshiConverterFactory;
-import rx.schedulers.Schedulers;
 
 @Module
 public class ApiModule {
@@ -24,7 +25,8 @@ public class ApiModule {
     }
 
     @ApiScope
-    @Provides(type = Provides.Type.SET_VALUES)
+    @Provides
+    @ElementsIntoSet
     Set<JsonAdapter.Factory> provideJsonAdapterFactories() {
         return new LinkedHashSet<>();
     }
@@ -44,7 +46,7 @@ public class ApiModule {
     Retrofit provideRetrofit(OkHttpClient okHttpClient, Moshi moshi) {
         Retrofit.Builder builder = new Retrofit.Builder();
         builder.addConverterFactory(MoshiConverterFactory.create(moshi));
-        builder.addCallAdapterFactory(RxJavaCallAdapterFactory.createWithScheduler(Schedulers.io()));
+        builder.addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()));
         builder.baseUrl(httpUrl);
         builder.client(okHttpClient);
         return builder.build();

@@ -5,6 +5,8 @@ import java.util.Collections;
 import android.support.annotation.NonNull;
 import com.bnorm.barkeep.data.api.BarkeepService;
 import com.bnorm.barkeep.data.api.model.Book;
+import io.reactivex.Single;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.MediaType;
 import okhttp3.ResponseBody;
 import org.junit.Rule;
@@ -13,8 +15,6 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import retrofit2.Response;
-import rx.Single;
-import rx.schedulers.Schedulers;
 
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.fail;
@@ -35,7 +35,7 @@ public class EditBookPresenterTest {
 
     @NonNull
     private static EditBookPresenter presenter(EditBookView view, BarkeepService service) {
-        EditBookPresenter presenter = new EditBookPresenter(service, Schedulers.immediate());
+        EditBookPresenter presenter = new EditBookPresenter(service, Schedulers.trampoline());
         presenter.attach(view);
         return presenter;
     }

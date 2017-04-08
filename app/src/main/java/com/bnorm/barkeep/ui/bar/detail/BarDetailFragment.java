@@ -16,8 +16,8 @@ import com.bnorm.barkeep.data.api.model.Bar;
 import com.bnorm.barkeep.data.api.model.Ingredient;
 import com.bnorm.barkeep.lib.Bundles;
 import com.bnorm.barkeep.ui.base.BaseFragment;
-import com.trello.navi.Event;
-import com.trello.navi.rx.RxNavi;
+import com.trello.navi2.Event;
+import com.trello.navi2.rx.RxNavi;
 
 public class BarDetailFragment extends BaseFragment {
     private static final String BAR_TAG = "bar";

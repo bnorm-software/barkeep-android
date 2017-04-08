@@ -7,15 +7,15 @@ import com.bnorm.barkeep.data.api.BarkeepService;
 import com.bnorm.barkeep.data.api.model.Recipe;
 import com.bnorm.barkeep.ui.UiScheduler;
 import com.bnorm.barkeep.ui.base.AbstractPresenter;
+import io.reactivex.Scheduler;
+import io.reactivex.functions.Consumer;
 import retrofit2.Response;
-import rx.Scheduler;
-import rx.functions.Action1;
 
 @AppScope
 public class EditRecipePresenter extends AbstractPresenter<EditRecipeView> {
 
-    private final Action1<Recipe> enqueueRecipeSaved = enqueue(EditRecipeView::onRecipeSaved);
-    private final Action1<Response<Recipe>> responseRecipeSaved = response -> enqueueRecipeSaved.call(response.body());
+    private final Consumer<Recipe> enqueueRecipeSaved = enqueue(EditRecipeView::onRecipeSaved);
+    private final Consumer<Response<Recipe>> responseRecipeSaved = response -> enqueueRecipeSaved.accept(response.body());
 
     private final BarkeepService service;
 

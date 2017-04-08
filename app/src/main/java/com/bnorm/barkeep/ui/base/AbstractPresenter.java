@@ -1,21 +1,21 @@
 package com.bnorm.barkeep.ui.base;
 
-import rx.Observable;
-import rx.Scheduler;
-import rx.Subscription;
-import rx.functions.Action1;
-import rx.functions.Action2;
-import rx.subjects.PublishSubject;
-import rx.subjects.Subject;
+import io.reactivex.Observable;
+import io.reactivex.Scheduler;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.BiConsumer;
+import io.reactivex.functions.Consumer;
+import io.reactivex.subjects.PublishSubject;
+import io.reactivex.subjects.Subject;
 
 public abstract class AbstractPresenter<V> implements Presenter<V> {
 
     private final Scheduler uiScheduler;
-    private final Subject<Action1<? super V>, Action1<? super V>> queue;
+    private final Subject<Consumer<? super V>> queue;
 
     protected V view;
-    private Observable<Action1<? super V>> queueOut;
-    private Subscription subscribe;
+    private Observable<Consumer<? super V>> queueOut;
+    private Disposable subscribe;
 
     protected AbstractPresenter(Scheduler uiScheduler) {
         this.uiScheduler = uiScheduler;
@@ -26,24 +26,24 @@ public abstract class AbstractPresenter<V> implements Presenter<V> {
     @Override
     public void attach(V view) {
         this.view = view;
-        subscribe = queueOut.observeOn(uiScheduler).subscribe(next -> next.call(view));
+        subscribe = queueOut.observeOn(uiScheduler).subscribe(next -> next.accept(view));
     }
 
     @Override
     public void detach() {
         queueOut = queue.replay().autoConnect(0);
         if (subscribe != null) {
-            subscribe.unsubscribe();
+            subscribe.dispose();
             subscribe = null;
         }
         view = null;
     }
 
-    protected <T> Action1<T> enqueue(Action2<? super V, T> action) {
-        return t -> enqueue(v -> action.call(v, t));
+    protected <T> Consumer<T> enqueue(BiConsumer<? super V, T> action) {
+        return t -> enqueue(v -> action.accept(v, t));
     }
 
-    protected void enqueue(Action1<? super V> action) {
+    protected void enqueue(Consumer<? super V> action) {
         queue.onNext(action);
     }
 }

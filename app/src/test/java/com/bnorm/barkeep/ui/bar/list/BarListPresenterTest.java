@@ -8,14 +8,14 @@ import android.support.annotation.NonNull;
 import com.bnorm.barkeep.data.api.BarkeepService;
 import com.bnorm.barkeep.data.api.model.Bar;
 import com.bnorm.barkeep.data.api.model.GaeList;
+import io.reactivex.Single;
+import io.reactivex.schedulers.Schedulers;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import retrofit2.Response;
-import rx.Single;
-import rx.schedulers.Schedulers;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -28,7 +28,7 @@ public class BarListPresenterTest {
 
     @NonNull
     private static BarListPresenter presenter(BarListView view, BarkeepService service) {
-        BarListPresenter presenter = new BarListPresenter(service, Schedulers.immediate());
+        BarListPresenter presenter = new BarListPresenter(service, Schedulers.trampoline());
         presenter.attach(view);
         return presenter;
     }

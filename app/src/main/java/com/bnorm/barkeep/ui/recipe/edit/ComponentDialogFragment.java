@@ -24,9 +24,9 @@ import com.bnorm.barkeep.R;
 import com.bnorm.barkeep.data.api.model.Amount;
 import com.bnorm.barkeep.data.api.model.Component;
 import com.bnorm.barkeep.data.api.model.Ingredient;
-import com.jakewharton.rxbinding.view.RxView;
-import com.jakewharton.rxbinding.widget.RxTextView;
-import rx.Observable;
+import com.jakewharton.rxbinding2.view.RxView;
+import com.jakewharton.rxbinding2.widget.RxTextView;
+import io.reactivex.Observable;
 
 // todo make this more dependent on the datamodel
 public class ComponentDialogFragment extends AppCompatDialogFragment {
