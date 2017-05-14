@@ -1,12 +1,12 @@
-package com.bnorm.barkeep.data.api.model;
+package com.bnorm.barkeep.data.api.model
 
-public enum UnitType {
+enum class UnitType {
     Length,
     Area,
     Volume,
     Mass,
     Count,
-    Unitless,
+    Unitless
 
     // End of enumeration
     ;
